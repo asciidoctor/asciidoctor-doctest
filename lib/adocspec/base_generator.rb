@@ -1,9 +1,6 @@
-require 'thread_safe'
-require 'tilt'
-require 'tilt/haml'
+require 'adocspec/core_ext'
 require 'asciidoctor'
 require 'colorize'
-require 'adocspec/core_ext'
 
 module AdocSpec
   ###

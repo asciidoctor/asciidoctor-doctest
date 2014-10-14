@@ -1,2 +1,6 @@
-/doc
-.yardoc/
+/.yardoc/
+/doc/
+/pkg/
+*.gem
+.ruby-version
+Gemfile.lock

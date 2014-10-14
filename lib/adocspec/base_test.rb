@@ -1,9 +1,7 @@
 require 'active_support/core_ext/object/try'
-require 'thread_safe'
 require 'asciidoctor'
 require 'diffy'
 require 'minitest'
-require 'tilt'
 
 module Minitest
   module Diffy

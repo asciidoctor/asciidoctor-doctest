@@ -1,7 +1,7 @@
 module AdocSpec
 
   @examples_path  = File.join(__dir__, '../data/examples')
-  @templates_path = File.join(__dir__, '../data/haml')
+  @templates_path = Dir.pwd
 
   class << self
     attr_accessor :examples_path, :templates_path
