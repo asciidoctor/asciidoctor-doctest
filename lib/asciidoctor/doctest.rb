@@ -10,6 +10,7 @@ module Asciidoctor
   end
 end
 
+require 'asciidoctor/doctest/version'
 require 'asciidoctor/doctest/core_ext'
 require 'asciidoctor/doctest/base_suite_parser'
 require 'asciidoctor/doctest/asciidoc_suite_parser'
