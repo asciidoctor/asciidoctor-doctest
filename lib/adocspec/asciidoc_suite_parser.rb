@@ -1,27 +1,29 @@
 require 'adocspec/base_suite_parser'
 
-module AdocSpec
-  class AsciidocSuiteParser < BaseSuiteParser
+module Asciidoctor
+  module DocTest
+    class AsciidocSuiteParser < BaseSuiteParser
 
-    FILE_SUFFIX = '.adoc'
+      FILE_SUFFIX = '.adoc'
 
-    def parse_suite(adoc)
-      suite = {}
-      current = {}
+      def parse_suite(adoc)
+        suite = {}
+        current = {}
 
-      adoc.each_line do |line|
-        if line =~ /^\/\/\s*\.([^ \n]+)/
-          current[:content].chomp! unless current.empty?
-          suite[$1.to_sym] = current = {content: ''}
-        elsif line.start_with? '//'
-          next  # ignore for now
-        else
-          current[:content] << line
+        adoc.each_line do |line|
+          if line =~ /^\/\/\s*\.([^ \n]+)/
+            current[:content].chomp! unless current.empty?
+            suite[$1.to_sym] = current = {content: ''}
+          elsif line.start_with? '//'
+            next  # ignore for now
+          else
+            current[:content] << line
+          end
         end
-      end
-      current[:content].chomp!
+        current[:content].chomp!
 
-      suite
+        suite
+      end
     end
   end
 end

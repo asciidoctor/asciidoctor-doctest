@@ -1,10 +1,12 @@
-module AdocSpec
+module Asciidoctor
+  module DocTest
 
-  @examples_path  = File.join(__dir__, '../data/examples')
-  @templates_path = Dir.pwd
+    @examples_path  = File.join(__dir__, '../data/examples')
+    @templates_path = Dir.pwd
 
-  class << self
-    attr_accessor :examples_path, :templates_path
+    class << self
+      attr_accessor :examples_path, :templates_path
+    end
   end
 end
 
