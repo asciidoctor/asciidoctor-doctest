@@ -124,7 +124,7 @@ module Asciidoctor
       # @return [Hash] the parsed examples suite.
       #
       def parse_suite(input)
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       ##
@@ -136,7 +136,7 @@ module Asciidoctor
       # @return [String]
       #
       def serialize_suite(suite_hash)
-        raise NotImplementedError
+        fail NotImplementedError
       end
     end
   end

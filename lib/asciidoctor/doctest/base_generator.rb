@@ -29,7 +29,7 @@ module Asciidoctor
         @log_to = log_to
 
         unless Dir.exist? templates_dir
-          raise "Templates directory '#{templates_dir}' doesn't exist!"
+          fail "Templates directory '#{templates_dir}' doesn't exist!"
         end
       end
 
@@ -98,7 +98,7 @@ module Asciidoctor
         renderer_opts = {
           safe: :safe,
           template_dir: @templates_dir,
-          header_footer: opts.has_key?(:header_footer)
+          header_footer: opts.key?(:header_footer)
         }
         Asciidoctor.render input, renderer_opts
       end

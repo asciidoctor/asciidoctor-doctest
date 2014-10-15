@@ -11,9 +11,9 @@ module Asciidoctor
         current = {}
 
         adoc.each_line do |line|
-          if line =~ /^\/\/\s*\.([^ \n]+)/
+          if line =~ %r{^//\s*\.([^ \n]+)}
             current[:content].chomp! unless current.empty?
-            suite[$1.to_sym] = current = {content: ''}
+            suite[$1.to_sym] = current = { content: '' }
           elsif line.start_with? '//'
             next  # ignore for now
           else

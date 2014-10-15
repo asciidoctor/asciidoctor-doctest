@@ -16,8 +16,8 @@ module Asciidoctor
         end
       end
 
-      def assert_example(expected, actual, opts = {})
-        actual = parse_html(actual, !opts.has_key?(:header_footer))
+      def assert_example(expected, actual, opts)
+        actual = parse_html(actual, !opts.key?(:header_footer))
         expected = parse_html(expected)
 
         # Select nodes specified by the XPath expression.
@@ -28,7 +28,7 @@ module Asciidoctor
 
         # Remove nodes specified by the XPath expression.
         opts.fetch(:exclude, []).each do |xpath|
-          actual.xpath(xpath).each { |node| node.remove }
+          actual.xpath(xpath).each(&:remove)
         end
 
         assert_equal expected.to_html, actual.to_html

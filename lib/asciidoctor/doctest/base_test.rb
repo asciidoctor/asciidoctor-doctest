@@ -24,6 +24,7 @@ module Minitest
     end
 
     private
+
     def need_diff?(expected, actual)
       expected.include?("\n") ||
         actual.include?("\n") ||
@@ -43,43 +44,6 @@ module Asciidoctor
 
       class << self
         attr_reader :asciidoc_suite_parser, :tested_suite_parser
-      end
-
-      ##
-      # Defines a new test method.
-      #
-      # @param name [String] name of the test (method).
-      # @param block [Proc] the test method's body.
-      #
-      def self.define_test(name, &block)
-        (@test_methods ||= []) << name
-        define_method(name, block)
-      end
-
-      ##
-      # @note Overrides method from +Minitest::Test+.
-      # @return [Array] names of the test methods to run.
-      def self.runnable_methods
-        (@test_methods || []) + super
-      end
-
-      ##
-      # @see BaseSuiteParser#read_suite
-      def self.read_asciidoc_suite(suite_name)
-        @asciidoc_suite_parser.read_suite(suite_name)
-      end
-
-      ##
-      # Returns names of all testing suites.
-      # @return [Array<String>]
-      def self.suite_names
-        @asciidoc_suite_parser.suite_names
-      end
-
-      ##
-      # @see BaseSuiteParser#read_suite
-      def self.read_tested_suite(suite_name)
-        @tested_suite_parser.read_suite(suite_name)
       end
 
       ##
@@ -112,7 +76,7 @@ module Asciidoctor
           read_asciidoc_suite(suite_name).each do |exmpl_name, adoc|
             test_name = "#{suite_name}:#{exmpl_name}"
 
-            if opts = tested_suite.try(:[], exmpl_name)
+            if (opts = tested_suite.try(:[], exmpl_name))
               expected = opts.delete(:content)
               asciidoc = adoc[:content]
 
@@ -129,6 +93,42 @@ module Asciidoctor
         end
       end
 
+      ##
+      # Returns names of all testing suites.
+      # @return [Array<String>]
+      def self.suite_names
+        @asciidoc_suite_parser.suite_names
+      end
+
+      ##
+      # @see BaseSuiteParser#read_suite
+      def self.read_asciidoc_suite(suite_name)
+        @asciidoc_suite_parser.read_suite(suite_name)
+      end
+
+      ##
+      # @see BaseSuiteParser#read_suite
+      def self.read_tested_suite(suite_name)
+        @tested_suite_parser.read_suite(suite_name)
+      end
+
+      ##
+      # Defines a new test method.
+      #
+      # @param name [String] name of the test (method).
+      # @param block [Proc] the test method's body.
+      #
+      def self.define_test(name, &block)
+        (@test_methods ||= []) << name
+        define_method(name, block)
+      end
+
+      ##
+      # @note Overrides method from +Minitest::Test+.
+      # @return [Array] names of the test methods to run.
+      def self.runnable_methods
+        (@test_methods || []) + super
+      end
 
       ##
       # Renders the given text in AsciiDoc syntax with Asciidoctor using the
@@ -143,20 +143,21 @@ module Asciidoctor
         renderer_opts = {
           safe: :safe,
           template_dir: templates_dir,
-          header_footer: opts.has_key?(:header_footer)
+          header_footer: opts.key?(:header_footer)
         }
         Asciidoctor.render(text, renderer_opts)
       end
 
       ##
-      # @return [String] path of the directory where to look for the backend's templates.
+      # @return [String] path of the directory where to look for the backend's
+      #         templates.
       # @raise [StandardError] if the directory doesn't exist.
       def templates_dir
         templates_dir = self.class.instance_variable_get(:@templates_dir) ||
             File.join(DocTest.templates_path, self.class.tested_suite_parser.backend_name)
 
         unless Dir.exist? templates_dir
-          raise "Templates directory '#{templates_dir}' doesn't exist!"
+          fail "Templates directory '#{templates_dir}' doesn't exist!"
         end
         templates_dir
       end
@@ -181,7 +182,7 @@ module Asciidoctor
       # @param opts [Hash] options.
       # @raise [Minitest::Assertion] if the assertion fails
       #
-      def assert_example(expected, actual, opts = {})
+      def assert_example(expected, actual, opts)
         assert_equal expected, actual
       end
     end

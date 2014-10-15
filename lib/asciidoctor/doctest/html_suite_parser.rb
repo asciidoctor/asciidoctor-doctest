@@ -16,13 +16,13 @@ module Asciidoctor
         html.each_line do |line|
           if line =~ /^<!--\s*\.([^ \n]+)/
             current[:content].chomp! unless current.empty?
-            suite[$1.to_sym] = current = {content: ''}
-            in_comment = ! line.chomp.end_with?('-->')
+            suite[$1.to_sym] = current = { content: '' }
+            in_comment = !line.chomp.end_with?('-->')
           elsif in_comment
             if line =~ /^\s*:([^:]+):(.*)/
               (current[$1.to_sym] ||= []) << $2.strip
             end
-            in_comment = ! line.chomp.end_with?('-->')
+            in_comment = !line.chomp.end_with?('-->')
           else
             current[:content] << line
           end

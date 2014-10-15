@@ -22,7 +22,7 @@ module Asciidoctor
       # * strips nonsignificant repeated whitespaces
       #
       def normalize!
-        self.traverse do |node|
+        traverse do |node|
           case node.type
 
           when Nokogiri::XML::Node::ELEMENT_NODE
@@ -34,7 +34,7 @@ module Asciidoctor
             if node.blank?
               node.remove
 
-            elsif ! preformatted_block? node
+            elsif !preformatted_block? node
               strip_redundant_spaces! node
               strip_spaces_around_text! node
             end
@@ -55,10 +55,9 @@ module Asciidoctor
 
       # Sorts CSS declarations in style attribute of the element +node+ by name.
       def sort_element_style_attr!(node)
-        if node.has_attribute? 'style'
-          decls = node['style'].scan(/([\w-]+):\s*([^;]+);?/).sort_by(&:first)
-          node['style'] = decls.map { |name, val| "#{name}: #{val};" }.join(' ')
-        end
+        return unless node.has_attribute? 'style'
+        decls = node['style'].scan(/([\w-]+):\s*([^;]+);?/).sort_by(&:first)
+        node['style'] = decls.map { |name, val| "#{name}: #{val};" }.join(' ')
       end
 
       # Note: muttable methods like +gsub!+ doesn't work on node content.
@@ -78,11 +77,11 @@ module Asciidoctor
       # (+:right) inline element of the nearest block element ancestor or direct
       # sibling of +<br>+ element.
       def text_block_boundary?(node, side)
-        method = {left: :previous_sibling, right: :next_sibling}[side]
+        method = { left: :previous_sibling, right: :next_sibling }[side]
 
         return true if node.send(method).try(:name) == 'br'
         loop do
-          if sibling = node.send(method)
+          if (sibling = node.send(method))
             return false if sibling.text? || inline_element?(sibling)
           end
           node = node.parent
@@ -99,7 +98,7 @@ module Asciidoctor
 
       # Returns true if the +node+ is descendant of +<pre>+ node.
       def preformatted_block?(node)
-        node.path =~ /\/pre\//
+        node.path =~ %r{/pre/}
       end
     end
   end
