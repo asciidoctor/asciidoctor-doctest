@@ -1,7 +1,7 @@
 require 'nokogiri'
-require 'adocspec/base_generator'
-require 'adocspec/html_beautifier'
-require 'adocspec/html_normalizer'
+require 'asciidoctor/doctest/base_generator'
+require 'asciidoctor/doctest/html_beautifier'
+require 'asciidoctor/doctest/html_normalizer'
 
 module Asciidoctor
   module DocTest

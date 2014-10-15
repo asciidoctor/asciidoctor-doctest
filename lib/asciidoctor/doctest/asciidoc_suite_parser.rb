@@ -1,4 +1,4 @@
-require 'adocspec/base_suite_parser'
+require 'asciidoctor/doctest/base_suite_parser'
 
 module Asciidoctor
   module DocTest

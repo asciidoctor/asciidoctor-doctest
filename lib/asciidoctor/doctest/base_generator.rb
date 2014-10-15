@@ -1,4 +1,4 @@
-require 'adocspec/core_ext'
+require 'asciidoctor/doctest/core_ext'
 require 'asciidoctor'
 require 'colorize'
 

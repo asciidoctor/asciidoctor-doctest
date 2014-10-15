@@ -1,6 +1,6 @@
 require 'active_support/core_ext/hash/except'
 require 'active_support/core_ext/array/wrap'
-require 'adocspec/base_suite_parser'
+require 'asciidoctor/doctest/base_suite_parser'
 
 module Asciidoctor
   module DocTest
