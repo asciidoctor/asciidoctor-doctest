@@ -1,4 +1,3 @@
-require 'asciidoctor/doctest/core_ext'
 require 'asciidoctor'
 require 'colorize'
 
@@ -45,7 +44,8 @@ module Asciidoctor
       def generate!(pattern = '*:*', rewrite = false)
         log do
           backend = @tested_suite_parser.backend_name
-          tmpl = File.relative_path(@templates_dir)
+          tmpl = Pathname.new(@templates_dir)
+                         .relative_path_from(Pathname.new(Dir.pwd))
           "Generating testing examples #{pattern} for #{backend} backend using #{tmpl} templates..."
         end
 

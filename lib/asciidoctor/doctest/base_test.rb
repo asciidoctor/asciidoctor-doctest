@@ -1,3 +1,4 @@
+require 'active_support/core_ext/array/wrap'
 require 'active_support/core_ext/object/try'
 require 'asciidoctor'
 require 'diffy'
@@ -47,14 +48,14 @@ module Asciidoctor
       end
 
       ##
-      # Sets path of the directory where to look for the backend's templates.
-      # When no path is provided, then
-      # +{DocTest.templates_path}/{tested_suite_parser.backend_name}+ will be used.
+      # Sets path of the directory (or multiple directories) where to look for
+      # the backend's templates. When not specified, {DocTest.templates_path}
+      # will be used. Relative paths are referenced from the working directory.
       #
-      # @param path [String, Pathname]
+      # @param path [String, Array<String>]
       #
-      def self.templates_dir(path)
-        @templates_dir = File.expand_path(path)
+      def self.templates_path(path)
+        @templates_path = path ? Array.wrap(path) : nil
       end
 
       ##
@@ -132,7 +133,7 @@ module Asciidoctor
 
       ##
       # Renders the given text in AsciiDoc syntax with Asciidoctor using the
-      # tested backend, i.e. templates in {#templates_dir}.
+      # tested backend, i.e. templates on {#templates_path}.
       #
       # @param text [String] the input text in Asciidoc syntax.
       # @param opts [Hash]
@@ -140,33 +141,20 @@ module Asciidoctor
       # @return [String] the input text rendered in the tested syntax.
       #
       def render_asciidoc(text, opts = {})
+        templates_path = self.class.instance_variable_get(:@templates_path)
         renderer_opts = {
           safe: :safe,
-          template_dir: templates_dir,
+          template_dirs: templates_path || DocTest.templates_path,
           header_footer: opts.key?(:header_footer)
         }
         Asciidoctor.render(text, renderer_opts)
       end
 
       ##
-      # @return [String] path of the directory where to look for the backend's
-      #         templates.
-      # @raise [StandardError] if the directory doesn't exist.
-      def templates_dir
-        templates_dir = self.class.instance_variable_get(:@templates_dir) ||
-            File.join(DocTest.templates_path, self.class.tested_suite_parser.backend_name)
-
-        unless Dir.exist? templates_dir
-          fail "Templates directory '#{templates_dir}' doesn't exist!"
-        end
-        templates_dir
-      end
-
-      ##
       # @note Overrides method from +Minitest::Test+.
       # @return [String] the name of this test that will be printed in a report.
       def location
-        prefix = File.relative_path(templates_dir)
+        prefix = self.class.name.split('::').last
         name = self.name.sub(':', ' : ')
         "#{prefix} :: #{name}"
       end

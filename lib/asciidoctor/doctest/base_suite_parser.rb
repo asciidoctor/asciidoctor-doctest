@@ -1,58 +1,68 @@
+require 'active_support/core_ext/array/wrap'
 require 'pathname'
 
 module Asciidoctor
   module DocTest
     class BaseSuiteParser
 
-      attr_accessor :backend_name, :examples_dir, :file_suffix
+      attr_accessor :backend_name, :examples_path, :file_suffix
 
       ##
-      # Relative paths are referenced from the current working directory.
-      #
       # @param backend_name [String] name of the tested Asciidoctor backend.
-      #        The default is this class name (without module) in lowercase.
+      #        The default is this class name in lowercase without
+      #        +SuiteParser+ suffix.
       #
       # @param file_suffix [String] filename extension of the suite files in
-      #        {#examples_dir}. The default value may be specified with class
+      #        {#examples_path}. The default value may be specified with class
       #        constant +FILE_SUFFIX+. If not defined, +backend_name+ will be
       #        used instead.
       #
-      # @param examples_dir [String, Pathname] path of the directory where to
-      #        look for suites of testing examples. The default is
-      #        {DocTest.examples_path}/{#backend_name}.
+      # @param examples_path [String, Array<String>] path of the directory (or
+      #        multiple directories) where to look for the testing examples.
+      #        When not specified, {DocTest.examples_path} will be used.
+      #        Relative paths are referenced from the working directory.
       #
-      def initialize(backend_name: nil, file_suffix: nil, examples_dir: nil)
+      def initialize(backend_name: nil, file_suffix: nil, examples_path: nil)
         backend_name  ||= self.class.name.split('::').last.sub('SuiteParser', '').downcase
-        @backend_name = backend_name.to_s
+        @backend_name  = backend_name.to_s
+
+        @examples_path = examples_path ? Array.wrap(examples_path) : DocTest.examples_path.dup
 
         file_suffix   ||= file_suffix || self.class::FILE_SUFFIX rescue @backend_name
-        examples_dir  ||= File.join(DocTest.examples_path, @backend_name)
-
-        @examples_dir  = File.expand_path(examples_dir)
         @file_suffix   = file_suffix.start_with?('.') ? file_suffix : '.' + file_suffix
       end
 
       ##
-      # Resolves an absolute path of the examples suite.
-      # The path is composed as +#{examples_dir}/#{suite_name}.#{file_suffix}+.
+      # Returns an absolute path of the named examples suite file, or +nil+ if
+      # it's not found on the {#examples_path}. When the file is in multiple
+      # directories of {#examples_path}, then the first one wins.
       #
-      # @param suite_name [String]
-      # @return [String]
+      # @param suite_name [String] name of the suite file without a file
+      #        extension (i.e. AST node name).
+      # @return [String, nil] the suite file path, or nil if doesn't exist.
       #
-      def suite_path(suite_name)
-        Pathname.new(suite_name).expand_path(examples_dir).sub_ext(file_suffix).to_s
+      def find_suite_file(suite_name)
+        @examples_path.each do |dir_path|
+          file_path = suite_path(dir_path, suite_name)
+          return file_path if File.file? file_path
+        end
+        nil
       end
 
       ##
-      # Returns names of all testing suites in {#examples_dir}, i.e. files with
-      # {#file_suffix}.
+      # Returns names of all the testing suites found on the {#examples_path},
+      # i.e. files with {#file_suffix}.
       #
       # @return [Array<String>]
       #
       def suite_names
-        Dir.glob("#{examples_dir}/*#{file_suffix}").map do |path|
-          Pathname.new(path).basename.sub_ext('').to_s
+        names = []
+        @examples_path.each do |dir_path|
+          Dir.glob("#{dir_path}/*#{file_suffix}").each do |file_path|
+            names << Pathname.new(file_path).basename.sub_ext('').to_s
+          end
         end
+        names.uniq
       end
 
       ##
@@ -94,9 +104,11 @@ module Asciidoctor
       #         or an empty hash when no one exists.
       #
       def read_suite(suite_name)
-        parse_suite File.read(suite_path(suite_name))
-      rescue Errno::ENOENT
-        {}
+        if (file_path = find_suite_file(suite_name))
+          parse_suite File.read(file_path)
+        else
+          {}
+        end
       end
 
       ##
@@ -107,7 +119,8 @@ module Asciidoctor
       # @see #suite_path
       #
       def write_suite(suite_name, data)
-        File.open(suite_path(suite_name), 'w') do |file|
+        file_path = find_suite_file(suite_name) || suite_path(@examples_path.first, suite_name)
+        File.open(file_path, 'w') do |file|
           file << serialize_suite(data)
         end
       end
@@ -137,6 +150,12 @@ module Asciidoctor
       #
       def serialize_suite(suite_hash)
         fail NotImplementedError
+      end
+
+      private
+
+      def suite_path(dir_path, suite_name)
+        Pathname.new(suite_name).expand_path(dir_path).sub_ext(file_suffix).to_s
       end
     end
   end
