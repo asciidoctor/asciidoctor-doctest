@@ -1,3 +1,4 @@
 --title "Asciidoctor DocTest Documentation"
 --default-return void
 --files LICENSE
+--no-private
