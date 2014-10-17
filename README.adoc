@@ -1,6 +1,6 @@
 = Asciidoctor::DocTest
 
-image:http://inch-ci.org/github/asciidoctor/asciidoctor-doctest.svg?branch=master[Inline docs, link="http://inch-ci.org/github/asciidoctor/asciidoctor-doctest"] image:https://img.shields.io/badge/yard-docs-blue.svg[Yard Docs, link=http://www.rubydoc.info/github/asciidoctor/asciidoctor-doctest/frames]
+image:https://badge.fury.io/rb/asciidoctor-doctest.svg[Gem Version, link="http://badge.fury.io/rb/asciidoctor-doctest"] image:http://inch-ci.org/github/asciidoctor/asciidoctor-doctest.svg?branch=master[Inline docs, link="http://inch-ci.org/github/asciidoctor/asciidoctor-doctest"] image:https://img.shields.io/badge/yard-docs-blue.svg[Yard Docs, link=http://www.rubydoc.info/github/asciidoctor/asciidoctor-doctest/frames]
 
 DocTest is a test suite for Asciidoctor backends based on comparing of textual examples.
 
