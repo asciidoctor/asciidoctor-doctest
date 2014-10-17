@@ -49,12 +49,12 @@ module Asciidoctor
               expected = opts.delete(:content)
               asciidoc = adoc[:content]
 
-              define_test(test_name) do
+              test test_name do
                 actual = render_asciidoc(asciidoc, opts)
                 assert_example expected, actual, opts
               end
             else
-              define_test(test_name) do
+              test test_name do
                 skip 'No example found'
               end
             end
@@ -87,7 +87,7 @@ module Asciidoctor
       # @param name [String] name of the test (method).
       # @param block [Proc] the test method's body.
       #
-      def self.define_test(name, &block)
+      def self.test(name, &block)
         (@test_methods ||= []) << name
         define_method(name, block)
       end
