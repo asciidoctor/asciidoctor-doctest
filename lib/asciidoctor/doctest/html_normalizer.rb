@@ -4,7 +4,7 @@ require 'nokogiri'
 module Asciidoctor
   module DocTest
     ##
-    # Usage:
+    # @example
     #   Nokogiri::HTML.parse(str).normalize!
     #   Nokogiri::HTML::DocumentFragment.parse(str).normalize!
     module HtmlNormalizer
@@ -20,6 +20,8 @@ module Asciidoctor
       # * removes all blank text nodes (i.e. node that contain just whitespaces)
       # * strips nonsignificant leading and trailing whitespaces around text
       # * strips nonsignificant repeated whitespaces
+      #
+      # @return [Object] self
       #
       def normalize!
         traverse do |node|
@@ -73,9 +75,13 @@ module Asciidoctor
         node.content = node.content.rstrip if text_block_boundary? node, :right
       end
 
-      # Returns true if the text +node+ is the first (+:left+), or the last
-      # (+:right) inline element of the nearest block element ancestor or direct
-      # sibling of +<br>+ element.
+      ##
+      # Returns +true+ if the text +node+ is the first (+:left+), or the last
+      # (+:right+) inline element of the nearest block element ancestor or
+      # direct sibling of +<br>+ element.
+      #
+      # @return [Boolean]
+      #
       def text_block_boundary?(node, side)
         method = { left: :previous_sibling, right: :next_sibling }[side]
 
@@ -91,12 +97,12 @@ module Asciidoctor
 
       HTML_INLINE_ELEMENTS = Nokogiri::HTML::ElementDescription::HTML_INLINE.flatten
 
-      # Returns true if the +node+ represents an inline HTML element.
+      # @return [Boolean] true if the +node+ represents an inline HTML element.
       def inline_element?(node)
         node.element? && HTML_INLINE_ELEMENTS.include?(node.name)
       end
 
-      # Returns true if the +node+ is descendant of +<pre>+ node.
+      # @return [Boolean] true if the +node+ is descendant of +<pre>+ node.
       def preformatted_block?(node)
         node.path =~ %r{/pre/}
       end

@@ -12,7 +12,7 @@ module Asciidoctor
 
       # @return [Array<String>] paths of the directories where to look for the
       #   testing examples. Use +unshift+ to add your additional paths before
-      #   the default built-in Asciidoc examples path.
+      #   the default built-in Asciidoctor examples path.
       attr_accessor :examples_path
 
       # @return [Array<String>] paths of the directories where to look for the

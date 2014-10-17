@@ -3,19 +3,27 @@ require 'pathname'
 
 module Asciidoctor
   module DocTest
+    ##
+    # This class is responsible for parsing and serializing of suite files.
+    # The suite file holds one or more testing examples written in the tested
+    # markup (e.g. HTML, TeX), or AsciiDoc in a case of the reference examples.
+    # Each example must be preceded by a special comment with the example name
+    # and optionally with options.
+    #
+    # @abstract
     class BaseSuiteParser
 
       attr_accessor :backend_name, :examples_path, :file_suffix
 
       ##
       # @param backend_name [String] name of the tested Asciidoctor backend.
-      #        The default is this class name in lowercase without
-      #        +SuiteParser+ suffix.
+      #        Defaults to this class name in lowercase without +SuiteParser+
+      #        suffix.
       #
-      # @param file_suffix [String] filename extension of the suite files in
-      #        {#examples_path}. The default value may be specified with class
-      #        constant +FILE_SUFFIX+. If not defined, +backend_name+ will be
-      #        used instead.
+      # @param file_suffix [String] the filename extension of the suite files
+      #        on {#examples_path}. The default value may be specified with
+      #        a class constant +FILE_SUFFIX+. If not defined, +backend_name+
+      #        will be used instead.
       #
       # @param examples_path [String, Array<String>] path of the directory (or
       #        multiple directories) where to look for the testing examples.
@@ -38,7 +46,7 @@ module Asciidoctor
       # directories of {#examples_path}, then the first one wins.
       #
       # @param suite_name [String] name of the suite file without a file
-      #        extension (i.e. AST node name).
+      #        extension (i.e. Asciidoctor's AST node name).
       # @return [String, nil] the suite file path, or nil if doesn't exist.
       #
       def find_suite_file(suite_name)
@@ -66,7 +74,7 @@ module Asciidoctor
       end
 
       ##
-      # Returns hash of testing examples that matches the +pattern+.
+      # Returns a hash with testing examples that matches the +pattern+.
       #
       # @example
       #   filter_examples '*list*:basic*'
@@ -74,7 +82,7 @@ module Asciidoctor
       #        listing:      [ :basic, :basic-nowrap, ... ],
       #        block_dlist:  [ :basic, :basic-block, ... ], ... }
       #
-      # @param pattern [String] glob pattern to filter examples.
+      # @param pattern [String] the glob pattern to filter examples.
       # @return [Hash<Symbol, Array<Symbol>>]
       #
       def filter_examples(pattern)
@@ -99,7 +107,7 @@ module Asciidoctor
       end
 
       ##
-      # @param suite_name [String]
+      # @param suite_name (see #find_suite_file)
       # @return [Hash] a parsed examples suite data ({#parse_suite format}),
       #         or an empty hash when no one exists.
       #
@@ -112,11 +120,13 @@ module Asciidoctor
       end
 
       ##
-      # Writes the examples suite to a file.
+      # Writes the given examples suite to a file. If the file already exists
+      # on the {#examples_path}, then it overwrites the first found file.
+      # Otherwise it creates a new file in the first directory from the
+      # {#examples_path}.
       #
-      # @param suite_name [String] the name of the examples suite.
+      # @param suite_name (see #find_suite_file)
       # @param data [Hash] the {#parse_suite examples suite}.
-      # @see #suite_path
       #
       def write_suite(suite_name, data)
         file_path = find_suite_file(suite_name) || suite_path(@examples_path.first, suite_name)
@@ -141,7 +151,7 @@ module Asciidoctor
       end
 
       ##
-      # Serializes the given examples suite into string.
+      # Serializes the given examples suite into String.
       # This method is used when bootstrapping examples for existing templates.
       #
       # @abstract

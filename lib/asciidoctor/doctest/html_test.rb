@@ -5,6 +5,8 @@ require 'asciidoctor/doctest/html_normalizer'
 
 module Asciidoctor
   module DocTest
+    ##
+    # Base class for testing HTML-based backends (templates).
     class HtmlTest < BaseTest
 
       def self.read_tested_suite(suite_name)
@@ -16,6 +18,8 @@ module Asciidoctor
         end
       end
 
+      ##
+      # (see BaseTest#assert_example)
       def assert_example(expected, actual, opts)
         actual = parse_html(actual, !opts.key?(:header_footer))
         expected = parse_html(expected)
@@ -41,9 +45,16 @@ module Asciidoctor
         HtmlBeautifier.beautify html
       end
 
-      def parse_html(str, fragment = true)
+      ##
+      # @param input [String]
+      # @param fragment [Boolean] whether +input+ is a HTML fragment, or
+      #        a complete HTML document. (default: true)
+      # @return [Nokogiri::HTML::DocumentFragment] a parsed HTML fragment.
+      # @return [Nokogiri::HTML::Document] a parsed HTML document.
+      #
+      def parse_html(input, fragment = true)
         nokogiri = fragment ? Nokogiri::HTML::DocumentFragment : Nokogiri::HTML
-        nokogiri.parse(str).normalize!
+        nokogiri.parse(input).normalize!
       end
     end
   end

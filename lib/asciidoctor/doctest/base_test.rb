@@ -38,8 +38,8 @@ end
 
 module Asciidoctor
   module DocTest
-    ###
-    # Base class for integration tests of Asciidoctor backends.
+    ##
+    # Base class for testing Asciidoctor backends.
     class BaseTest < Minitest::Test
       include Minitest::Diffy
 
@@ -59,13 +59,13 @@ module Asciidoctor
       end
 
       ##
-      # Generates the test methods.
+      # Generates test methods for all the testing examples.
       #
-      # @param asciidoc_suite_parser [BaseSuiteParser] instance of suite parser
-      #        to be used for reading the reference AsciiDoc examples.
+      # @param asciidoc_suite_parser [BaseSuiteParser] an instance of the suite
+      #        parser to be used for reading the reference Asciidoctor examples.
       #
-      # @param tested_suite_parser [BaseSuiteParser] instance of suite parser
-      #        to be used for reading the tested examples.
+      # @param tested_suite_parser [BaseSuiteParser] an instance of the suite
+      #        parser to be used for reading the tested examples.
       #
       def self.generate_tests!(asciidoc_suite_parser, tested_suite_parser)
         @asciidoc_suite_parser = asciidoc_suite_parser
@@ -95,7 +95,7 @@ module Asciidoctor
       end
 
       ##
-      # Returns names of all testing suites.
+      # Returns names of all the testing suites.
       # @return [Array<String>]
       def self.suite_names
         @asciidoc_suite_parser.suite_names
@@ -125,6 +125,7 @@ module Asciidoctor
       end
 
       ##
+      # @private
       # @note Overrides method from +Minitest::Test+.
       # @return [Array] names of the test methods to run.
       def self.runnable_methods
@@ -132,13 +133,13 @@ module Asciidoctor
       end
 
       ##
-      # Renders the given text in AsciiDoc syntax with Asciidoctor using the
-      # tested backend, i.e. templates on {#templates_path}.
+      # Renders the given +text+ in AsciiDoc syntax with Asciidoctor using the
+      # tested backend, i.e. templates on the templates path.
       #
-      # @param text [String] the input text in Asciidoc syntax.
+      # @param text [String] the input text in AsciiDoc syntax.
       # @param opts [Hash]
       # @option opts :header_footer whether to render a full document.
-      # @return [String] the input text rendered in the tested syntax.
+      # @return [String] the input +text+ rendered in the tested syntax.
       #
       def render_asciidoc(text, opts = {})
         templates_path = self.class.instance_variable_get(:@templates_path)
@@ -152,7 +153,7 @@ module Asciidoctor
 
       ##
       # @note Overrides method from +Minitest::Test+.
-      # @return [String] the name of this test that will be printed in a report.
+      # @return [String] name of this test that will be printed in a report.
       def location
         prefix = self.class.name.split('::').last
         name = self.name.sub(':', ' : ')

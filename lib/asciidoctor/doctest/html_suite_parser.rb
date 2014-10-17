@@ -4,6 +4,22 @@ require 'asciidoctor/doctest/base_suite_parser'
 
 module Asciidoctor
   module DocTest
+    ##
+    # Parser and serializer for HTML-based examples.
+    #
+    # @example Syntax of the example's header
+    #   <!-- .example-name
+    #     Any text that is not the example's name or an option is currently
+    #     ignored.
+    #     :option-1: value 1
+    #     :option-2: value 1
+    #     :option-2: value 2
+    #     :boolean-option:
+    #   -->
+    #   <p>The example's content in <strong>HTML</strong>.</p>
+    #
+    #   <div class="note">The trailing new line (below this) will be removed.</div>
+    #
     class HtmlSuiteParser < BaseSuiteParser
 
       FILE_SUFFIX = '.html'

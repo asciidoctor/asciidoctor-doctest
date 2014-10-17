@@ -3,21 +3,22 @@ require 'colorize'
 
 module Asciidoctor
   module DocTest
-    ###
-    # Base generator for bootstrapping testing examples.
+    ##
+    # Base generator of testing examples.
     class BaseGenerator
 
       ##
-      # @param asciidoc_suite_parser [BaseSuiteParser] instance of suite parser
-      #        to be used for reading the reference AsciiDoc examples.
+      # @param asciidoc_suite_parser [BaseSuiteParser] instance of the suite
+      #        parser to be used for reading the reference Asciidoctor examples.
       #
-      # @param tested_suite_parser [BaseSuiteParser] instance of suite parser
-      #        to be used for reading and writing the tested examples.
+      # @param tested_suite_parser [BaseSuiteParser] instance of the suite
+      #        parser to be used for reading and writing the tested examples.
       #
       # @param templates_dir [String, Pathname] path of the directory where to
       #        look for the backend's templates.
       #
-      # @param log_to destination where to write log messages (default: `$stdout`).
+      # @param log_to [#<<] destination where to write log messages
+      #        (default: +$stdout+).
       #
       # @raise [StandardError] if the +templates_dir+ doesn't exist.
       #
@@ -33,13 +34,14 @@ module Asciidoctor
       end
 
       ##
-      # Generates missing, or rewrite existing, testing examples from the
-      # AsciiDoctor reference examples converted using the backend templates
+      # Generates missing, or rewrite existing testing examples from the
+      # Asciidoctor reference examples converted through the backend templates
       # (specified by +templates_dir+ during initialization).
       #
       # @param pattern [String] glob-like pattern to select testing examples to
       #        (re)generate (see {BaseSuiteParser#filter_examples}).
-      # @param rewrite [Boolean] whether to rewrite an already existing testing example.
+      # @param rewrite [Boolean] whether to rewrite an already existing testing
+      #        example.
       #
       def generate!(pattern = '*:*', rewrite = false)
         log do
@@ -87,11 +89,11 @@ module Asciidoctor
       # Renders the given +input+ in AsciiDoc syntax with Asciidoctor using the
       # tested backend, i.e. templates specified by +templates_dir+.
       #
-      # @param input [String] the input text in Asciidoc syntax.
-      # @param suite_name [String] name of the examples suite that is a source of
-      #        the given +input+.
+      # @param input [String] the input text in AsciiDoc syntax.
+      # @param suite_name [String] name of the examples suite that is a source
+      #        of the given +input+.
       # @param opts [Hash]
-      # @option opts :header_footer whether to render a full document.
+      # @option opts :header_footer [Boolean] whether to render a full document.
       # @return [String] the input text rendered in the tested syntax.
       #
       def render_asciidoc(input, suite_name = '', opts = {})
