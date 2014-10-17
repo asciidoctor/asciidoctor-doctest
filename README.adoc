@@ -1,5 +1,7 @@
 = Asciidoctor::DocTest
 
+image:http://inch-ci.org/github/asciidoctor/asciidoctor-doctest.svg?branch=master[Inline docs, link="http://inch-ci.org/github/asciidoctor/asciidoctor-doctest"]
+
 DocTest is a test suite for Asciidoctor backends based on comparing of textual examples.
 
 TODO
