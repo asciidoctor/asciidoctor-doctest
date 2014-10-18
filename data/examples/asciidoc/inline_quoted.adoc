@@ -1,53 +1,56 @@
-// .italic-phrase
-_italic phrase_
+// .basic
+[why]#chunky bacon#
 
-// .italic-letters
-__i__talic le__tt__ers
+// .italic
+_chunky bacon_
 
-// .bold-phrase
-*bold phrase*
+// .italic-with-role
+[why]_chunky bacon_
 
-// .bold-letters
-**b**old le**tt**ers
+// .bold
+*chunky bacon*
 
-// .bold-italic-phrase
-*_bold italic phrase_*
+// .bold-with-role
+[why]*chunky bacon*
 
-// .bold-italic-letters
-**__b__**old italic le**__tt__**ers
+// .monospace
+`hello world!`
 
-// .monospace-phrase
-`monospace phrase`
-
-// .monospace-letters
-``m``onospace le``tt``ers
-
-// .monospace-italic
-`_monospace italic phrase_` and le``__tt__``ers
-
-// .monospace-bold
-`*monospace bold phrase*` and le``**tt**``ers
-
-// .monospace-bold-italic
-`*_monospace bold italic phrase_*` and le``**__tt__**``ers
+// .monospace-with-role
+[why]`hello world!`
 
 // .superscript
-^super^script phrase
+^super^chunky bacon
+
+// .superscript-with-role
+[why]^super^chunky bacon
 
 // .subscript
-~sub~script phrase
+~sub~chunky bacon
 
-// .single-curved-quoted
-'`single curved quotes`'
+// .subscript-with-role
+[why]~sub~chunky bacon
 
-// .double-curved-quoted
-"`double curved quotes`"
+// .double-curved-quotes
+"`chunky bacon`"
 
-// .apostrophe-in-middle
-Olaf's desk was a mess.
+// .double-curved-quotes-with-role
+[why]"`chunky bacon`"
 
-// .apostrophe-at-end
-All of the werewolves`' desks were a mess.
+// .single-curved-quotes
+'`chunky bacon`'
 
-// .apostrophe-at-start
-Olaf had been with the company since the `'60s.
+// .single-curved-quotes-with-role
+[why]'`chunky bacon`'
+
+// .asciimath
+asciimath:[sqrt(4) = 2]
+
+// .latexmath
+latexmath:[$C = \alpha + \beta Y^{\gamma} + \epsilon$]
+
+// .with-id
+[#why]_chunky bacon_
+
+// .mixed-monospace-bold-italic
+`*_monospace bold italic phrase_*` and le``**__tt__**``ers
