@@ -31,7 +31,7 @@ module Asciidoctor
             current[:content] << line
           end
         end
-        current[:content].chomp!
+        current[:content].chomp! unless current.empty?
 
         suite
       end
