@@ -14,21 +14,22 @@ module Asciidoctor
       # @param tested_suite_parser [BaseSuiteParser] instance of the suite
       #        parser to be used for reading and writing the tested examples.
       #
-      # @param templates_dir [String, Pathname] path of the directory where to
-      #        look for the backend's templates.
+      # @param templates_dir [String, Pathname, nil] path of the directory
+      #        where to look for the backend's templates. When +nil+,
+      #        a built-in Asciidoctor converter will be used. (default: nil)
       #
       # @param log_to [#<<] destination where to write log messages
       #        (default: +$stdout+).
       #
       # @raise [StandardError] if the +templates_dir+ doesn't exist.
       #
-      def initialize(asciidoc_suite_parser, tested_suite_parser, templates_dir, log_to: $stdout)
+      def initialize(asciidoc_suite_parser, tested_suite_parser, templates_dir = nil, log_to: $stdout)
         @asciidoc_suite_parser = asciidoc_suite_parser
         @tested_suite_parser = tested_suite_parser
-        @templates_dir = File.expand_path(templates_dir)
+        @templates_dir = File.expand_path(templates_dir) if templates_dir
         @log_to = log_to
 
-        unless Dir.exist? templates_dir
+        unless templates_dir.nil? || Dir.exist?(templates_dir)
           fail "Templates directory '#{templates_dir}' doesn't exist!"
         end
       end
@@ -46,9 +47,7 @@ module Asciidoctor
       def generate!(pattern = '*:*', rewrite = false)
         log do
           backend = @tested_suite_parser.backend_name
-          tmpl = Pathname.new(@templates_dir)
-                         .relative_path_from(Pathname.new(Dir.pwd))
-          "Generating testing examples #{pattern} for #{backend} backend using #{tmpl} templates..."
+          "Generating testing examples #{pattern} for #{backend} backend using #{converter_desc}..."
         end
 
         filter_examples(pattern).each do |suite_name, exmpl_names|
@@ -145,6 +144,17 @@ module Asciidoctor
 
       def filter_examples(pattern)
         @asciidoc_suite_parser.filter_examples pattern
+      end
+
+      private
+
+      def converter_desc
+        if @templates_dir
+          Pathname.new(@templates_dir)
+                  .relative_path_from(Pathname.new(Dir.pwd)).to_s + ' templates'
+        else
+          'built-in converter'
+        end
       end
     end
   end
