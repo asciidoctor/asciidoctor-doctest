@@ -34,3 +34,32 @@ supermassive, and apocalyptic party.footnote:[The double hail-and-rainbow level 
 A bold statement.footnoteref:[disclaimer,Opinions are my own.]
 
 Another outrageous statement.footnoteref:[disclaimer]
+
+// .toc
+// Actual TOC content is rendered in block_outline, this template usually
+// renders just a "border".
+= Document Title
+:toc:
+
+== Cavern Glow
+
+// .toc-title
+= Document Title
+:toc:
+:toc-title: Table of Adventures
+
+== Cavern Glow
+
+// .toc-class
+= Document Title
+:toc:
+:toc-class: taco
+
+== Cavern Glow
+
+// .toc-position
+= Document Title
+:toc:
+:toc-position: right
+
+== Cavern Glow
