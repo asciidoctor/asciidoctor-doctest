@@ -68,7 +68,7 @@ module Asciidoctor
             names << Pathname.new(file_path).basename.sub_ext('').to_s
           end
         end
-        names.uniq
+        names.sort.uniq
       end
 
       ##
