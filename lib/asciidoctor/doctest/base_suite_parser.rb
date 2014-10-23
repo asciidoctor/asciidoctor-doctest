@@ -41,20 +41,18 @@ module Asciidoctor
       end
 
       ##
-      # Returns an absolute path of the named examples suite file, or +nil+ if
-      # it's not found on the {#examples_path}. When the file is in multiple
-      # directories of {#examples_path}, then the first one wins.
+      # Returns absolute paths of the named examples suite files found on the
+      # {#examples_path}.
       #
       # @param suite_name [String] name of the suite file without a file
       #        extension (i.e. Asciidoctor's AST node name).
-      # @return [String, nil] the suite file path, or nil if doesn't exist.
+      # @return [Array<String>] paths of the suite files.
       #
-      def find_suite_file(suite_name)
-        @examples_path.each do |dir_path|
+      def find_suite_files(suite_name)
+        @examples_path.map { |dir_path|
           file_path = suite_path(dir_path, suite_name)
-          return file_path if File.file? file_path
-        end
-        nil
+          file_path if File.file? file_path
+        }.compact
       end
 
       ##
@@ -107,15 +105,16 @@ module Asciidoctor
       end
 
       ##
-      # @param suite_name (see #find_suite_file)
+      # Reads the named examples suite from file(s). When multiple matching
+      # files are found on the {#examples_path}, it merges them together.
+      #
+      # @param suite_name (see #find_suite_files)
       # @return [Hash] a parsed examples suite data ({#parse_suite format}),
       #         or an empty hash when no one exists.
       #
       def read_suite(suite_name)
-        if (file_path = find_suite_file(suite_name))
-          parse_suite File.read(file_path)
-        else
-          {}
+        find_suite_files(suite_name).reverse.inject({}) do |memo, file_path|
+          memo.merge! parse_suite(File.read(file_path))
         end
       end
 
@@ -125,11 +124,12 @@ module Asciidoctor
       # Otherwise it creates a new file in the first directory from the
       # {#examples_path}.
       #
-      # @param suite_name (see #find_suite_file)
+      # @param suite_name (see #find_suite_files)
       # @param data [Hash] the {#parse_suite examples suite}.
       #
       def write_suite(suite_name, data)
-        file_path = find_suite_file(suite_name) || suite_path(@examples_path.first, suite_name)
+        file_path = find_suite_files(suite_name).first ||
+                    suite_path(@examples_path.first, suite_name)
         File.open(file_path, 'w') do |file|
           file << serialize_suite(data)
         end
