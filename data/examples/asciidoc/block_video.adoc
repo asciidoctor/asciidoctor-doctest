@@ -2,7 +2,7 @@
 video::video_file.mp4[]
 
 // .basic-with-all-attributes
-video::video_file.mp4[width=640, height=480, poster=sunset.jpg]
+video::video_file.mp4[start=10, end=60, width=640, height=480, poster=sunset.jpg]
 
 // .basic-with-all-options
 video::video_file.mp4[options="autoplay, loop, nocontrols"]
