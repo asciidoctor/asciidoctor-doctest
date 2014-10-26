@@ -31,6 +31,9 @@ _chunky bacon_
 // .subscript-with-role
 [why]~sub~chunky bacon
 
+// .mark
+#chunky bacon#
+
 // .double-curved-quotes
 "`chunky bacon`"
 
