@@ -1,22 +1,22 @@
 // .basic
 [why]#chunky bacon#
 
-// .italic
+// .emphasis
 _chunky bacon_
 
-// .italic-with-role
+// .emphasis-with-role
 [why]_chunky bacon_
 
-// .bold
+// .strong
 *chunky bacon*
 
-// .bold-with-role
+// .strong-with-role
 [why]*chunky bacon*
 
-// .monospace
+// .monospaced
 `hello world!`
 
-// .monospace-with-role
+// .monospaced-with-role
 [why]`hello world!`
 
 // .superscript
@@ -34,16 +34,16 @@ _chunky bacon_
 // .mark
 #chunky bacon#
 
-// .double-curved-quotes
+// .double
 "`chunky bacon`"
 
-// .double-curved-quotes-with-role
+// .double-with-role
 [why]"`chunky bacon`"
 
-// .single-curved-quotes
+// .single
 '`chunky bacon`'
 
-// .single-curved-quotes-with-role
+// .single-with-role
 [why]'`chunky bacon`'
 
 // .asciimath
