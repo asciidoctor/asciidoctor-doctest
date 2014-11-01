@@ -48,6 +48,7 @@ module Asciidoctor
             if (opts = tested_suite.try(:[], exmpl_name))
               expected = opts.delete(:content)
               asciidoc = adoc[:content]
+              opts[:desc] ||= adoc[:desc]
 
               test test_name do
                 actual = render_asciidoc(asciidoc, opts)
@@ -140,7 +141,7 @@ module Asciidoctor
       # @raise [Minitest::Assertion] if the assertion fails
       #
       def assert_example(expected, actual, opts)
-        assert_equal expected, actual
+        assert_equal expected, actual, opts[:desc]
       end
     end
   end

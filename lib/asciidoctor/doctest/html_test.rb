@@ -35,7 +35,7 @@ module Asciidoctor
           actual.xpath(xpath).each(&:remove)
         end
 
-        assert_equal expected.to_html, actual.to_html
+        assert_equal expected.to_html, actual.to_html, opts[:desc]
       end
 
       ##
