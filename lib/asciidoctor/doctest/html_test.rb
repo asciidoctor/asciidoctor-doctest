@@ -9,20 +9,14 @@ module Asciidoctor
     # Base class for testing HTML-based backends (templates).
     class HtmlTest < BaseTest
 
-      def self.read_tested_suite(suite_name)
-        super.each_value do |opts|
-          # Render 'document' examples as a full document with header and footer.
-          opts[:header_footer] = [true] if suite_name.start_with? 'document'
-          # When asserting inline examples, ignore paragraph "wrapper".
-          opts[:include] ||= ['.//p/node()'] if suite_name.start_with? 'inline_'
-        end
-      end
-
       ##
       # (see BaseTest#assert_example)
       def assert_example(expected, actual, opts)
         actual = parse_html(actual, !opts.key?(:header_footer))
         expected = parse_html(expected)
+
+        # When asserting inline examples, ignore paragraph "wrapper".
+        opts[:include] ||= ['.//p/node()'] if name.start_with? 'inline_'
 
         # Select nodes specified by the XPath expression.
         opts.fetch(:include, []).each do |xpath|
@@ -55,6 +49,14 @@ module Asciidoctor
       def parse_html(input, fragment = true)
         nokogiri = fragment ? Nokogiri::HTML::DocumentFragment : Nokogiri::HTML
         nokogiri.parse(input).normalize!
+      end
+
+      ##
+      # (see BaseTest#render_asciidoc)
+      def render_asciidoc(text, opts = {})
+        # Render 'document' examples as a full document with header and footer.
+        opts[:header_footer] = true if name.start_with? 'document'
+        super
       end
     end
   end
