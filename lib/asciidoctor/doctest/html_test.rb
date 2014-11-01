@@ -9,6 +9,8 @@ module Asciidoctor
     # Base class for testing HTML-based backends (templates).
     class HtmlTest < BaseTest
 
+      PARAGRAPH_XPATH = './p/node()'
+
       ##
       # (see BaseTest#assert_example)
       def assert_example(expected, actual, opts)
@@ -16,7 +18,7 @@ module Asciidoctor
         expected = parse_html(expected)
 
         # When asserting inline examples, ignore paragraph "wrapper".
-        opts[:include] ||= ['.//p/node()'] if name.start_with? 'inline_'
+        opts[:include] ||= [ PARAGRAPH_XPATH ] if name.start_with? 'inline_'
 
         # Select nodes specified by the XPath expression.
         opts.fetch(:include, []).each do |xpath|
