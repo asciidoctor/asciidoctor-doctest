@@ -23,16 +23,15 @@ module Asciidoctor
         current = {}
 
         input.each_line do |line|
+          line.chomp!
           if line =~ %r{^//\s*\.([^ \n]+)}
-            current[:content].chomp! unless current.empty?
             suite[$1.to_sym] = current = { content: '' }
           elsif line =~ %r{^//\s*(.*)\s*$}
             (current[:desc] ||= '').concat($1, "\n")
           else
-            current[:content] << line
+            current[:content].concat(line, "\n")
           end
         end
-        current[:content].chomp! unless current.empty?
 
         suite
       end

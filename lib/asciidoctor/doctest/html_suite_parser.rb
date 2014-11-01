@@ -31,10 +31,10 @@ module Asciidoctor
         in_comment = false
 
         html.each_line do |line|
+          line.chomp!
           if line =~ /^<!--\s*\.([^ \n]+)/
-            current[:content].chomp! unless current.empty?
             suite[$1.to_sym] = current = { content: '' }
-            in_comment = !line.chomp.end_with?('-->')
+            in_comment = true
           elsif in_comment
             if line =~ /^\s*:([^:]+):(.*)/
               (current[$1.to_sym] ||= []) << $2.strip
@@ -42,12 +42,11 @@ module Asciidoctor
               desc = line.rstrip.chomp('-->').strip
               (current[:desc] ||= '').concat(desc, "\n") unless desc.empty?
             end
-            in_comment = !line.chomp.end_with?('-->')
           else
-            current[:content] << line
+            current[:content].concat(line, "\n")
           end
+          in_comment &= !line.end_with?('-->')
         end
-        current[:content].chomp! unless current.empty?
 
         suite
       end
