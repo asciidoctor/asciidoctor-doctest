@@ -1,6 +1,7 @@
 require 'active_support/core_ext/hash/except'
 require 'active_support/core_ext/array/wrap'
 require 'asciidoctor/doctest/base_suite_parser'
+require 'asciidoctor/doctest/core_ext'
 
 module Asciidoctor
   module DocTest
@@ -9,8 +10,8 @@ module Asciidoctor
     #
     # @example Syntax of the example's header
     #   <!-- .example-name
-    #     Any text that is not the example's name or an option is currently
-    #     ignored.
+    #     Any text that is not the example's name or an option and doesn't
+    #     start with // is considered as a description.
     #     :option-1: value 1
     #     :option-2: value 1
     #     :option-2: value 2
@@ -37,6 +38,9 @@ module Asciidoctor
           elsif in_comment
             if line =~ /^\s*:([^:]+):(.*)/
               (current[$1.to_sym] ||= []) << $2.strip
+            elsif !line.start_with?('//')
+              desc = line.rstrip.chomp('-->').strip
+              (current[:desc] ||= '').concat(desc, "\n") unless desc.empty?
             end
             in_comment = !line.chomp.end_with?('-->')
           else
@@ -56,13 +60,15 @@ module Asciidoctor
           if opts.empty?
             "<!-- .#{key} -->\n#{html}\n"
           else
+            desc = opts.delete(:desc)
             opts_str = opts.map { |name, vals|
               Array.wrap(vals).map do |val|
                 ['true', ''].include?(val.to_s) ? ":#{name}:" : ":#{name}: #{val}"
               end
             }.join("\n")
 
-            "<!-- .#{key}\n#{opts_str}\n-->\n#{html}\n"
+            header = [ ".#{key}", desc, opts_str ].compact.join("\n")
+            "<!-- #{header}\n-->\n#{html}\n"
           end
         }.join("\n")
       end
