@@ -49,17 +49,3 @@ Another outrageous statement.footnoteref:[disclaimer]
 :toc-title: Table of Adventures
 
 == Cavern Glow
-
-// .toc-class
-= Document Title
-:toc:
-:toc-class: taco
-
-== Cavern Glow
-
-// .toc-position
-= Document Title
-:toc:
-:toc-position: right
-
-== Cavern Glow

@@ -16,37 +16,29 @@ image:linux.svg[link="http://inkscape.org/doc/examples/tux.svg"]
 // .image-with-role
 image:linux.svg[role="black"]
 
-// .icon-no-icons
-icon:tags[]
-
-// .icon-image
+// .icon
 :icons:
 icon:tags[]
 
-// .icon-font
-:icons: font
-icon:heart[]
+// .icon-with-dimensions
+:icons:
+icon:tags[height=25, width=35]
 
-// .icon-font-with-float
-:icons: font
+// .icon-with-float
+:icons:
 icon:heart[float="right"]
 
-// .icon-font-with-link
-:icons: font
+// .icon-with-link
+:icons:
 icon:download[link="http://rubygems.org/downloads/asciidoctor-1.5.2.gem"]
 
-// .icon-font-with-title
-:icons: font
+// .icon-with-title
+:icons:
 icon:heart[title="I <3 Asciidoctor"]
 
-// .icon-font-with-size
-:icons: font
-icon:shield[2x]
+// .icon-with-role
+:icons:
+icon:tags[role="blue"]
 
-// .icon-font-with-rotate
-:icons: font
-icon:shield[rotate=90]
-
-// .icon-font-with-flip
-:icons: font
-icon:shield[flip=vertical]
+// .icon-no-icons
+icon:tags[]
