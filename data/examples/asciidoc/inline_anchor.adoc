@@ -23,6 +23,5 @@ Refer to <<Section A>>.
 == Section A
 
 // .bibref
-[bibliography]
-- [[[prag]]] Andy Hunt & Dave Thomas. The Pragmatic Programmer:
-  From Journeyman to Master. Addison-Wesley. 1999.
+// This is an item (anchor) in the bibliography, not a link to it.
+[[[prag]]] Andy Hunt & Dave Thomas. The Pragmatic Programmer
