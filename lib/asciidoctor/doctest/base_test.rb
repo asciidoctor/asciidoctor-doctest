@@ -32,16 +32,16 @@ module Asciidoctor
       #
       # If class is given, then it's instantiated with zero arguments.
       #
+      # @param tested_suite_parser [BaseSuiteParser, Class] the suite parser
+      #        class (or its instance) to be used for reading the tested examples.
+      #
       # @param asciidoc_suite_parser [BaseSuiteParser, Class] the suite parser
       #        class (or its instance) to be used for reading the reference
       #        Asciidoctor examples.
       #
-      # @param tested_suite_parser [BaseSuiteParser, Class] the suite parser
-      #        class (or its instance) to be used for reading the tested examples.
-      #
-      def self.generate_tests!(asciidoc_suite_parser, tested_suite_parser)
-        @asciidoc_suite_parser = asciidoc_suite_parser.with { is_a?(Class) ? new : self }
+      def self.generate_tests!(tested_suite_parser, asciidoc_suite_parser = AsciidocSuiteParser)
         @tested_suite_parser = tested_suite_parser.with { is_a?(Class) ? new : self }
+        @asciidoc_suite_parser = asciidoc_suite_parser.with { is_a?(Class) ? new : self }
 
         suite_names.each do |suite_name|
           tested_suite = read_tested_suite(suite_name)

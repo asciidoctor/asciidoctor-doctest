@@ -9,29 +9,31 @@ module Asciidoctor
     class BaseGenerator
 
       ##
-      # @param asciidoc_suite_parser [BaseSuiteParser, Class] the suite parser
-      #        class (or its instance) to be used for reading the reference
-      #        Asciidoctor examples. If class is given, then it's instantiated
-      #        with zero arguments.
+      # @param templates_dir [String, Pathname, nil] path of the directory
+      #        where to look for the backend's templates. When +nil+,
+      #        a built-in Asciidoctor converter will be used.
       #
       # @param tested_suite_parser [BaseSuiteParser, Class] the suite parser
       #        class (or its instance) to be used for reading and writing the
       #        tested examples. If class is given, then it's instantiated with
       #        zero arguments.
       #
-      # @param templates_dir [String, Pathname, nil] path of the directory
-      #        where to look for the backend's templates. When +nil+,
-      #        a built-in Asciidoctor converter will be used. (default: nil)
+      # @param asciidoc_suite_parser [BaseSuiteParser, Class] the suite parser
+      #        class (or its instance) to be used for reading the reference
+      #        Asciidoctor examples. If class is given, then it's instantiated
+      #        with zero arguments.
       #
       # @param log_to [#<<] destination where to write log messages
       #        (default: +$stdout+).
       #
       # @raise [StandardError] if the +templates_dir+ doesn't exist.
       #
-      def initialize(asciidoc_suite_parser, tested_suite_parser, templates_dir = nil, log_to: $stdout)
-        @asciidoc_suite_parser = asciidoc_suite_parser.with { is_a?(Class) ? new : self }
-        @tested_suite_parser = tested_suite_parser.with { is_a?(Class) ? new : self }
+      def initialize(templates_dir, tested_suite_parser,
+                     asciidoc_suite_parser = AsciidocSuiteParser, log_to: $stdout)
+
         @templates_dir = File.expand_path(templates_dir) if templates_dir
+        @tested_suite_parser = tested_suite_parser.with { is_a?(Class) ? new : self }
+        @asciidoc_suite_parser = asciidoc_suite_parser.with { is_a?(Class) ? new : self }
         @log_to = log_to
 
         unless templates_dir.nil? || Dir.exist?(templates_dir)
