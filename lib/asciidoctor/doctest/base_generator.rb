@@ -9,9 +9,9 @@ module Asciidoctor
     class BaseGenerator
 
       ##
-      # @param templates_dir [String, Pathname, nil] path of the directory
-      #        where to look for the backend's templates. When +nil+,
-      #        a built-in Asciidoctor converter will be used.
+      # @param templates_dir [String, Pathname] path of the directory where to
+      #        look for the backend's templates, or +:built_in+ to use a
+      #        built-in Asciidoctor converter.
       #
       # @param tested_suite_parser [BaseSuiteParser, Class] the suite parser
       #        class (or its instance) to be used for reading and writing the
@@ -31,12 +31,12 @@ module Asciidoctor
       def initialize(templates_dir, tested_suite_parser,
                      asciidoc_suite_parser = AsciidocSuiteParser, log_to: $stdout)
 
-        @templates_dir = File.expand_path(templates_dir) if templates_dir
+        @templates_dir = File.expand_path(templates_dir) unless templates_dir == :built_in
         @tested_suite_parser = tested_suite_parser.with { is_a?(Class) ? new : self }
         @asciidoc_suite_parser = asciidoc_suite_parser.with { is_a?(Class) ? new : self }
         @log_to = log_to
 
-        unless templates_dir.nil? || Dir.exist?(templates_dir)
+        unless @templates_dir.nil? || Dir.exist?(templates_dir)
           fail "Templates directory '#{templates_dir}' doesn't exist!"
         end
       end
