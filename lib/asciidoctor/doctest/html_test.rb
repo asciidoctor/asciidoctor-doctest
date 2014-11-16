@@ -12,6 +12,13 @@ module Asciidoctor
       PARAGRAPH_XPATH = './p/node()'
 
       ##
+      # (see BaseTest#generate_tests!)
+      def self.generate_tests!(tested_suite_parser = HtmlSuiteParser,
+                               asciidoc_suite_parser = AsciidocSuiteParser)
+        super
+      end
+
+      ##
       # (see BaseTest#assert_example)
       def assert_example(expected, actual, opts)
         actual = parse_html(actual, !opts.key?(:header_footer))
