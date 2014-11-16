@@ -1,5 +1,9 @@
 require 'active_support/core_ext/module/aliasing'
 
+class Object
+  alias :with :instance_eval
+end
+
 class String
 
   ##

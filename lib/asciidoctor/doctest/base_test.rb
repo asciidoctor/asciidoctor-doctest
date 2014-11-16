@@ -1,5 +1,6 @@
 require 'active_support/core_ext/array/wrap'
 require 'active_support/core_ext/object/try'
+require 'asciidoctor/doctest/core_ext'
 require 'asciidoctor/doctest/minitest_diffy'
 require 'asciidoctor'
 require 'minitest'
@@ -29,15 +30,18 @@ module Asciidoctor
       ##
       # Generates test methods for all the testing examples.
       #
-      # @param asciidoc_suite_parser [BaseSuiteParser] an instance of the suite
-      #        parser to be used for reading the reference Asciidoctor examples.
+      # If class is given, then it's instantiated with zero arguments.
       #
-      # @param tested_suite_parser [BaseSuiteParser] an instance of the suite
-      #        parser to be used for reading the tested examples.
+      # @param asciidoc_suite_parser [BaseSuiteParser, Class] the suite parser
+      #        class (or its instance) to be used for reading the reference
+      #        Asciidoctor examples.
+      #
+      # @param tested_suite_parser [BaseSuiteParser, Class] the suite parser
+      #        class (or its instance) to be used for reading the tested examples.
       #
       def self.generate_tests!(asciidoc_suite_parser, tested_suite_parser)
-        @asciidoc_suite_parser = asciidoc_suite_parser
-        @tested_suite_parser = tested_suite_parser
+        @asciidoc_suite_parser = asciidoc_suite_parser.with { is_a?(Class) ? new : self }
+        @tested_suite_parser = tested_suite_parser.with { is_a?(Class) ? new : self }
 
         suite_names.each do |suite_name|
           tested_suite = read_tested_suite(suite_name)
