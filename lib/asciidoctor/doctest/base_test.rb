@@ -74,14 +74,10 @@ module Asciidoctor
         @asciidoc_suite_parser.suite_names
       end
 
-      ##
-      # @see BaseSuiteParser#read_suite
       def self.read_asciidoc_suite(suite_name)
         @asciidoc_suite_parser.read_suite(suite_name)
       end
 
-      ##
-      # @see BaseSuiteParser#read_suite
       def self.read_tested_suite(suite_name)
         @tested_suite_parser.read_suite(suite_name)
       end

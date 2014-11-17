@@ -5,6 +5,8 @@ require 'asciidoctor/doctest/html_normalizer'
 
 module Asciidoctor
   module DocTest
+    ##
+    # Generator of testing examples for HTML-based backends (templates).
     class HtmlGenerator < BaseGenerator
 
       ##
@@ -14,6 +16,8 @@ module Asciidoctor
         super
       end
 
+      ##
+      # (see BaseGenerator#render_asciidoc)
       def render_asciidoc(input, suite_name, opts)
         opts[:header_footer] ||= [true] if suite_name.start_with? 'document'
         html = super

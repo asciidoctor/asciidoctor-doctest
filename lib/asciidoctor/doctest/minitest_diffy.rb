@@ -12,12 +12,14 @@ module Asciidoctor
       end
 
       ##
+      # Returns diff between +exp+ and +act+ (if needed) using Diffy.
+      #
       # @note Overrides method from +Minitest::Assertions+.
       def diff(exp, act)
         expected = mu_pp_for_diff(exp)
         actual = mu_pp_for_diff(act)
 
-        if need_diff?(expected, actual)
+        if need_diff? expected, actual
           ::Diffy::Diff.new(expected, actual, context: 3).to_s
               .insert(0, "\n")
               .gsub(/^\\ No newline at end of file\n/, '')

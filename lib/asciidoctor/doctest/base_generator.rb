@@ -9,6 +9,8 @@ module Asciidoctor
     class BaseGenerator
 
       ##
+      # Returns a new instance of BaseGenerator.
+      #
       # @param templates_dir [String, Pathname] path of the directory where to
       #        look for the backend's templates, or +:built_in+ to use a
       #        built-in Asciidoctor converter.

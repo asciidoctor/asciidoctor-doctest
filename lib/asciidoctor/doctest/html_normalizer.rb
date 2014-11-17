@@ -4,6 +4,9 @@ require 'nokogiri'
 module Asciidoctor
   module DocTest
     ##
+    # Module to be included into +Nokogiri::HTML::Document+
+    # or +DocumentFragment+ to add {#normalize!} feature.
+    #
     # @example
     #   Nokogiri::HTML.parse(str).normalize!
     #   Nokogiri::HTML::DocumentFragment.parse(str).normalize!
