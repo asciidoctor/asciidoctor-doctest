@@ -12,10 +12,6 @@ module Asciidoctor
     class BaseTest < Minitest::Test
       include MinitestDiffy
 
-      class << self
-        attr_reader :asciidoc_suite_parser, :tested_suite_parser
-      end
-
       ##
       # Sets path of the directory (or multiple directories) where to look for
       # the backend's templates. When not specified, {DocTest.templates_path}
