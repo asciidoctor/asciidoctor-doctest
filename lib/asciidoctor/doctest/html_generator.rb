@@ -11,8 +11,8 @@ module Asciidoctor
 
       ##
       # (see BaseGenerator#initialize)
-      def initialize(templates_dir, tested_suite_parser = HtmlSuiteParser,
-                     asciidoc_suite_parser = AsciidocSuiteParser, log_to: $stdout)
+      def initialize(tested_suite_parser = HtmlSuiteParser,
+                     asciidoc_suite_parser = AsciidocSuiteParser)
         super
       end
 
