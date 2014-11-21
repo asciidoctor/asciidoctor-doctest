@@ -1,3 +1,4 @@
+require 'colorize'
 require 'diffy'
 
 module Asciidoctor
@@ -21,15 +22,18 @@ module Asciidoctor
 
         if need_diff? expected, actual
           ::Diffy::Diff.new(expected, actual, context: 3).to_s
-              .insert(0, "\n")
-              .gsub(/^\\ No newline at end of file\n/, '')
         else
           "Expected: #{mu_pp(exp)}\n  Actual: #{mu_pp(act)}"
         end
       end
 
-      private
-
+      ##
+      # Returns +true+ if diff should be printed (using Diffy) for the given
+      # content, +false+ otherwise.
+      #
+      # @param expected [String]
+      # @param actual [String]
+      #
       def need_diff?(expected, actual)
         expected.include?("\n") ||
           actual.include?("\n") ||
@@ -40,3 +44,29 @@ module Asciidoctor
     end
   end
 end
+
+module Diffy
+  module Format
+    ##
+    # ANSI color output suitable for terminal, customized for minitest.
+    def minitest
+      ary = map do |line|
+        case line
+        when /^(---|\+\+\+|\\\\)/
+          # ignore
+        when /^\\\s*No newline at end of file/
+          # ignore
+        when /^\+/
+          line.chomp.sub(/^\+/, 'A').red
+        when /^-/
+          line.chomp.sub(/^\-/, 'E').green
+        else
+          line.chomp
+        end
+      end
+      "\n" + ary.join("\n") + "\n"
+    end
+  end
+end
+
+Diffy::Diff.default_format = :minitest
