@@ -2,6 +2,7 @@ require 'active_support/core_ext/array/wrap'
 require 'active_support/core_ext/object/try'
 require 'asciidoctor/doctest/core_ext'
 require 'asciidoctor/doctest/minitest_diffy'
+require 'asciidoctor/doctest/template_converter_adapter'
 require 'asciidoctor'
 require 'minitest'
 
@@ -11,6 +12,17 @@ module Asciidoctor
     # Base class for testing Asciidoctor backends.
     class BaseTest < Minitest::Test
       include MinitestDiffy
+
+      ##
+      # Allow to fall back to using the appropriate built-in converter when
+      # there is no required template in the tested backend.
+      # This is actually a default behaviour in Asciidoctor, but since it's
+      # inappropriate for testing of custom backends, it's disabled by default
+      # in this test class.
+      #
+      def self.allow_template_fallback(allow = true)
+        @templates_fallback = allow
+      end
 
       ##
       # Defines name of the tested backend and optionally the specific
@@ -41,7 +53,7 @@ module Asciidoctor
         unless paths.all? { |path| Dir.exist? path }
           fail "Templates directory '#{path}' doesn't exist!"
         end
-        @templates_path = paths
+        @templates_path = paths unless paths.empty?
       end
 
       ##
@@ -162,12 +174,20 @@ module Asciidoctor
         assert_equal expected, actual, opts[:desc]
       end
 
-      # generate readers for class attributes
-      [:backend_name, :converter, :templates_path].each do |name|
+      ##
+      # @private
+      # Returns the backend's converter class (or its instance).
+      def converter
+        conv = self.class.instance_variable_get(:@converter)
+        conv ||= TemplateConverterAdapter if templates_path && !templates_fallback
+        conv
+      end
+
+      # generate getters for class attributes
+      [:backend_name, :templates_fallback, :templates_path].each do |name|
         define_method name do
           self.class.instance_variable_get(:"@#{name}")
         end
-        private name
       end
     end
   end
