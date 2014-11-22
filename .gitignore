@@ -1,6 +1,8 @@
 /.yardoc/
-/doc/
 /pkg/
 *.gem
 .ruby-version
 Gemfile.lock
+
+/doc/*
+!/doc/img/

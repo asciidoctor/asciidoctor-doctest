@@ -19,6 +19,8 @@ testing of any Asciidoctor backend.
 
 TODO
 
+image::https://cdn.rawgit.com/asciidoctor/asciidoctor-doctest/master/doc/img/doctest-diag.svg[diagram]
+
 
 == Setup DocTest
 
