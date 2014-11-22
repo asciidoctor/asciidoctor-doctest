@@ -6,7 +6,6 @@ module Asciidoctor
     @examples_path  = [
       Pathname.new('../../data/examples/asciidoc').expand_path(__dir__).to_s
     ]
-    @templates_path = []
 
     class << self
 
@@ -14,10 +13,6 @@ module Asciidoctor
       #   testing examples. Use +unshift+ to add your additional paths before
       #   the default built-in Asciidoctor examples path.
       attr_accessor :examples_path
-
-      # @return [Array<String>] paths of the directories where to look for the
-      #   templates (backends).
-      attr_accessor :templates_path
     end
   end
 end

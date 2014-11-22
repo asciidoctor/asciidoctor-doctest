@@ -13,14 +13,35 @@ module Asciidoctor
       include MinitestDiffy
 
       ##
+      # Defines name of the tested backend and optionally the specific
+      # converter.
+      #
+      # @param name [#to_s] the name of the tested backend.
+      # @param converter [Class, Asciidoctor::Converter::Base, nil]
+      #        the backend's converter class (or its instance). If not
+      #        specified, the default converter for the specified backend will
+      #        be used.
+      #
+      def self.backend(name, converter = nil)
+        @backend_name = name.to_s
+        @converter = converter
+      end
+
+      ##
       # Sets path of the directory (or multiple directories) where to look for
-      # the backend's templates. When not specified, {DocTest.templates_path}
-      # will be used. Relative paths are referenced from the working directory.
+      # the backend's templates. Relative paths are referenced from the working
+      # directory.
       #
-      # @param path [String, Array<String>]
+      # @param paths [String, Array<String>]
+      # @raise [StandardError] if any of the given paths doesn't exist or not
+      #   a directory.
       #
-      def self.templates_path(path)
-        @templates_path = path ? Array.wrap(path) : nil
+      def self.templates_path(*paths)
+        paths.flatten!
+        unless paths.all? { |path| Dir.exist? path }
+          fail "Templates directory '#{path}' doesn't exist!"
+        end
+        @templates_path = paths
       end
 
       ##
@@ -99,7 +120,7 @@ module Asciidoctor
 
       ##
       # Renders the given +text+ in AsciiDoc syntax with Asciidoctor using the
-      # tested backend, i.e. templates on the templates path.
+      # tested backend.
       #
       # @param text [String] the input text in AsciiDoc syntax.
       # @param opts [Hash]
@@ -107,10 +128,11 @@ module Asciidoctor
       # @return [String] the input +text+ rendered in the tested syntax.
       #
       def render_asciidoc(text, opts = {})
-        templates_path = self.class.instance_variable_get(:@templates_path)
         renderer_opts = {
           safe: :safe,
-          template_dirs: templates_path || DocTest.templates_path,
+          backend: backend_name,
+          converter: converter,
+          template_dirs: templates_path,
           header_footer: opts.key?(:header_footer)
         }
         Asciidoctor.render(text, renderer_opts)
@@ -138,6 +160,14 @@ module Asciidoctor
       #
       def assert_example(expected, actual, opts)
         assert_equal expected, actual, opts[:desc]
+      end
+
+      # generate readers for class attributes
+      [:backend_name, :converter, :templates_path].each do |name|
+        define_method name do
+          self.class.instance_variable_get(:"@#{name}")
+        end
+        private name
       end
     end
   end

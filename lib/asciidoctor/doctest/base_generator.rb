@@ -15,6 +15,9 @@ module Asciidoctor
       #   for reading the reference Asciidoctor examples.
       attr_accessor :asciidoc_suite_parser
 
+      # @return [#to_s, nil] name of the backend to convert examples.
+      attr_accessor :backend_name
+
       # @return [#<<] destination where to write log messages
       #   (default: +$stdout+).
       attr_accessor :log_to
@@ -24,7 +27,7 @@ module Asciidoctor
       attr_accessor :tested_suite_parser
 
       # @return [Array<String>] path of the directory where to look for the
-      #   backend's templates (default: {DocTest.templates_path}).
+      #   backend's templates.
       # @raise [StandardError] if any of the given paths doesn't exist or not
       #   a directory.
       attr_accessor :templates_path
@@ -54,9 +57,9 @@ module Asciidoctor
       def initialize(tested_suite_parser, asciidoc_suite_parser = AsciidocSuiteParser)
         @tested_suite_parser = tested_suite_parser.with { is_a?(Class) ? new : self }
         @asciidoc_suite_parser = asciidoc_suite_parser.with { is_a?(Class) ? new : self }
+        @backend_name = nil
         @log_to = $stdout
-        # intentionally use accessor to peform validation
-        templates_path ||= DocTest.templates_path
+        @templates_path = []
       end
 
       ##
@@ -106,7 +109,7 @@ module Asciidoctor
 
       ##
       # Renders the given +input+ in AsciiDoc syntax with Asciidoctor using the
-      # tested backend, i.e. templates on the {#templates_path}.
+      # tested backend.
       #
       # @param input [String] the input text in AsciiDoc syntax.
       # @param suite_name [String] name of the examples suite that is a source
@@ -118,6 +121,7 @@ module Asciidoctor
       def render_asciidoc(input, suite_name = '', opts = {})
         renderer_opts = {
           safe: :safe,
+          backend: (backend_name.to_s if backend_name),
           template_dirs: templates_path,
           header_footer: opts.key?(:header_footer)
         }

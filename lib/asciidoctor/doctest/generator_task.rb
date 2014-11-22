@@ -13,6 +13,9 @@ module Asciidoctor
       # List of values representing the +true+.
       TRUE_VALUES = [ 'yes', 'y', 'true' ]
 
+      # @return [#to_s, nil] name of the backend to convert examples.
+      attr_accessor :backend_name
+
       # @return (see DocTest.examples_path)
       attr_accessor :examples_path
 
@@ -37,8 +40,7 @@ module Asciidoctor
       attr_accessor :pattern
 
       # @return [Array<String>] paths of the directories where to look for the
-      #   templates (backends) (default: {DocTest.templates_path}, or
-      #   +data/templates+ if empty).
+      #   templates (backends) (default: +data/templates+).
       attr_accessor :templates_path
 
       # @return [String] title of the task's description.
@@ -57,15 +59,12 @@ module Asciidoctor
       def initialize(name, generator)
         @name = name.to_sym
         @generator = generator.with { is_a?(Class) ? new : self }
+        @backend_name = nil
         @examples_path = DocTest.examples_path
         @force = false
         @output_dir = File.join('test', 'examples')
         @pattern = BaseGenerator::ALL_PATTERN
-        @templates_path = if DocTest.templates_path.empty?
-            [ File.join('data', 'templates') ]
-          else
-            DocTest.templates_path
-          end
+        @templates_path = [ File.join('data', 'templates') ]
         @title = "Generate testing examples #{pattern}#{" for #{name}" if name != :generate}."
 
         yield self if block_given?
@@ -77,6 +76,7 @@ module Asciidoctor
 
         task name do
           generator.tap do |g|
+            g.backend_name = backend_name
             g.templates_path = templates_path
             g.asciidoc_suite_parser.examples_path = examples_path
             g.tested_suite_parser.examples_path = [output_dir]
