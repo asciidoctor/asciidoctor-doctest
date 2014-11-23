@@ -4,13 +4,13 @@ require 'asciidoctor/doctest/core_ext'
 module Asciidoctor
   module DocTest
     ##
-    # Parser for the reference Asciidoctor examples.
+    # Parser of input AsciiDoc examples suite.
     #
-    # @example Syntax of the example's header
+    # @example Format of the example's header
     #   // .example-name
-    #   // Any text that is not the example's name or an option is considered
+    #   // Any text that is not the example's name is considered
     #   // as a description.
-    #   The example's content in *Asciidoc*.
+    #   The example's content in *AsciiDoc*.
     #
     #   NOTE: The trailing new line (below this) will be removed.
     #

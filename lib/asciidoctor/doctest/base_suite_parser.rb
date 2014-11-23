@@ -4,11 +4,11 @@ require 'pathname'
 module Asciidoctor
   module DocTest
     ##
-    # This class is responsible for parsing and serializing of suite files.
-    # The suite file holds one or more testing examples written in the tested
-    # markup (e.g. HTML, TeX), or AsciiDoc in a case of the reference examples.
-    # Each example must be preceded by a special comment with the example name
-    # and optionally with options.
+    # This class is responsible for parsing and serializing of examples suite
+    # files. The suite file holds one or more examples written in the backend's
+    # target format (e.g. HTML, TeX), or AsciiDoc in a case of the input
+    # examples. Each example must be preceded by a special header with the
+    # example's name and optionally a description and options.
     #
     # @abstract
     class BaseSuiteParser
@@ -26,9 +26,9 @@ module Asciidoctor
       #        will be used instead.
       #
       # @param examples_path [String, Array<String>] path of the directory (or
-      #        multiple directories) where to look for the testing examples.
-      #        When not specified, {DocTest.examples_path} will be used.
-      #        Relative paths are referenced from the working directory.
+      #        multiple directories) where to look for the example suites.
+      #        When not specified, {DocTest.examples_path} is used. Relative
+      #        paths are referenced from the working directory.
       #
       def initialize(backend_name: nil, file_suffix: nil, examples_path: nil)
         backend_name  ||= self.class.name.split('::').last.sub('SuiteParser', '').downcase
@@ -56,7 +56,7 @@ module Asciidoctor
       end
 
       ##
-      # Returns names of all the testing suites found on the {#examples_path},
+      # Returns names of all the example suites found on the {#examples_path},
       # i.e. files with {#file_suffix}.
       #
       # @return [Array<String>]
@@ -72,7 +72,7 @@ module Asciidoctor
       end
 
       ##
-      # Returns a hash with testing examples that matches the +pattern+.
+      # Returns a hash with the examples that matches the +pattern+.
       #
       # @example
       #   filter_examples '*list*:basic*'
@@ -152,7 +152,6 @@ module Asciidoctor
 
       ##
       # Serializes the given examples suite into String.
-      # This method is used when bootstrapping examples for existing templates.
       #
       # @abstract
       # @param suite_hash [Hash] the {#parse_suite examples suite}.

@@ -6,9 +6,9 @@ require 'asciidoctor/doctest/core_ext'
 module Asciidoctor
   module DocTest
     ##
-    # Parser and serializer for HTML-based examples.
+    # Parser and serializer of HTML-based examples suite.
     #
-    # @example Syntax of the example's header
+    # @example Format of the example's header
     #   <!-- .example-name
     #     Any text that is not the example's name or an option and doesn't
     #     start with // is considered as a description.

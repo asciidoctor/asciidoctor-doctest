@@ -6,13 +6,13 @@ require 'asciidoctor/doctest/html_normalizer'
 module Asciidoctor
   module DocTest
     ##
-    # Generator of testing examples for HTML-based backends (templates).
+    # Generator of output examples for HTML-based backends (templates).
     class HtmlGenerator < BaseGenerator
 
       ##
       # (see BaseGenerator#initialize)
-      def initialize(tested_suite_parser = HtmlSuiteParser,
-                     asciidoc_suite_parser = AsciidocSuiteParser)
+      def initialize(output_suite_parser = HtmlSuiteParser,
+                     input_suite_parser = AsciidocSuiteParser)
         super
       end
 

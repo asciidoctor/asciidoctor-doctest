@@ -57,34 +57,35 @@ module Asciidoctor
       end
 
       ##
-      # Generates test methods for all the testing examples.
+      # Generates test methods for all the test examples.
       #
       # If class is given, then it's instantiated with zero arguments.
       #
-      # @param tested_suite_parser [BaseSuiteParser, Class] the suite parser
-      #        class (or its instance) to be used for reading the tested examples.
+      # @param output_suite_parser [BaseSuiteParser, Class] the suite parser
+      #        class (or its instance) to be used for reading the output
+      #        examples (i.e. an expected output).
       #
-      # @param asciidoc_suite_parser [BaseSuiteParser, Class] the suite parser
-      #        class (or its instance) to be used for reading the reference
-      #        Asciidoctor examples.
+      # @param input_suite_parser [BaseSuiteParser, Class] the suite parser
+      #        class (or its instance) to be used for reading the input
+      #        AsciiDoc examples.
       #
-      def self.generate_tests!(tested_suite_parser, asciidoc_suite_parser = AsciidocSuiteParser)
-        @tested_suite_parser = tested_suite_parser.with { is_a?(Class) ? new : self }
-        @asciidoc_suite_parser = asciidoc_suite_parser.with { is_a?(Class) ? new : self }
+      def self.generate_tests!(output_suite_parser, input_suite_parser = AsciidocSuiteParser)
+        @output_suite_parser = output_suite_parser.with { is_a?(Class) ? new : self }
+        @input_suite_parser = input_suite_parser.with { is_a?(Class) ? new : self }
 
         suite_names.each do |suite_name|
-          tested_suite = read_tested_suite(suite_name)
+          output_suite = read_output_suite(suite_name)
 
-          read_asciidoc_suite(suite_name).each do |exmpl_name, adoc|
+          read_input_suite(suite_name).each do |exmpl_name, adoc|
             test_name = "#{suite_name}:#{exmpl_name}"
 
-            if (opts = tested_suite.try(:[], exmpl_name))
+            if (opts = output_suite.try(:[], exmpl_name))
               expected = opts.delete(:content)
-              asciidoc = adoc[:content]
+              input = adoc[:content]
               opts[:desc] ||= adoc[:desc]
 
               test test_name do
-                actual = render_asciidoc(asciidoc, opts)
+                actual = render_asciidoc(input, opts)
                 assert_example expected, actual, opts
               end
             else
@@ -97,18 +98,18 @@ module Asciidoctor
       end
 
       ##
-      # Returns names of all the testing suites.
+      # Returns names of all the examples suites to test.
       # @return [Array<String>]
       def self.suite_names
-        @asciidoc_suite_parser.suite_names
+        @input_suite_parser.suite_names
       end
 
-      def self.read_asciidoc_suite(suite_name)
-        @asciidoc_suite_parser.read_suite(suite_name)
+      def self.read_input_suite(suite_name)
+        @input_suite_parser.read_suite(suite_name)
       end
 
-      def self.read_tested_suite(suite_name)
-        @tested_suite_parser.read_suite(suite_name)
+      def self.read_output_suite(suite_name)
+        @output_suite_parser.read_suite(suite_name)
       end
 
       ##
@@ -160,8 +161,7 @@ module Asciidoctor
       end
 
       ##
-      # Asserts an actual rendered example against the expected from the examples
-      # suite.
+      # Asserts an actual rendered example against the expected output.
       #
       # @note This method may be overriden to provide a more suitable assert.
       #

@@ -6,7 +6,7 @@ require 'rake/tasklib'
 module Asciidoctor
   module DocTest
     ##
-    # Rake task for generating of testing examples.
+    # Rake task for generating output examples.
     # @see BaseGenerator
     class GeneratorTask < Rake::TaskLib
 
@@ -30,7 +30,7 @@ module Asciidoctor
       # @return [#to_sym] name of the task.
       attr_accessor :name
 
-      # @return [String] path of the directory where to write generated
+      # @return [String] path of the directory where to write generated output
       #   examples (default: +test/examples+).
       attr_accessor :output_dir
 
@@ -78,8 +78,8 @@ module Asciidoctor
           generator.tap do |g|
             g.backend_name = backend_name
             g.templates_path = templates_path
-            g.asciidoc_suite_parser.examples_path = examples_path
-            g.tested_suite_parser.examples_path = [output_dir]
+            g.input_suite_parser.examples_path = examples_path
+            g.output_suite_parser.examples_path = [output_dir]
           end
           puts title
           generator.generate! pattern, force?

@@ -13,8 +13,8 @@ module Asciidoctor
 
       ##
       # (see BaseTest#generate_tests!)
-      def self.generate_tests!(tested_suite_parser = HtmlSuiteParser,
-                               asciidoc_suite_parser = AsciidocSuiteParser)
+      def self.generate_tests!(output_suite_parser = HtmlSuiteParser,
+                               input_suite_parser = AsciidocSuiteParser)
         super
       end
 
@@ -42,7 +42,7 @@ module Asciidoctor
       end
 
       ##
-      # Returns a human-readable (formatted) version of +html+.
+      # Returns a human-readable (formatted) version of the +html+.
       # @note Overrides method from +Minitest::Assertions+.
       def mu_pp(html)
         HtmlBeautifier.beautify html

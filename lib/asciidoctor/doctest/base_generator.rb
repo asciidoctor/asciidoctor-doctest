@@ -5,26 +5,26 @@ require 'colorize'
 module Asciidoctor
   module DocTest
     ##
-    # Base generator of testing examples.
+    # Base generator of output examples.
     class BaseGenerator
 
       # Glob pattern that matches all the examples.
       ALL_PATTERN = '*:*'
 
-      # @return [BaseSuiteParser] an instance of the suite parser to be used
-      #   for reading the reference Asciidoctor examples.
-      attr_accessor :asciidoc_suite_parser
-
       # @return [#to_s, nil] name of the backend to convert examples.
       attr_accessor :backend_name
+
+      # @return [BaseSuiteParser] an instance of the suite parser to be used
+      #   for reading the input AsciiDoc examples.
+      attr_accessor :input_suite_parser
 
       # @return [#<<] destination where to write log messages
       #   (default: +$stdout+).
       attr_accessor :log_to
 
       # @return [BaseSuiteParser] an instance of the suite parser to be used
-      #   for reading and writing the tested examples.
-      attr_accessor :tested_suite_parser
+      #   for reading and writing output examples.
+      attr_accessor :output_suite_parser
 
       # @return [Array<String>] path of the directory where to look for the
       #   backend's templates.
@@ -44,41 +44,40 @@ module Asciidoctor
       ##
       # Returns a new instance of BaseGenerator.
       #
-      # @param tested_suite_parser [BaseSuiteParser, Class] the suite parser
-      #        class (or its instance) to be used for reading and writing the
-      #        tested examples. If class is given, then it's instantiated with
+      # @param output_suite_parser [BaseSuiteParser, Class] the suite parser
+      #        class (or its instance) to be used for reading and writing
+      #        output examples. If class is given, then it's instantiated with
       #        zero arguments.
       #
-      # @param asciidoc_suite_parser [BaseSuiteParser, Class] the suite parser
-      #        class (or its instance) to be used for reading the reference
-      #        Asciidoctor examples. If class is given, then it's instantiated
+      # @param input_suite_parser [BaseSuiteParser, Class] the suite parser
+      #        class (or its instance) to be used for reading input AsciiDoc
+      #        examples. If class is given, then it's instantiated
       #        with zero arguments.
       #
-      def initialize(tested_suite_parser, asciidoc_suite_parser = AsciidocSuiteParser)
-        @tested_suite_parser = tested_suite_parser.with { is_a?(Class) ? new : self }
-        @asciidoc_suite_parser = asciidoc_suite_parser.with { is_a?(Class) ? new : self }
+      def initialize(output_suite_parser, input_suite_parser = AsciidocSuiteParser)
+        @output_suite_parser = output_suite_parser.with { is_a?(Class) ? new : self }
+        @input_suite_parser = input_suite_parser.with { is_a?(Class) ? new : self }
         @backend_name = nil
         @log_to = $stdout
         @templates_path = []
       end
 
       ##
-      # Generates missing, or rewrite existing testing examples from the
-      # Asciidoctor reference examples converted through the backend templates
-      # (specified by +templates_dir+ during initialization).
+      # Generates missing, or rewrite existing output examples from the
+      # input examples converted through the tested backend.
       #
-      # @param pattern [String] glob-like pattern to select testing examples to
+      # @param pattern [String] glob-like pattern to select examples to
       #        (re)generate (see {BaseSuiteParser#filter_examples}).
-      # @param rewrite [Boolean] whether to rewrite an already existing testing
+      # @param rewrite [Boolean] whether to rewrite an already existing
       #        example.
       #
       def generate!(pattern = ALL_PATTERN, rewrite = false)
         filter_examples(pattern).each do |suite_name, exmpl_names|
 
-          old_suite = read_tested_suite(suite_name)
+          old_suite = read_output_suite(suite_name)
           new_suite = {}
 
-          read_asciidoc_suite(suite_name).each do |exmpl_name, adoc_exmpl|
+          read_input_suite(suite_name).each do |exmpl_name, adoc_exmpl|
 
             exmpl = old_suite.delete(exmpl_name) || {}
             new_suite[exmpl_name] = exmpl unless exmpl.empty?
@@ -98,12 +97,12 @@ module Asciidoctor
 
           unless old_suite.empty?
             old_suite.each do |exmpl_name, exmpl|
-              log "#{suite_name}:#{exmpl_name} doesn't exist in Asciidoctor's reference examples!".red
+              log "#{suite_name}:#{exmpl_name} doesn't exist in input examples!".red
               new_suite[exmpl_name] = exmpl
             end
           end
 
-          write_tested_suite suite_name, new_suite
+          write_output_suite suite_name, new_suite
         end
       end
 
@@ -130,7 +129,7 @@ module Asciidoctor
 
       ##
       # @private
-      # Builds a log message about the testing example (not) being (re)generated.
+      # Builds a log message about the example (not) being (re)generated.
       def status_message(name, old_content, new_content, overwrite)
         msg = if old_content.empty?
                 "Generating #{name}".magenta
@@ -155,20 +154,20 @@ module Asciidoctor
         @log_to << message.chomp + "\n" if @log_to
       end
 
-      def read_asciidoc_suite(suite_name)
-        @asciidoc_suite_parser.read_suite suite_name
+      def read_input_suite(suite_name)
+        @input_suite_parser.read_suite suite_name
       end
 
-      def read_tested_suite(suite_name)
-        @tested_suite_parser.read_suite suite_name
+      def read_output_suite(suite_name)
+        @output_suite_parser.read_suite suite_name
       end
 
-      def write_tested_suite(suite_name, data)
-        @tested_suite_parser.write_suite suite_name, data
+      def write_output_suite(suite_name, data)
+        @output_suite_parser.write_suite suite_name, data
       end
 
       def filter_examples(pattern)
-        @asciidoc_suite_parser.filter_examples pattern
+        @input_suite_parser.filter_examples pattern
       end
     end
   end

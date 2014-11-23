@@ -10,8 +10,8 @@ module Asciidoctor
     class << self
 
       # @return [Array<String>] paths of the directories where to look for the
-      #   testing examples. Use +unshift+ to add your additional paths before
-      #   the default built-in Asciidoctor examples path.
+      #   examples suites. Use +unshift+ to add your paths before the built-in
+      #   reference input examples (default: +["{asciidoctor-doctest}/data/examples/asciidoc"]+).
       attr_accessor :examples_path
     end
   end
