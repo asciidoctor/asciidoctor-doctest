@@ -13,31 +13,38 @@ module Asciidoctor
     # @abstract
     class BaseSuiteParser
 
-      attr_accessor :backend_name, :examples_path, :file_suffix
+      # @return [String] the filename extension (e.g. +.adoc+) of the suite
+      #   files. The default value may be specified with a class constant
+      #   +FILE_SUFFIX+. If not defined, this class name in lowercase without
+      #   the +SuiteParser+ suffix is used as default.
+      attr_accessor :file_suffix
+
+      # @return [String, Array<String>] path of the directory (or multiple
+      #   directories) where to look for the example suites. When not
+      #   specified, {DocTest.examples_path} is used as default.
+      #   Relative paths are referenced from the working directory.
+      attr_accessor :examples_path
+
+      def examples_path=(path)
+        @examples_path = Array.wrap(path)
+      end
+
 
       ##
-      # @param backend_name [String] name of the tested Asciidoctor backend.
-      #        Defaults to this class name in lowercase without +SuiteParser+
-      #        suffix.
+      # Returns a new instance of BaseSuiteParser.
       #
-      # @param file_suffix [String] the filename extension of the suite files
-      #        on {#examples_path}. The default value may be specified with
-      #        a class constant +FILE_SUFFIX+. If not defined, +backend_name+
-      #        will be used instead.
+      # @param examples_path [String, Array<String>, nil] see {#examples_path}.
+      # @param file_suffix [String, nil] see {#file_suffix}.
       #
-      # @param examples_path [String, Array<String>] path of the directory (or
-      #        multiple directories) where to look for the example suites.
-      #        When not specified, {DocTest.examples_path} is used. Relative
-      #        paths are referenced from the working directory.
-      #
-      def initialize(backend_name: nil, file_suffix: nil, examples_path: nil)
-        backend_name  ||= self.class.name.split('::').last.sub('SuiteParser', '').downcase
-        @backend_name  = backend_name.to_s
-
-        @examples_path = examples_path ? Array.wrap(examples_path) : DocTest.examples_path.dup
-
-        file_suffix   ||= file_suffix || self.class::FILE_SUFFIX rescue @backend_name
-        @file_suffix   = file_suffix.start_with?('.') ? file_suffix : '.' + file_suffix
+      def initialize(examples_path: nil, file_suffix: nil)
+        @file_suffix =  if file_suffix
+                          file_suffix
+                        elsif self.class.const_defined? 'FILE_SUFFIX'
+                          self.class::FILE_SUFFIX
+                        else
+                          self.class.name.split('::').last.sub('SuiteParser', '').downcase
+                        end
+        self.examples_path = examples_path ? Array.wrap(examples_path) : DocTest.examples_path.dup
       end
 
       ##
