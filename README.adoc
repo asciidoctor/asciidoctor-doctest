@@ -12,25 +12,17 @@ ifdef::env-github[:idprefix: user-content-]
 
 image:https://badge.fury.io/rb/asciidoctor-doctest.svg[Gem Version, link="http://badge.fury.io/rb/asciidoctor-doctest"] image:https://codeclimate.com/github/asciidoctor/asciidoctor-doctest/badges/gpa.svg[Code Climate, link="https://codeclimate.com/github/asciidoctor/asciidoctor-doctest"] image:http://inch-ci.org/github/asciidoctor/asciidoctor-doctest.svg?branch=master[Inline docs, link="http://inch-ci.org/github/asciidoctor/asciidoctor-doctest"] image:https://img.shields.io/badge/yard-docs-blue.svg[Yard Docs, link="http://www.rubydoc.info/github/asciidoctor/asciidoctor-doctest/frames"]
 
-DocTest is a tool for easy end-to-end testing of Asciidoctor _backends_ (i.e. converters/renderers) based on comparing of textual output.
-It provides a collection of categorized “scenario-oriented” input _examples_ (documents in AsciiDoc syntax) to simplify and systematize writing tests for new backends — you just have to write (or generate) the expected output.
+DocTest is a tool for end-to-end testing of Asciidoctor _backends_ (i.e. converters/renderers) based on comparing of textual output.
+It provides a collection of categorized “scenario-oriented” <<input-examples, input _examples_>> (documents in AsciiDoc syntax) to simplify and systematize writing tests for new backends — you just have to write (or <<generate-examples, generate>>) the expected output, i.e. what the backend should produce for the given input.
 
-image::https://cdn.rawgit.com/asciidoctor/asciidoctor-doctest/master/doc/img/doctest-diag.svg[diagram]
-
-DocTest uses a pragmatic approach that tries to minimize efforts with writing and maintaining of integration tests for custom backends.
-
-Both input and output _examples_ are simple to write and read – they are just fragments of documents in AsciiDoc and plain HTML, TeX or whatever syntax your backend produces.
-The output examples can be even (pre)generated if you already have at least partially working backend.
+image::https://cdn.rawgit.com/asciidoctor/asciidoctor-doctest/master/doc/img/doctest-diag.svg[diagram, align="center"]
 
 Each example is focused (more or less) on one use case, so when writing a new backend, you can incrementally implement new features following the reference input examples.
-However, they are not strictly isolated like unit tests — when you change e.g. format of a paragraph, it may affect also examples outside of the block_paragraph.
+However, they are not strictly isolated like unit tests — when you change e.g. format of a paragraph, it may affects also examples that are not focused on paragraphs.
 
-If you want to change something, you can adjust the desired output in examples and _then_ fix the backend to go back to green.
-When test fails, it prints a nicely formatted diff of the expected and actual output, so you can see what exactly is wrong.
+When test fails, DocTest prints a nicely formatted diff of the expected and actual output (see <<run-tests>>), so you can see what exactly is wrong. The outputs are compared in a way that ignores insignificant differences, such as attributes order in the case of HTML.
 
-image::doc/img/failing-test-term.gif[failing test in term, align="center"]
-
-DocTest currently supports HTML-based backends and can be easily extended to support any other backend with textual output.
+DocTest currently supports HTML-based backends and can be easily <<how-to-extend-it, extended>> to support any other backend with textual output.
 
 
 == Setup DocTest
@@ -131,6 +123,8 @@ Then you can simply run:
 [source, sh]
 bundle exec rake test
 
+image::doc/img/failing-test-term.gif[Failing test in term, align="center"]
+
 
 == Examples
 
@@ -139,11 +133,10 @@ Examples are grouped in so called _example suites_; each focusing on one block o
 
 Examples suite is stored in a textual file named by the AST node (e.g. block_table, inline_anchor…, see the list below) with an extension according to its syntax (e.g. `block_table.adoc`, `block_table.html`) — similarly as Asciidoctor templates.
 Individual examples in the suite are separated by a special header with the name of the example, an optional description and options.
-This header should enclosed as a comment (so you can render the examples suite as a valid AsciiDoc/HTML/TeX/… document).
 
 Each example is uniquely identified with its name and the suite name like this: `{suite_name}:{example_name}` (e.g. `block_table:with_title`).
 Input and output examples are paired — for every input example there should be an output example with the same identifier.
-When you run test, the input example is converted using the tested backend (or templates) and its actual output is compared with the (expected) output example.
+When you <<run-tests, run tests>>, the input example is converted using the tested backend (or templates) and its actual output is compared with the (expected) output example.
 
 [horizontal]
 .List of Asciidoctor’s AST nodes
@@ -189,7 +182,7 @@ inline_quoted:: {doctor-man-uri}/#quotes[text formatting]; emphasis, strong, mon
 === Input examples
 
 DocTest provides a collection of the reference input examples that should be suitable for most backends.
-You can find them in link:data/examples/asciidoc[] (since GitHub implicitly renders them as a plain AsciiDoc, you must view a Raw source if you want to see what’s going on here).
+You can find them in link:data/examples/asciidoc[].footnote:[Since GitHub implicitly renders them as a plain AsciiDoc, you must view a Raw source if you want to see what’s going on here.]
 There are a lot of test examples and some of them may not be relevant to your backend — that’s okay, when some output example is not found, it’s marked as skipped in test.
 
 You can also write your own input examples and use them together with those provided (or replace them).
