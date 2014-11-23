@@ -28,6 +28,8 @@ However, they are not strictly isolated like unit tests — when you change e.g.
 If you want to change something, you can adjust the desired output in examples and _then_ fix the backend to go back to green.
 When test fails, it prints a nicely formatted diff of the expected and actual output, so you can see what exactly is wrong.
 
+image::doc/img/failing-test-term.gif[failing test in term, align="center"]
+
 DocTest currently supports HTML-based backends and can be easily extended to support any other backend with textual output.
 
 
