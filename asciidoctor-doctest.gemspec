@@ -35,7 +35,9 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'diffy', '~> 3.0'
   s.add_runtime_dependency 'htmlbeautifier', '~> 0.0', '>= 0.0.10'
   s.add_runtime_dependency 'minitest', '~> 5.4'
-  s.add_runtime_dependency 'nokogiri', '~> 1.6'
+
+  # https://github.com/sparklemotion/nokogiri/issues/1196
+  s.add_runtime_dependency 'nokogiri', '~> 1.6.3', '< 1.6.4'
 
   # optional
   s.add_runtime_dependency 'minitest-rg', '~> 5.1'
