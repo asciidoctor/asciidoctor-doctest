@@ -104,8 +104,8 @@ module Asciidoctor
       end
 
       def force?
+        return TRUE_VALUES.include?(ENV['FORCE'].downcase) if ENV.key? 'FORCE'
         !!force
-        TRUE_VALUES.include?(ENV['FORCE'].downcase) unless ENV.key? 'FORCE'
       end
     end
   end
