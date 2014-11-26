@@ -24,7 +24,9 @@ module Asciidoctor
     #
     class HtmlSuiteParser < BaseSuiteParser
 
-      FILE_SUFFIX = '.html'
+      def initialize(file_suffix: '.html', examples_path: nil)
+        super
+      end
 
       def parse_suite(input, suite_name)
         examples = []

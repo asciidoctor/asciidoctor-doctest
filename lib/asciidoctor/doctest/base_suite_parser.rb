@@ -13,10 +13,8 @@ module Asciidoctor
     # @abstract
     class BaseSuiteParser
 
-      # @return [String] the filename extension (e.g. +.adoc+) of the suite
-      #   files. The default value may be specified with a class constant
-      #   +FILE_SUFFIX+. If not defined, this class name in lowercase without
-      #   the +SuiteParser+ suffix is used as default.
+      # @return [String] the filename extension (e.g. +.adoc+) of
+      #   the examples suite file.
       attr_accessor :file_suffix
 
       # @return [String, Array<String>] path of the directory (or multiple
@@ -33,17 +31,11 @@ module Asciidoctor
       ##
       # Returns a new instance of BaseSuiteParser.
       #
+      # @param file_suffix [String] see {#file_suffix}.
       # @param examples_path [String, Array<String>, nil] see {#examples_path}.
-      # @param file_suffix [String, nil] see {#file_suffix}.
       #
-      def initialize(examples_path: nil, file_suffix: nil)
-        @file_suffix =  if file_suffix
-                          file_suffix
-                        elsif self.class.const_defined? 'FILE_SUFFIX'
-                          self.class::FILE_SUFFIX
-                        else
-                          self.class.name.split('::').last.sub('SuiteParser', '').downcase
-                        end
+      def initialize(file_suffix:, examples_path: nil)
+        @file_suffix = file_suffix
         self.examples_path = examples_path ? Array.wrap(examples_path) : DocTest.examples_path.dup
       end
 

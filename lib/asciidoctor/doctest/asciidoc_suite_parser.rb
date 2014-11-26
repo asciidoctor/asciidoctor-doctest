@@ -17,7 +17,9 @@ module Asciidoctor
     #
     class AsciidocSuiteParser < BaseSuiteParser
 
-      FILE_SUFFIX = '.adoc'
+      def initialize(file_suffix: '.adoc', examples_path: nil)
+        super
+      end
 
       def parse_suite(input, suite_name)
         examples = []
