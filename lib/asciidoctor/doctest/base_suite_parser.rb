@@ -56,21 +56,21 @@ module Asciidoctor
       # @return [Array<String>] paths of the suite files.
       #
       def find_suite_files(suite_name)
-        @examples_path.map { |dir_path|
+        examples_path.map { |dir_path|
           file_path = suite_path(dir_path, suite_name)
           file_path if File.file? file_path
         }.compact
       end
 
       ##
-      # Returns names of all the example suites found on the {#examples_path},
-      # i.e. files with {#file_suffix}.
+      # Returns names of all the example suites (files with {#file_suffix})
+      # found on the {#examples_path}.
       #
       # @return [Array<String>]
       #
       def suite_names
         names = []
-        @examples_path.each do |dir_path|
+        examples_path.each do |dir_path|
           Dir.glob("#{dir_path}/*#{file_suffix}").each do |file_path|
             names << Pathname.new(file_path).basename.sub_ext('').to_s
           end
@@ -79,92 +79,56 @@ module Asciidoctor
       end
 
       ##
-      # Returns a hash with the examples that matches the +pattern+.
-      #
-      # @example
-      #   filter_examples '*list*:basic*'
-      #   => { block_colist: [ :basic ],
-      #        listing:      [ :basic, :basic-nowrap, ... ],
-      #        block_dlist:  [ :basic, :basic-block, ... ], ... }
-      #
-      # @param pattern [String] the glob pattern to filter examples.
-      # @return [Hash<Symbol, Array<Symbol>>]
-      #
-      def filter_examples(pattern)
-        suite_glob, exmpl_glob = pattern.split(':')
-        exmpl_glob ||= '*'
-        results = {}
-
-        suite_names.select { |suite_name|
-          File.fnmatch(suite_glob, suite_name)
-
-        }.each do |suite_name|
-          suite = read_suite(suite_name)
-
-          suite.keys.select { |exmpl_name|
-            File.fnmatch(exmpl_glob, exmpl_name.to_s)
-          }.each do |exmpl_name|
-            (results[suite_name] ||= []) << exmpl_name
-          end
-        end
-
-        results
-      end
-
-      ##
       # Reads the named examples suite from file(s). When multiple matching
       # files are found on the {#examples_path}, it merges them together.
       #
       # @param suite_name (see #find_suite_files)
-      # @return [Hash] a parsed examples suite data ({#parse_suite format}),
-      #         or an empty hash when no one exists.
+      # @return [Array<Example>] an array of parsed examples, or an empty array
+      #         if no suite found.
       #
       def read_suite(suite_name)
-        find_suite_files(suite_name).reverse.inject({}) do |memo, file_path|
-          memo.merge! parse_suite(File.read(file_path))
-        end
+        find_suite_files(suite_name).map { |file_path|
+          parse_suite File.read(file_path), suite_name
+        }.flatten.uniq(&:name)
       end
 
       ##
-      # Writes the given examples suite to a file. If the file already exists
+      # Writes the given examples to a file. If the file already exists
       # on the {#examples_path}, then it overwrites the first found file.
       # Otherwise it creates a new file in the first directory from the
       # {#examples_path}.
       #
       # @param suite_name (see #find_suite_files)
-      # @param data [Hash] the {#parse_suite examples suite}.
+      # @param examples [Array<Example>] the examples to write.
       #
-      def write_suite(suite_name, data)
+      def write_suite(suite_name, examples)
         file_path = find_suite_files(suite_name).first ||
-                    suite_path(@examples_path.first, suite_name)
+                    suite_path(examples_path.first, suite_name)
         File.open(file_path, 'w') do |file|
-          file << serialize_suite(data)
+          file << serialize_suite(examples)
         end
       end
 
       ##
-      # Parses an examples suite and returns it as a hash.
-      #
-      # @example
-      #   { :heading-h1 => { :content => "= Title" },
-      #     :heading-h2 => { :content => "== Title", :include => ["//body"] } }
+      # Parses an examples suite and returns it as an array of Examples.
       #
       # @abstract
       # @param input [String] the suite's content to parse.
-      # @return [Hash] the parsed examples suite.
+      # @param suite_name [String] the suite name.
+      # @return [Array<Example>] the parsed examples.
       #
-      def parse_suite(input)
+      def parse_suite(input, suite_name)
         fail NotImplementedError
       end
 
       ##
-      # Serializes the given examples suite into String.
+      # Serializes the given array of Examples into examples suite String.
       #
       # @abstract
-      # @param suite_hash [Hash] the {#parse_suite examples suite}.
+      # @param examples [Array<Example>]
       # @return [String]
       #
-      def serialize_suite(suite_hash)
+      def serialize_suite(examples)
         fail NotImplementedError
       end
 

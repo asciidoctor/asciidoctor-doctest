@@ -18,6 +18,7 @@ module Asciidoctor
 end
 
 require 'asciidoctor/doctest/version'
+require 'asciidoctor/doctest/example'
 require 'asciidoctor/doctest/base_suite_parser'
 require 'asciidoctor/doctest/asciidoc_suite_parser'
 require 'asciidoctor/doctest/html_suite_parser'

@@ -1,7 +1,8 @@
-require 'active_support/core_ext/hash/except'
 require 'active_support/core_ext/array/wrap'
+require 'active_support/core_ext/object/blank'
 require 'asciidoctor/doctest/base_suite_parser'
 require 'asciidoctor/doctest/core_ext'
+require 'asciidoctor/doctest/example'
 
 module Asciidoctor
   module DocTest
@@ -25,50 +26,45 @@ module Asciidoctor
 
       FILE_SUFFIX = '.html'
 
-      def parse_suite(html)
-        suite = {}
-        current = {}
+      def parse_suite(input, suite_name)
+        examples = []
+        current = nil
         in_comment = false
 
-        html.each_line do |line|
+        input.each_line do |line|
           line.chomp!
           if line =~ /^<!--\s*\.([^ \n]+)/
-            suite[$1.to_sym] = current = { content: '' }
+            name = $1.to_sym
+            examples << (current = Example.new([suite_name, name]))
             in_comment = true
           elsif in_comment
             if line =~ /^\s*:([^:]+):(.*)/
-              (current[$1.to_sym] ||= []) << $2.strip
+              current[$1.to_sym] = $2.blank? ? true : $2.strip
             elsif !line.start_with?('//')
               desc = line.rstrip.chomp('-->').strip
-              (current[:desc] ||= '').concat(desc, "\n") unless desc.empty?
+              (current.desc ||= '').concat(desc, "\n") unless desc.empty?
             end
           else
-            current[:content].concat(line, "\n")
+            (current.content ||= '').concat(line, "\n")
           end
           in_comment &= !line.end_with?('-->')
         end
 
-        suite
+        examples
       end
 
-      def serialize_suite(suite_hash)
-        suite_hash.map { |key, hash|
-          html = hash[:content].chomp
-          opts = hash.except(:content)
+      def serialize_suite(examples)
+        examples.map { |exmpl|
+          header = [ ".#{exmpl.local_name}", exmpl.desc ].compact
 
-          if opts.empty?
-            "<!-- .#{key} -->\n#{html}\n"
-          else
-            desc = opts.delete(:desc)
-            opts_str = opts.map { |name, vals|
-              Array.wrap(vals).map do |val|
-                ['true', ''].include?(val.to_s) ? ":#{name}:" : ":#{name}: #{val}"
-              end
-            }.join("\n")
-
-            header = [ ".#{key}", desc, opts_str ].compact.join("\n")
-            "<!-- #{header}\n-->\n#{html}\n"
+          exmpl.opts.each do |name, vals|
+            Array.wrap(vals).map do |val|
+              header << (val == true ? ":#{name}:" : ":#{name}: #{val}")
+            end
           end
+          header_str = header.one? ? (header.first + ' ') : (header.join("\n") + "\n")
+
+          "<!-- #{header_str}-->\n#{exmpl.content.chomp}\n"
         }.join("\n")
       end
     end

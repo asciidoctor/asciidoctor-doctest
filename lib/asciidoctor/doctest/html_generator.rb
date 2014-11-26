@@ -2,6 +2,7 @@ require 'nokogiri'
 require 'asciidoctor/doctest/base_generator'
 require 'asciidoctor/doctest/html_beautifier'
 require 'asciidoctor/doctest/html_normalizer'
+require 'asciidoctor/doctest/example'
 
 module Asciidoctor
   module DocTest
@@ -16,16 +17,15 @@ module Asciidoctor
         super
       end
 
-      ##
-      # (see BaseGenerator#render_asciidoc)
-      def render_asciidoc(input, suite_name, opts)
-        opts[:header_footer] ||= [true] if suite_name.start_with? 'document'
-        html = super
+      def render_example(input_exmpl, output_exmpl = nil)
+        output_exmpl ||= Example.new(input_exmpl.name)
+        output_exmpl[:header_footer] = true if input_exmpl.name.start_with?('document')
+        super
+      end
 
+      def render_asciidoc(text, opts = {})
         nokogiri = opts[:header_footer] ? Nokogiri::HTML : Nokogiri::HTML::DocumentFragment
-        html = nokogiri.parse(html).normalize!
-
-        HtmlBeautifier.beautify html
+        HtmlBeautifier.beautify nokogiri.parse(super).normalize!
       end
     end
   end

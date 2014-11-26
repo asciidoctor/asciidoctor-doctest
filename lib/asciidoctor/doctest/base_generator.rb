@@ -1,5 +1,6 @@
 require 'asciidoctor'
 require 'asciidoctor/doctest/core_ext'
+require 'asciidoctor/doctest/example'
 require 'colorize'
 
 module Asciidoctor
@@ -18,9 +19,9 @@ module Asciidoctor
       #   for reading the input AsciiDoc examples.
       attr_accessor :input_suite_parser
 
-      # @return [#<<] destination where to write log messages
+      # @return [#<<] output stream where to write log messages
       #   (default: +$stdout+).
-      attr_accessor :log_to
+      attr_accessor :log_os
 
       # @return [BaseSuiteParser] an instance of the suite parser to be used
       #   for reading and writing output examples.
@@ -58,7 +59,7 @@ module Asciidoctor
         @output_suite_parser = output_suite_parser.with { is_a?(Class) ? new : self }
         @input_suite_parser = input_suite_parser.with { is_a?(Class) ? new : self }
         @backend_name = nil
-        @log_to = $stdout
+        @log_os = $stdout
         @templates_path = []
       end
 
@@ -67,107 +68,72 @@ module Asciidoctor
       # input examples converted through the tested backend.
       #
       # @param pattern [String] glob-like pattern to select examples to
-      #        (re)generate (see {BaseSuiteParser#filter_examples}).
+      #        (re)generate (see {Example#name_match?}).
       # @param rewrite [Boolean] whether to rewrite an already existing
       #        example.
       #
       def generate!(pattern = ALL_PATTERN, rewrite = false)
-        filter_examples(pattern).each do |suite_name, exmpl_names|
+        input_suite_parser.suite_names.each do |suite_name|
+          inputs_by_name = input_suite_parser.read_suite(suite_name).map { |e| [e.name, e] }.to_h
 
-          old_suite = read_output_suite(suite_name)
-          new_suite = {}
+          outputs = output_suite_parser.read_suite(suite_name).map do |output|
+            if (input = inputs_by_name.delete(output.name))
+              next output unless output.name_match? pattern
 
-          read_input_suite(suite_name).each do |exmpl_name, adoc_exmpl|
+              refreshed = render_example(input, output)
 
-            exmpl = old_suite.delete(exmpl_name) || {}
-            new_suite[exmpl_name] = exmpl unless exmpl.empty?
-
-            if exmpl_names.include? exmpl_name
-              old_content = exmpl[:content] || ''
-              new_content = render_asciidoc(adoc_exmpl.delete(:content), suite_name, adoc_exmpl)
-
-              name = "#{suite_name}:#{exmpl_name}"
-              log status_message(name, old_content, new_content, rewrite)
-
-              if old_content.empty? || rewrite
-                new_suite[exmpl_name] = exmpl.merge(content: new_content)
+              # TODO allow to customize comparison in subclasses
+              if refreshed == output
+                log "Unchanged #{input.name}".green
+              elsif rewrite
+                log "Rewriting #{input.name}".red
+                output = refreshed
+              else
+                log "Skipping #{input.name}".yellow
               end
+            else
+              log "Unknown #{output.name}, doesn't exist in input examples!"
             end
+            output
           end
 
-          unless old_suite.empty?
-            old_suite.each do |exmpl_name, exmpl|
-              log "#{suite_name}:#{exmpl_name} doesn't exist in input examples!".red
-              new_suite[exmpl_name] = exmpl
-            end
+          inputs_by_name.each_value do |input|
+            log "Generating #{input.name}".magenta
+            outputs << render_example(input)
           end
 
-          write_output_suite suite_name, new_suite
+          output_suite_parser.write_suite suite_name, outputs
+        end
+      end
+
+      def render_example(input_exmpl, output_exmpl)
+        output_exmpl ||= Example.new(input_exmpl.name)
+
+        output_exmpl.dup.tap do |e|
+          opts = { header_footer: output_exmpl[:header_footer] }
+          e.content = render_asciidoc(input_exmpl, opts)
         end
       end
 
       ##
-      # Renders the given +input+ in AsciiDoc syntax with Asciidoctor using the
-      # tested backend.
-      #
-      # @param input [String] the input text in AsciiDoc syntax.
-      # @param suite_name [String] name of the examples suite that is a source
-      #        of the given +input+.
-      # @param opts [Hash]
-      # @option opts :header_footer [Boolean] whether to render a full document.
-      # @return [String] the input text rendered in the tested syntax.
-      #
-      def render_asciidoc(input, suite_name = '', opts = {})
+      # (see BaseTest#render_asciidoc)
+      def render_asciidoc(text, opts = {})
         renderer_opts = {
           safe: :safe,
-          backend: (backend_name.to_s if backend_name),
+          backend: backend_name.to_s,
           template_dirs: templates_path,
-          header_footer: opts.key?(:header_footer)
-        }
-        Asciidoctor.render input, renderer_opts
+        }.merge(opts)
+
+        Asciidoctor.render(text.to_s, renderer_opts)
       end
 
       ##
       # @private
-      # Builds a log message about the example (not) being (re)generated.
-      def status_message(name, old_content, new_content, overwrite)
-        msg = if old_content.empty?
-                "Generating #{name}".magenta
-              else
-                if old_content.chomp == new_content.chomp
-                  "Unchanged #{name}".green
-                elsif overwrite
-                  "Rewriting #{name}".red
-                else
-                  "Skipping #{name}".yellow
-                end
-              end
-        " --> #{msg}"
-      end
-
-      ##
-      # @private
-      # Logs the +message+ to the destination specified by {#log_to} unless
-      # +log_to+ is +nil+.
+      # Logs the +message+ to the destination specified by {#log_os} unless
+      # +log_os+ is +nil+.
       def log(message = nil, &block)
         message ||= block.call
-        @log_to << message.chomp + "\n" if @log_to
-      end
-
-      def read_input_suite(suite_name)
-        @input_suite_parser.read_suite suite_name
-      end
-
-      def read_output_suite(suite_name)
-        @output_suite_parser.read_suite suite_name
-      end
-
-      def write_output_suite(suite_name, data)
-        @output_suite_parser.write_suite suite_name, data
-      end
-
-      def filter_examples(pattern)
-        @input_suite_parser.filter_examples pattern
+        log_os << " --> #{message.chomp}\n" if log_os
       end
     end
   end

@@ -1,5 +1,5 @@
 require 'active_support/core_ext/array/wrap'
-require 'active_support/core_ext/object/try'
+require 'active_support/core_ext/hash/slice'
 require 'asciidoctor/doctest/core_ext'
 require 'asciidoctor/doctest/minitest_diffy'
 require 'asciidoctor/doctest/template_converter_adapter'
@@ -14,7 +14,7 @@ module Asciidoctor
       include MinitestDiffy
 
       ##
-      # Allow to fall back to using the appropriate built-in converter when
+      # Allow to fall back to using an appropriate built-in converter when
       # there is no required template in the tested backend.
       # This is actually a default behaviour in Asciidoctor, but since it's
       # inappropriate for testing of custom backends, it's disabled by default
@@ -70,27 +70,21 @@ module Asciidoctor
       #        AsciiDoc examples.
       #
       def self.generate_tests!(output_suite_parser, input_suite_parser = AsciidocSuiteParser)
-        @output_suite_parser = output_suite_parser.with { is_a?(Class) ? new : self }
-        @input_suite_parser = input_suite_parser.with { is_a?(Class) ? new : self }
+        output_sp = output_suite_parser.with { is_a?(Class) ? new : self }
+        input_sp = input_suite_parser.with { is_a?(Class) ? new : self }
 
-        suite_names.each do |suite_name|
-          output_suite = read_output_suite(suite_name)
+        input_sp.suite_names.each do |suite_name|
+          outputs = output_sp.read_suite(suite_name)
+          outputs_by_name = outputs.map { |e| [e.name, e] }.to_h
 
-          read_input_suite(suite_name).each do |exmpl_name, adoc|
-            test_name = "#{suite_name}:#{exmpl_name}"
+          input_sp.read_suite(suite_name).each do |input|
+            output = outputs_by_name[input.name]
 
-            if (opts = output_suite.try(:[], exmpl_name))
-              expected = opts.delete(:content)
-              input = adoc[:content]
-              opts[:desc] ||= adoc[:desc]
-
-              test test_name do
-                actual = render_asciidoc(input, opts)
-                assert_example expected, actual, opts
-              end
-            else
-              test test_name do
-                skip 'No example found'
+            test input.name do
+              if output
+                test_example input, output
+              else
+                skip 'No expected output found'
               end
             end
           end
@@ -102,14 +96,6 @@ module Asciidoctor
       # @return [Array<String>]
       def self.suite_names
         @input_suite_parser.suite_names
-      end
-
-      def self.read_input_suite(suite_name)
-        @input_suite_parser.read_suite(suite_name)
-      end
-
-      def self.read_output_suite(suite_name)
-        @output_suite_parser.read_suite(suite_name)
       end
 
       ##
@@ -128,17 +114,16 @@ module Asciidoctor
       # @note Overrides method from +Minitest::Test+.
       # @return [Array] names of the test methods to run.
       def self.runnable_methods
-        (@test_methods || []) + super
+        (@test_methods || []) + super - ['test_example']
       end
 
       ##
       # Renders the given +text+ in AsciiDoc syntax with Asciidoctor using the
       # tested backend.
       #
-      # @param text [String] the input text in AsciiDoc syntax.
-      # @param opts [Hash]
-      # @option opts :header_footer whether to render a full document.
-      # @return [String] the input +text+ rendered in the tested syntax.
+      # @param text [#to_s] the input text in AsciiDoc syntax.
+      # @param opts [Hash] options to pass to Asciidoctor.
+      # @return [String] rendered input +text+.
       #
       def render_asciidoc(text, opts = {})
         renderer_opts = {
@@ -146,9 +131,9 @@ module Asciidoctor
           backend: backend_name,
           converter: converter,
           template_dirs: templates_path,
-          header_footer: opts.key?(:header_footer)
-        }
-        Asciidoctor.render(text, renderer_opts)
+        }.merge(opts)
+
+        Asciidoctor.render(text.to_s, renderer_opts)
       end
 
       ##
@@ -161,17 +146,20 @@ module Asciidoctor
       end
 
       ##
-      # Asserts an actual rendered example against the expected output.
+      # Tests if the given reference input is matching the expected output
+      # after conversion through the tested backend.
       #
       # @note This method may be overriden to provide a more suitable assert.
       #
-      # @param expected [String] the expected output.
-      # @param actual [String] the actual rendered output.
-      # @param opts [Hash] options.
+      # @param input_exmpl [Example] the reference input example.
+      # @param output_exmpl [Example] the expected output example.
       # @raise [Minitest::Assertion] if the assertion fails
       #
-      def assert_example(expected, actual, opts)
-        assert_equal expected, actual, opts[:desc]
+      def test_example(input_exmpl, output_exmpl)
+        renderer_opts = { header_footer: !!output_exmpl[:header_footer] }
+        actual = render_asciidoc(input_exmpl, renderer_opts)
+
+        assert_equal output_exmpl.to_s, actual, input_exmpl.desc || output_exmpl.desc
       end
 
       ##

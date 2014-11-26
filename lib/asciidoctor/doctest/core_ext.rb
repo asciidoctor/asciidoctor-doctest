@@ -1,5 +1,3 @@
-require 'active_support/core_ext/module/aliasing'
-
 class Object
   alias :with :instance_eval
 end
@@ -7,7 +5,7 @@ end
 class String
 
   ##
-  # Append (concatenates) the given object to +str+.
+  # Appends (concatenates) the given object to +str+.
   #
   # @param obj [String, Integer] the string, or codepoint to append.
   # @param separator [String, nil] the separator to append when this +str+ is
