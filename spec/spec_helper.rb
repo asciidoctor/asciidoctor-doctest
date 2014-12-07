@@ -1,4 +1,5 @@
 require 'rspec/collection_matchers'
+require 'simplecov'
 require 'asciidoctor/doctest'
 
 DocTest = Asciidoctor::DocTest

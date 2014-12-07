@@ -33,10 +33,11 @@ module Asciidoctor
       # @param input [#each_line] the file content to parse.
       # @param group_name [String] the examples group name.
       # @return [Array<BaseExample>] parsed examples.
-      #
+      # :nocov:
       def parse(input, group_name)
         fail NotImplementedError
       end
+      # :nocov:
 
       ##
       # Serializes the given examples into string.
@@ -44,10 +45,11 @@ module Asciidoctor
       # @abstract
       # @param examples [Array<BaseExample>]
       # @return [String]
-      #
+      # :nocov:
       def serialize(examples)
         fail NotImplementedError
       end
+      # :nocov:
 
       ##
       # Returns a new example based on the given input example.
@@ -61,10 +63,11 @@ module Asciidoctor
       # @param opts [Hash] the options to pass to a new example.
       # @param renderer [#render]
       # @return [BaseExample]
-      #
+      # :nocov:
       def convert_example(example, opts, renderer)
         fail NotImplementedError
       end
+      # :nocov:
 
       ##
       # (see BaseExample#initialize)

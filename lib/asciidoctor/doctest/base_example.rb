@@ -143,9 +143,11 @@ module Asciidoctor
           self.instance_variables == other.instance_variables
       end
 
+      # :nocov:
       def hash
         self.class.hash ^ instance_variables.hash
       end
+      # :nocov:
 
       private
 
