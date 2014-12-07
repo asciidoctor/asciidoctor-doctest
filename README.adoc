@@ -10,7 +10,12 @@ ifdef::env-github[:idprefix: user-content-]
 :doctor-man-uri: http://asciidoctor.org/docs/user-manual
 :src-base: lib/asciidoctor/doctest
 
-image:https://badge.fury.io/rb/asciidoctor-doctest.svg[Gem Version, link="http://badge.fury.io/rb/asciidoctor-doctest"] image:https://codeclimate.com/github/asciidoctor/asciidoctor-doctest/badges/gpa.svg[Code Climate, link="https://codeclimate.com/github/asciidoctor/asciidoctor-doctest"] image:http://inch-ci.org/github/asciidoctor/asciidoctor-doctest.svg?branch=master[Inline docs, link="http://inch-ci.org/github/asciidoctor/asciidoctor-doctest"] image:https://img.shields.io/badge/yard-docs-blue.svg[Yard Docs, link="http://www.rubydoc.info/github/asciidoctor/asciidoctor-doctest/frames"]
+image:https://travis-ci.org/asciidoctor/asciidoctor-doctest.svg?branch=master[Build Status, link=https://travis-ci.org/asciidoctor/asciidoctor-doctest]
+image:https://codeclimate.com/github/asciidoctor/asciidoctor-doctest/badges/coverage.svg[Test Coverage, link="https://codeclimate.com/github/asciidoctor/asciidoctor-doctest"]
+image:https://codeclimate.com/github/asciidoctor/asciidoctor-doctest/badges/gpa.svg[Code Climate, link="https://codeclimate.com/github/asciidoctor/asciidoctor-doctest"]
+image:http://inch-ci.org/github/asciidoctor/asciidoctor-doctest.svg?branch=master[Inline docs, link="http://inch-ci.org/github/asciidoctor/asciidoctor-doctest"]
+image:https://badge.fury.io/rb/asciidoctor-doctest.svg[Gem Version, link="http://badge.fury.io/rb/asciidoctor-doctest"]
+image:https://img.shields.io/badge/yard-docs-blue.svg[Yard Docs, link="http://www.rubydoc.info/github/asciidoctor/asciidoctor-doctest/frames"]
 
 DocTest is a tool for end-to-end testing of Asciidoctor _backends_ based on comparing of textual output.
 

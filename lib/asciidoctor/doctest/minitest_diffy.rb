@@ -47,9 +47,11 @@ end
 
 module Diffy
   module Format
+
     ##
     # ANSI color output suitable for terminal, customized for minitest.
     def minitest
+      padding = ' ' * 2
       ary = map do |line|
         case line
         when /^(---|\+\+\+|\\\\)/
@@ -57,14 +59,14 @@ module Diffy
         when /^\\\s*No newline at end of file/
           # ignore
         when /^\+/
-          line.chomp.sub(/^\+/, 'A').red
+          line.chomp.sub(/^\+/, 'A' + padding).red
         when /^-/
-          line.chomp.sub(/^\-/, 'E').green
+          line.chomp.sub(/^\-/, 'E' + padding).green
         else
-          line.chomp
+          padding + line.chomp
         end
       end
-      "\n" + ary.join("\n") + "\n"
+      "\n" + ary.join("\n")
     end
   end
 end
