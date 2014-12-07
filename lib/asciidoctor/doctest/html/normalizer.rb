@@ -1,16 +1,16 @@
 require 'active_support/core_ext/object/try'
 require 'nokogiri'
 
-module Asciidoctor
-  module DocTest
+module Asciidoctor::DocTest
+  module HTML
     ##
     # Module to be included into +Nokogiri::HTML::Document+
     # or +DocumentFragment+ to add {#normalize!} feature.
     #
     # @example
     #   Nokogiri::HTML.parse(str).normalize!
-    #   Nokogiri::HTML::DocumentFragment.parse(str).normalize!
-    module HtmlNormalizer
+    #   Nokogiri::HTML.fragment(str).normalize!
+    module Normalizer
 
       ##
       # Normalizes the HTML document or fragment so it can be easily compared
@@ -114,5 +114,5 @@ module Asciidoctor
 end
 
 [Nokogiri::HTML::Document, Nokogiri::HTML::DocumentFragment].each do |klass|
-  klass.send :include, Asciidoctor::DocTest::HtmlNormalizer
+  klass.send :include, Asciidoctor::DocTest::HTML::Normalizer
 end

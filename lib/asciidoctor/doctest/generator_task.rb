@@ -1,5 +1,5 @@
 require 'active_support/core_ext/string/strip'
-require 'asciidoctor/doctest/base_generator'
+require 'asciidoctor/doctest/generator'
 require 'asciidoctor/doctest/core_ext'
 require 'rake/tasklib'
 
@@ -7,15 +7,13 @@ module Asciidoctor
   module DocTest
     ##
     # Rake task for generating output examples.
-    # @see BaseGenerator
+    # @see Generator
     class GeneratorTask < Rake::TaskLib
 
-      # List of values representing the +true+.
-      TRUE_VALUES = [ 'yes', 'y', 'true' ]
+      # List of values representing +true+.
+      TRUE_VALUES = %w[yes y true]
 
-      # @return [#to_s, nil] name of the backend to convert examples.
-      attr_accessor :backend_name
-
+      # This attribute is used only for the default {#input_suite}.
       # @return (see DocTest.examples_path)
       attr_accessor :examples_path
 
@@ -24,65 +22,74 @@ module Asciidoctor
       #   (default: false).
       attr_accessor :force
 
-      # @return [BaseGenerator] an instance of the generator.
-      attr_accessor :generator
+      # @return [BaseExamplesSuite] an instance of {BaseExamplesSuite} subclass
+      #         to read the reference input examples
+      #         (default: +Asciidoc::ExamplesSuite.new(examples_path: examples_path)+).
+      attr_accessor :input_suite
+
+      # @return [BaseExamplesSuite] an instance of {BaseExamplesSuite} subclass
+      #         to read and generate the output examples.
+      attr_accessor :output_suite
 
       # @return [#to_sym] name of the task.
       attr_accessor :name
-
-      # @return [String] path of the directory where to write generated output
-      #   examples (default: +test/examples+).
-      attr_accessor :output_dir
 
       # @return [String] glob pattern to select examples to (re)generate.
       #   May be overriden with +PATTERN+ variable on the command line
       #   (default: *:*).
       attr_accessor :pattern
 
-      # @return [Array<String>] paths of the directories where to look for the
-      #   templates (backends) (default: +data/templates+).
-      attr_accessor :templates_path
+      # @return [Hash] options for Asciidoctor renderer.
+      # @see AsciidocRenderer#initialize
+      attr_accessor :renderer_opts
 
       # @return [String] title of the task's description.
       attr_accessor :title
 
 
       ##
-      # Returns a new instance of GeneratorTask.
-      #
       # @param name [#to_sym] name of the task.
-      # @param generator [BaseGenerator, Class] the generator class (or its
-      #        instance). If class is given, then it's instantiated with zero
-      #        arguments.
       # @yield The block to configure this task.
-      #
-      def initialize(name, generator)
-        @name = name.to_sym
-        @generator = generator.with { is_a?(Class) ? new : self }
-        @backend_name = nil
+      def initialize(name)
+        @name = name
         @examples_path = DocTest.examples_path
         @force = false
-        @output_dir = File.join('test', 'examples')
-        @pattern = BaseGenerator::ALL_PATTERN
-        @templates_path = [ File.join('data', 'templates') ]
+        @input_suite = nil
+        @output_suite = nil
+        @renderer_opts = {}
+        @pattern = '*:*'
         @title = "Generate testing examples #{pattern}#{" for #{name}" if name != :generate}."
 
-        yield self if block_given?
+        yield self
+
+        fail 'The output_suite is not provided!' unless @output_suite
+        if @output_suite.examples_path.first == DocTest::BUILTIN_EXAMPLES_PATH
+          fail "The examples_path in output suite is invalid: #{@output_suite.examples_path}"
+        end
+
+        @input_suite ||= Asciidoc::ExamplesSuite.new(examples_path: @examples_path)
+        @renderer ||= AsciidocRenderer.new(renderer_opts)
+
         define
       end
+
+      def pattern
+        ENV['PATTERN'] || @pattern
+      end
+
+      def force?
+        return TRUE_VALUES.include?(ENV['FORCE'].downcase) if ENV.key? 'FORCE'
+        !!force
+      end
+
+      private
 
       def define
         desc description
 
-        task name do
-          generator.tap do |g|
-            g.backend_name = backend_name
-            g.templates_path = templates_path
-            g.input_suite_parser.examples_path = examples_path
-            g.output_suite_parser.examples_path = [output_dir]
-          end
+        task name.to_sym do
           puts title
-          generator.generate! pattern, force?
+          Generator.generate! output_suite, input_suite, @renderer, pattern: pattern, rewrite: force?
         end
         self
       end
@@ -97,15 +104,6 @@ module Asciidoctor
             FORCE     overwrite existing examples (yes/no)? [default: #{@force ? 'yes' : 'no'}]
 
         EOS
-      end
-
-      def pattern
-        ENV['PATTERN'] || @pattern
-      end
-
-      def force?
-        return TRUE_VALUES.include?(ENV['FORCE'].downcase) if ENV.key? 'FORCE'
-        !!force
       end
     end
   end
