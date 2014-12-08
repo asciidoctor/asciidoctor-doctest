@@ -26,7 +26,7 @@ image::https://cdn.rawgit.com/asciidoctor/asciidoctor-doctest/master/doc/img/doc
 
 Each example should be focused on one use case, so when writing a new backend, you can incrementally implement new features following the reference input examples.
 However, they are not strictly isolated like unit tests.
-For example, when you change a format of a paragraph, it may affect a variety of other examples.
+For example, if you change a format of a paragraph, it may affect a variety of other examples.
 
 When test fails, DocTest prints a nicely formatted diff of the expected and actual output (see <<run-tests>>), so you see exactly what went wrong.
 Insignificant differences, such as attributes order in HTML, are ignored.
@@ -74,21 +74,21 @@ require 'minitest/rg'
 require 'tilt'
 
 # extra input examples (optional)
-Asciidoctor::DocTest.examples_path.unshift 'test/examples/asciidoc'
+DocTest.examples_path.unshift 'test/examples/asciidoc'
 
 # output examples
-Asciidoctor::DocTest.examples_path.unshift 'test/examples/shiny'
+DocTest.examples_path.unshift 'test/examples/shiny'
 ----
 
-. Create test file `test/templates_test.rb`, extend one of the DocTest’s test classes, set `backend` to use and/or `templates_path` and _then_ call `generate_tests!` macro:
+. Create test file `test/templates_test.rb` and extend class link:{src-base}/test.rb[DocTest::Test]. Specify `renderer_opts` and then call `generate_tests!` macro with a specific subclass of `BaseExamplesSuite`:
 +
 [source]
 ----
 require 'test_helper'
 
-class TestTemplates < Asciidoctor::DocTest::HtmlTest
-  templates_path 'data/templates'
-  generate_tests!
+class TestTemplates < DocTest::Test
+  renderer_opts template_dirs: 'data/templates'
+  generate_tests! DocTest::HTML::ExamplesSuite
 end
 ----
 
@@ -107,16 +107,12 @@ Rake::TestTask.new :test do |task|
   task.libs << 'test'
 end
 
-module Asciidoctor
-  module DocTest
-    GeneratorTask.new(:generate, HtmlGenerator) do |task|
-      task.output_dir = 'test/examples/shiny'
-      task.templates_path = 'data/templates'
-      #
-      # add extra input examples (optional)
-      task.examples_path.unshift 'test/examples/asciidoc'
-    end
-  end
+DocTest::GeneratorTask.new(:generate) do |task|
+  task.output_suite = DocTest::HTML::ExamplesSuite.new(examples_path: 'test/examples/shiny')
+  task.renderer_opts[:template_dirs] = 'data/templates'
+  #
+  # add extra input examples (optional)
+  task.examples_path.unshift 'test/examples/asciidoc'
 end
 
 # When no task specified, run test.
@@ -139,12 +135,13 @@ image::doc/img/failing-test-term.gif[Failing test in term, align="center"]
 
 Test _example_ is just a document fragment in AsciiDoc syntax (a reference input), or the backend’s target syntax (an expected output).
 Example should consider one case of the generated output, i.e. it should reflect one code branch in a converter or template.
-Examples are grouped in _examples suites_. Each suite focuses on one block or inline element — more precisely Asciidoctor’s AST node (paragraph, table, anchor, footnote…).
+Examples are grouped in _example groups_.
+Each group focuses on one block or inline element — more precisely Asciidoctor’s AST node (paragraph, table, anchor, footnote…).
 
-Examples suite is a text file named similar to Asciidoctor templates, i.e. the AST node name with an extension according to syntax, for example `block_table.adoc`, `block_table.html`. See below for a list of the AST nodes.
-Individual examples in the suite are separated by a special header with the name of the example, an optional description and options.
+Examples group is a text file named similar to Asciidoctor templates, i.e. the AST node name with an extension according to syntax, for example `block_table.adoc`, `block_table.html`. See below for a list of the AST nodes.
+Individual examples in the group file are separated by a special header with the name of the example, an optional description and options.
 
-Each example is identified by its name and the suite name like this: `{suite_name}:{example_name}` (e.g. `block_table:with_title`).
+Each example is identified by its name and the group name like this: `{group_name}:{example_name}` (e.g. `block_table:with_title`).
 Input and output examples are paired — for every input example there should be an output example with the same identifier.
 When you <<run-tests, run tests>>, the input example is converted using the tested backend (or templates) and its actual output is compared with the expected output example.
 
@@ -196,7 +193,7 @@ You can find them in link:data/examples/asciidoc[].footnote:[Since GitHub implic
 There are a lot of test examples and some of them may not be relevant to your backend — that’s okay, when some output example is not found, it’s marked as skipped in test.
 
 You can also write your own input examples and use them together with those provided (or replace them).
-Just add another directory to your examples_path (e.g. `test/examples/asciidoc`) and create example suites with `.adoc` suffix here (e.g. `block_video.adoc`).
+Just add another directory to your examples_path (e.g. `test/examples/asciidoc`) and create example group files with `.adoc` suffix here (e.g. `block_video.adoc`).
 When DocTest is looking for examples to test, it indexes all examples found in files with `.adoc` suffix on the examples_path.
 If there are two files with the same name, it simply merges their content, and if they contain two examples with the same name, then the first wins (i.e. that from the file that is ahead on the examples_path).
 
@@ -220,18 +217,14 @@ NOTE: The trailing new line (below this) will be removed.
 
 === HTML-based examples
 
-To test a HTML-based backend, extend class link:{src-base}/html_test.rb[Asciidoctor::DocTest::HtmlTest] and set the `templates_path` (for template-based backend) or the `backend` name.
-
 HtmlTest assumes that paragraphs are enclosed in `<p></p>` tags and implicitly sets the _include_ option to `./p/node()` for `inline_*:*` examples (if _include_ is not already set).
 If it’s not your case, then you must overwrite it:
 
 [source]
 ----
-class TestShiny < Asciidoctor::DocTest::HtmlTest
-  def assert_example(expected, actual, opts)
-    opts[:include] ||= [ './div/p/node()' ] if name.start_with? 'inline_'
-    super
-  end
+class TestShiny < DocTest::Test
+  renderer_opts template_dirs: 'data/templates'
+  generate_tests! DocTest::HTML::ExamplesSuite.new(paragraph_xpath: './div/p/node()')
 end
 ----
 
@@ -241,7 +234,7 @@ List of options that can be set in the header of HTML example.
 
 include::
   XPath expression that specifies a subsection of the document that should be
-  compared (asserted). Default is `./p/node()` for `inline_*:*` suites and
+  compared (asserted). Default is `./p/node()` for `inline_*:*` groups and
   empty (i.e. `.`) for others.
 exclude::
   XPath expression that specifies parts of the document that should _not_ be
@@ -249,7 +242,7 @@ exclude::
   This option may be used multiple times per example.
 header_footer::
   Option for Asciidoctor to render a full document (instead of embedded).
-  This is default for `document:*` suite.
+  This is default for `document:*` group.
 
 ==== Format
 
@@ -318,12 +311,7 @@ bundle exec rake generate PATTERN='block_*:basic*' FORCE=yes
 == How to extend it
 
 You can extend DocTest to support any textual format you want.
-All what you need is to implement a custom suite parser (extend link:{src-base}/base_suite_parser.rb[BaseSuiteParser]), a test class (extend link:{src-base}/base_test.rb[BaseTest]) and optionally a generator (extend link:{src-base}/base_generator.rb[BaseGenerator]).
-
-
-== TODO
-
-* write specs
+All what you need is to subclass link:{src-base}/base_examples_suite.rb[BaseExamplesSuite] and usually also link:{src-base}/base_example.rb[BaseExample].
 
 
 == Contributing
