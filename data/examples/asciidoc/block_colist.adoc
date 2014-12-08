@@ -1,4 +1,6 @@
 // .basic
+// This example should assert only callouts list below the code listing.
+// For callouts inside the listing is responsible inline_callout.
 [source, ruby]
 ----
 require 'sinatra' // <1>
@@ -12,6 +14,8 @@ end
 <3> Content for response
 
 // .with-title
+// This example should assert only callouts list below the code listing.
+// For callouts inside the listing is responsible inline_callout.
 [source, ruby]
 ----
 require 'sinatra' // <1>
@@ -26,6 +30,8 @@ end
 <3> Content for response
 
 // .with-id-and-role
+// This example should assert only callouts list below the code listing.
+// For callouts inside the listing is responsible inline_callout.
 [source, ruby]
 ----
 require 'sinatra' // <1>
