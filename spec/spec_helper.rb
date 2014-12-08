@@ -2,8 +2,6 @@ require 'rspec/collection_matchers'
 require 'simplecov'
 require 'asciidoctor/doctest'
 
-DocTest = Asciidoctor::DocTest
-
 Dir['./spec/{shared_examples,support}/**/*.rb'].each { |file| require file }
 
 RSpec.configure do |config|
