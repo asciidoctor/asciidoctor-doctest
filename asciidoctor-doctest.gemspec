@@ -18,7 +18,7 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   EOS
 
   begin
-    s.files       = `git ls-files -z -- */* {LICENSE,Rakefile,README}*`.split("\0")
+    s.files       = `git ls-files -z -- */* {CHANGELOG,LICENSE,Rakefile,README}*`.split("\0")
   rescue
     s.files       = Dir['**/*']
   end

@@ -1,5 +1,5 @@
 module Asciidoctor
   module DocTest
-    VERSION = '1.0.0.dev'
+    VERSION = '1.5.0'
   end
 end

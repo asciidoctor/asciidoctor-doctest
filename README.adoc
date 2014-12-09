@@ -51,12 +51,12 @@ mkdir -p test/examples/asciidoc
 . Add development dependency on `asciidoctor-doctest` to your gemspec:
 +
 [source]
-s.add_development_dependency 'asciidoctor-doctest'
+s.add_development_dependency 'asciidoctor-doctest', '~> 1.5'
 +
 or Gemfile if you’re not distributing the backend as a gem:
 +
 [source]
-gem 'asciidoctor-doctest'
+gem 'asciidoctor-doctest', '~> 1.5'
 +
 and run `bundle install`.
 
@@ -101,7 +101,7 @@ require 'rake/testtask'
 require 'thread_safe'
 require 'tilt'
 
-Rake::TestTask.new :test do |task|
+Rake::TestTask.new(:test) do |task|
   task.description = 'Run tests for templates'
   task.pattern = 'test/templates_test.rb'
   task.libs << 'test'
