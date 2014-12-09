@@ -14,7 +14,7 @@ toc::[]
 
 === A Recipe for Potion
 
-// .with-title
+// .with_title
 = Document Title
 :toc:
 :toc-placement!:
@@ -25,7 +25,7 @@ toc::[title="Table of Adventures"]
 
 == The Ravages of Writing
 
-// .with-levels
+// .with_levels
 = Document Title
 :toc:
 :toc-placement!:
@@ -38,7 +38,7 @@ toc::[levels=1]
 
 === A Recipe for Potion
 
-// .with-id-and-role
+// .with_id_and_role
 = Document Title
 :toc:
 :toc-placement!:

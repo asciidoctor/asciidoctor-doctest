@@ -7,7 +7,7 @@ Our intrepid team is in desperate need of double shot mochas, but the milk expir
 == Cavern Glow
 The river rages through the cavern, rattling its content.
 
-// .toc-placement-preamble
+// .toc_placement_preamble
 = The Dangerous and Thrilling Documentation Chronicles
 :toc:
 :toc-placement: preamble

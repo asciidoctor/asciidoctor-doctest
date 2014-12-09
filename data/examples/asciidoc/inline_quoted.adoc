@@ -4,31 +4,31 @@
 // .emphasis
 _chunky bacon_
 
-// .emphasis-with-role
+// .emphasis_with_role
 [why]_chunky bacon_
 
 // .strong
 *chunky bacon*
 
-// .strong-with-role
+// .strong_with_role
 [why]*chunky bacon*
 
 // .monospaced
 `hello world!`
 
-// .monospaced-with-role
+// .monospaced_with_role
 [why]`hello world!`
 
 // .superscript
 ^super^chunky bacon
 
-// .superscript-with-role
+// .superscript_with_role
 [why]^super^chunky bacon
 
 // .subscript
 ~sub~chunky bacon
 
-// .subscript-with-role
+// .subscript_with_role
 [why]~sub~chunky bacon
 
 // .mark
@@ -37,13 +37,13 @@ _chunky bacon_
 // .double
 "`chunky bacon`"
 
-// .double-with-role
+// .double_with_role
 [why]"`chunky bacon`"
 
 // .single
 '`chunky bacon`'
 
-// .single-with-role
+// .single_with_role
 [why]'`chunky bacon`'
 
 // .asciimath
@@ -52,8 +52,8 @@ asciimath:[sqrt(4) = 2]
 // .latexmath
 latexmath:[$C = \alpha + \beta Y^{\gamma} + \epsilon$]
 
-// .with-id
+// .with_id
 [#why]_chunky bacon_
 
-// .mixed-monospace-bold-italic
+// .mixed_monospace_bold_italic
 `*_monospace bold italic phrase_*` and le``**__tt__**``ers

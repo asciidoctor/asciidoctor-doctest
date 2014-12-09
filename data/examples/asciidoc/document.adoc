@@ -1,29 +1,29 @@
 // .title
 = The Dangerous and Thrilling Documentation Chronicles
 
-// .title-with-author
+// .title_with_author
 = The Dangerous and Thrilling Documentation Chronicles
 Kismet Rainbow Chameleon <kismet@asciidoctor.org>
 
-// .title-with-author-no-email
+// .title_with_author_no_email
 = The Dangerous and Thrilling Documentation Chronicles
 Kismet Rainbow Chameleon
 
-// .title-with-multiple-authors
+// .title_with_multiple_authors
 = The Dangerous and Thrilling Documentation Chronicles
 Kismet Rainbow Chameleon <kismet@asciidoctor.org>; Lazarus het_Draeke <lazarus@asciidoctor.org>
 
-// .title-with-revnumber
+// .title_with_revnumber
 = Document Title
 Kismet Chameleon
 v1.0
 
-// .title-with-revdate
+// .title_with_revdate
 = Document Title
 Kismet Chameleon
 v1.0, 2013-10-02
 
-// .title-with-revremark
+// .title_with_revremark
 = Document Title
 Kismet Chameleon
 v1.0, October 2, 2013: First incarnation
@@ -43,7 +43,7 @@ Another outrageous statement.footnoteref:[disclaimer]
 
 == Cavern Glow
 
-// .toc-title
+// .toc_title
 = Document Title
 :toc:
 :toc-title: Table of Adventures

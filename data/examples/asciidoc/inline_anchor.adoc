@@ -1,23 +1,23 @@
 // .basic
 http://www.asciidoctor.org
 
-// .basic-with-text
+// .basic_with_text
 irc://irc.freenode.org/#asciidoctor[Asciidoctor IRC channel]
 
-// .basic-with-target-blank
+// .basic_with_target_blank
 link:view-source:asciidoctor.org[Asciidoctor homepage^]
 
-// .basic-with-role
+// .basic_with_role
 :linkattrs:
 http://discuss.asciidoctor.org/[*mailing list*, role="green"]
 
 // .xref
 The section <<page-break>> describes how to add a page break.
 
-// .xref-with-text
+// .xref_with_text
 The section <<page-break, Page break>> describes how to add a page break.
 
-// .xref-resolved-text
+// .xref_resolved_text
 Refer to <<Section A>>.
 
 == Section A

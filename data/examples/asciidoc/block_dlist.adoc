@@ -4,7 +4,7 @@ Asciidoc::
   A text document format for writing notes, documentation, articles, books,
   ebooks, slideshows, web pages, man pages and blogs.
 
-// .basic-block
+// .basic_block
 About::
 * An implementation of the AsciiDoc processor in Ruby.
 * Fast text processor and publishing toolchain.
@@ -15,14 +15,14 @@ from many other individuals in Asciidoctor’s awesome community.
 +
 AsciiDoc was started by Stuart Rackham.
 
-// .basic-missing-description
+// .basic_missing_description
 Definition without a description::
 
-// .basic-with-title
+// .basic_with_title
 .Asciidoctor
 License:: MIT
 
-// .basic-with-id-and-role
+// .basic_with_id_and_role
 [#licenses.open]
 License:: MIT
 
@@ -32,7 +32,7 @@ What is Asciidoctor?::
   An implementation of the AsciiDoc processor in Ruby.
 What is the answer to the Ultimate Question?:: 42
 
-// .qanda-block
+// .qanda_block
 [qanda]
 What is Asciidoctor?::
 * An implementation of the AsciiDoc processor in Ruby.
@@ -44,16 +44,16 @@ from many other individuals in Asciidoctor’s awesome community.
 +
 AsciiDoc was started by Stuart Rackham.
 
-// .qanda-missing-answer
+// .qanda_missing_answer
 [qanda]
 Who knows the answer?::
 
-// .qanda-with-title
+// .qanda_with_title
 [qanda]
 .The most important questions
 What is the answer to the Ultimate Question?:: 42
 
-// .qanda-with-id-and-role
+// .qanda_with_id_and_role
 [qanda, id=faq, role=galaxy]
 What is the answer to the Ultimate Question?:: 42
 
@@ -62,18 +62,18 @@ What is the answer to the Ultimate Question?:: 42
 Hard drive:: Permanent storage for operating system and/or user files.
 RAM:: Temporarily stores information the CPU uses during operation.
 
-// .horizontal-with-dimensions
+// .horizontal_with_dimensions
 [horizontal, labelwidth="20", itemwidth="50%"]
 Hard drive:: Permanent storage for operating system and/or user files.
 RAM:: Temporarily stores information the CPU uses during operation.
 
-// .horizontal-with-title
+// .horizontal_with_title
 [horizontal]
 .Computer terminology for noobs
 Hard drive:: Permanent storage for operating system and/or user files.
 RAM:: Temporarily stores information the CPU uses during operation.
 
-// .horizontal-with-id-and-role
+// .horizontal_with_id_and_role
 [horizontal, id=computer, role=terms]
 Hard drive:: Permanent storage for operating system and/or user files.
 RAM:: Temporarily stores information the CPU uses during operation.

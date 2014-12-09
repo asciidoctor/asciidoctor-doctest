@@ -1,7 +1,7 @@
 // .basic
 WARNING: Watch out for dragons!
 
-// .basic-multiline
+// .basic_multiline
 NOTE: An admonition paragraph draws the reader's attention to
 auxiliary information.
 Its purpose is determined by the label
@@ -13,14 +13,14 @@ at the beginning of the paragraph.
 While werewolves are hardy community members, keep in mind some dietary concerns.
 ====
 
-// .block-with-title
+// .block_with_title
 [IMPORTANT]
 .Feeding the Werewolves
 ====
 While werewolves are hardy community members, keep in mind some dietary concerns.
 ====
 
-// .block-with-id-and-role
+// .block_with_id_and_role
 [IMPORTANT, id=werewolve, role=member]
 ====
 While werewolves are hardy community members, keep in mind some dietary concerns.

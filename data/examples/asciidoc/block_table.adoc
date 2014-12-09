@@ -4,49 +4,49 @@
 | Cell in column 1, row 2 | Cell in column 2, row 2
 |===
 
-// .with-frame-sides
+// .with_frame_sides
 [frame=sides]
 |===
 | Cell in column 1, row 1 | Cell in column 2, row 1
 |===
 
-// .with-grid-cols
+// .with_grid_cols
 [grid=cols]
 |===
 | Cell in column 1, row 1 | Cell in column 2, row 1
 |===
 
-// .with-float
+// .with_float
 [float=left]
 |===
 | Cell in column 1, row 1 | Cell in column 2, row 1
 |===
 
-// .with-width
+// .with_width
 [width=80]
 |===
 | Cell in column 1, row 1 | Cell in column 2, row 1
 |===
 
-// .with-autowidth
+// .with_autowidth
 [options="autowidth"]
 |===
 | Cell in column 1, row 1 | Cell in column 2, row 1
 |===
 
-// .with-title
+// .with_title
 .Table FTW!
 |===
 | Cell in column 1, row 1 | Cell in column 2, row 1
 |===
 
-// .with-id-and-role
+// .with_id_and_role
 [#tabular.center]
 |===
 | Cell in column 1, row 1 | Cell in column 2, row 1
 |===
 
-// .with-header
+// .with_header
 [options="header"]
 |===
 | Name of Column 1 | Name of Column 2
@@ -55,7 +55,7 @@
 | Cell in column 1, row 2 | Cell in column 2, row 2
 |===
 
-// .with-footer
+// .with_footer
 [options="footer"]
 |===
 | Cell in column 1, row 1 | Cell in column 2, row 1
@@ -63,7 +63,7 @@
 | Footer in column 1, row 3 | Footer in column 2, row 3
 |===
 
-// .with-cols-width
+// .with_cols_width
 [cols="50,20,30"]
 |===
 |Cell in column 1, row 1
@@ -71,7 +71,7 @@
 |Cell in column 3, row 1
 |===
 
-// .with-cols-halign
+// .with_cols_halign
 [cols="<,^,>"]
 |===
 |Cell in column 1, row 1
@@ -79,7 +79,7 @@
 |Cell in column 3, row 1
 |===
 
-// .with-cols-valign
+// .with_cols_valign
 [cols=".<,.^,.>"]
 |===
 |Cell in column 1, row 1
@@ -87,7 +87,7 @@
 |Cell in column 3, row 1
 |===
 
-// .with-cols-styles
+// .with_cols_styles
 [cols="a,e,h,l,m,s,v"]
 |===
 |image::sunset.jpg[AsciiDoc content]
@@ -120,7 +120,7 @@
 | Cell in column 2, row 3 | Cell in column 3, row 3
 |===
 
-// .cell-with-paragraphs
+// .cell_with_paragraphs
 |===
 
 |Single paragraph on row 1
@@ -130,7 +130,7 @@
 Second paragraph on row 2
 |===
 
-// .aligns-per-cell
+// .aligns_per_cell
 [cols="3"]
 |===
 ^|Prefix the +{vbar}+ with +{caret}+ to center content horizontally
@@ -145,7 +145,7 @@ Second paragraph on row 2
 
 |===
 
-// .insane-cells-formatting
+// .insane_cells_formatting
 // seriously, this isn't readable anymore ;)
 |===
 
