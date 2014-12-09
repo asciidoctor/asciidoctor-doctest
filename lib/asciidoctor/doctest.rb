@@ -3,7 +3,8 @@ require 'pathname'
 module Asciidoctor
   module DocTest
 
-    BUILTIN_EXAMPLES_PATH = Pathname.new('../../data/examples/asciidoc').expand_path(__dir__).to_s.freeze
+    BUILTIN_EXAMPLES_PATH = Pathname.new(
+      '../../data/examples/asciidoc').expand_path(__dir__).to_s.freeze
 
     @examples_path = [ BUILTIN_EXAMPLES_PATH ]
 

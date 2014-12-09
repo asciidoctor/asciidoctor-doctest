@@ -15,7 +15,7 @@ describe DocTest::HTML::Normalizer do
 
     it 'removes all blank text nodes' do
       output = normalize "  <section>\n  <p>Lorem ipsum</p>\n\t</section>\n\n"
-      expect(output).to eq "<section><p>Lorem ipsum</p></section>"
+      expect(output).to eq '<section><p>Lorem ipsum</p></section>'
     end
 
     context 'in "style" attribute' do
@@ -30,7 +30,7 @@ describe DocTest::HTML::Normalizer do
 
       it 'strips nonsignificant leading and trailing whitespaces' do
         output = normalize "<p> Lorem<b> ipsum</b> dolor\n<br> sit <i>amet</i></p>"
-        expect(output).to eq "<p>Lorem<b> ipsum</b> dolor<br>sit <i>amet</i></p>"
+        expect(output).to eq '<p>Lorem<b> ipsum</b> dolor<br>sit <i>amet</i></p>'
       end
 
       it 'strips nonsignificant repeated whitespaces' do
@@ -40,7 +40,7 @@ describe DocTest::HTML::Normalizer do
 
       it 'replaces newlines with spaces' do
         output = normalize "<p>Lorem\nipsum\n\ndolor</p>"
-        expect(output).to eq "<p>Lorem ipsum dolor</p>"
+        expect(output).to eq '<p>Lorem ipsum dolor</p>'
       end
     end
 

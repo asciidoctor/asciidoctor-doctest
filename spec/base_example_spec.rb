@@ -98,7 +98,7 @@ describe DocTest::BaseExample do
       [true, false].each do |value|
         it "associates the option with #{value}" do
           o['foo'] = value
-          is_expected.to eq({foo: value})
+          is_expected.to eq(foo: value)
         end
       end
     end
@@ -106,7 +106,7 @@ describe DocTest::BaseExample do
     context 'with Array value' do
       it 'associates the option with the value' do
         o['foo'] = ['a', 'b']
-        is_expected.to eq({foo: ['a', 'b']})
+        is_expected.to eq(foo: ['a', 'b'])
       end
     end
 
@@ -115,7 +115,7 @@ describe DocTest::BaseExample do
       context 'when option is not defined' do
         it 'associates the option with the value wrapped in an array' do
           o['key'] = 'foo'
-          is_expected.to eq({key: ['foo']})
+          is_expected.to eq(key: ['foo'])
         end
       end
 
@@ -124,7 +124,7 @@ describe DocTest::BaseExample do
 
         it 'adds the value to array associated with the option' do
           o[:key] = 'bar'
-          is_expected.to eq({key: ['foo', 'bar']})
+          is_expected.to eq(key: ['foo', 'bar'])
         end
       end
     end

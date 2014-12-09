@@ -1,0 +1,63 @@
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
+Style/AlignHash:
+  EnforcedLastArgumentHashStyle: always_ignore
+
+Style/Blocks:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/EmptyLines:
+  Enabled: false
+
+Style/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Style/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Style/FileName:
+  Exclude: ['lib/asciidoctor-doctest.rb']
+
+Style/HashSyntax:
+  Exclude: [ Rakefile ]
+
+Style/Lambda:
+  Enabled: false
+
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%w': '[]'
+
+Style/PerlBackrefs:
+  Enabled: false
+
+Style/SpaceInsideBrackets:
+  Enabled: false
+
+Style/SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+Style/WordArray:
+  MinSize: 2

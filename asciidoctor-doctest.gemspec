@@ -13,9 +13,15 @@ Gem::Specification.new do |s|
   s.license       = 'MIT'
 
   s.summary       = 'Test suite for Asciidoctor backends'
-  #s.description   = 'TODO'
+  s.description   = <<-EOS
+A tool for end-to-end testing of Asciidoctor backends based on comparing of textual output.
+  EOS
 
-  s.files         = `git ls-files -z -- */* {LICENSE,Rakefile,README}*`.split("\0") rescue Dir['**/*']
+  begin
+    s.files       = `git ls-files -z -- */* {LICENSE,Rakefile,README}*`.split("\0")
+  rescue
+    s.files       = Dir['**/*']
+  end
   s.executables   = s.files.grep(/^bin\//) { |f| File.basename(f) }
   s.test_files    = s.files.grep(/^(test|spec|features)\//)
   s.require_paths = ['lib']

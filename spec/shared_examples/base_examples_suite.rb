@@ -6,11 +6,11 @@ require 'fakefs/spec_helpers'
 module FakeFS
   # XXX remove after merging of https://github.com/defunkt/fakefs/pull/270
   module FileTest
-    extend self
 
     def readable?(file_name)
       File.readable?(file_name)
     end
+    module_function :readable?
   end
 
   # XXX remove after merging of https://github.com/defunkt/fakefs/pull/269
@@ -199,20 +199,20 @@ shared_examples DocTest::BaseExamplesSuite do
 
     before do
       expect(ours_suite).to receive(:group_names)
-          .and_return(['gr0', 'gr1'])
+        .and_return(['gr0', 'gr1'])
       expect(theirs_suite).to receive(:read_examples)
-          .with(/gr[0-1]/).exactly(:twice).and_return(*theirs)
+        .with(/gr[0-1]/).exactly(:twice).and_return(*theirs)
       expect(ours_suite).to receive(:read_examples)
-          .with(/gr[0-1]/).exactly(:twice).and_return(*ours)
+        .with(/gr[0-1]/).exactly(:twice).and_return(*ours)
     end
 
     context do
-      let(:ours) {[
-        [ ours_exmpl(0, 0), ours_exmpl(1, 0) ], [ ours_exmpl(0, 1), ours_exmpl(1, 1) ]
-      ]}
-      let(:theirs) {[
-        [ theirs_exmpl(1, 0), theirs_exmpl(0, 0) ], [ theirs_exmpl(0, 1), theirs_exmpl(1, 1) ]
-      ]}
+      let :ours do
+        [ [ ours_exmpl(0, 0), ours_exmpl(1, 0) ], [ ours_exmpl(0, 1), ours_exmpl(1, 1) ] ]
+      end
+      let :theirs do
+        [ [ theirs_exmpl(1, 0), theirs_exmpl(0, 0) ], [ theirs_exmpl(0, 1), theirs_exmpl(1, 1) ] ]
+      end
 
       it 'returns pairs of ours/theirs examples in ours order' do
         expect(result_names).to eq %w[gr0:ex0 gr0:ex1 gr1:ex0 gr1:ex1]
@@ -260,4 +260,3 @@ shared_examples DocTest::BaseExamplesSuite do
     end
   end
 end
-

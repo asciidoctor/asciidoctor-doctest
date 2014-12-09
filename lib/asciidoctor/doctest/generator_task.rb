@@ -89,7 +89,8 @@ module Asciidoctor
 
         task name.to_sym do
           puts title
-          Generator.generate! output_suite, input_suite, @renderer, pattern: pattern, rewrite: force?
+          Generator.generate! output_suite, input_suite, @renderer,
+                              pattern: pattern, rewrite: force?
         end
         self
       end

@@ -72,8 +72,8 @@ describe DocTest::HTML::ExamplesSuite do
         end
 
         let :output do
-          create_example 's:strong', content: "<strong>allons-y!</strong>",
-                         desc: "This is a description,\nsee?"
+          create_example 's:strong', content: '<strong>allons-y!</strong>',
+            desc: "This is a description,\nsee?"
         end
         include_examples :example
       end
@@ -143,8 +143,8 @@ describe DocTest::HTML::ExamplesSuite do
       it { is_expected.to have(2).items }
 
       it 'returns an array with parsed Example objects' do
-        expect(parsed[0]).to eql create_example('s:basic', content: "http://asciidoctor.org")
-        expect(parsed[1]).to eql create_example('s:xref', content: "Refer to <<section-a>>.")
+        expect(parsed[0]).to eql create_example('s:basic', content: 'http://asciidoctor.org')
+        expect(parsed[1]).to eql create_example('s:xref', content: 'Refer to <<section-a>>.')
       end
     end
   end
@@ -176,7 +176,7 @@ describe DocTest::HTML::ExamplesSuite do
 
     before do
       expect(renderer).to receive(:render)
-          .with(input.content, renderer_opts).and_return(rendered)
+        .with(input.content, renderer_opts).and_return(rendered)
     end
 
     it 'returns instance of HTML::Example' do
@@ -195,7 +195,8 @@ describe DocTest::HTML::ExamplesSuite do
       let(:opts) { {exclude: ['.//p', './/code']} }
 
       it 'returns content without HTML (sub)elements specified by XPath' do
-        expect(result.content.gsub(/\s*/, '')).to eq '<section><h1>Title</h1><div></div></section><div></div>'
+        expect(result.content.gsub(/\s*/, '')).to eq \
+          '<section><h1>Title</h1><div></div></section><div></div>'
       end
     end
 

@@ -33,7 +33,9 @@ module Asciidoctor
       # @raise [ArgumentError] if some path from the +template_dirs+ doesn't
       #        exist or is not a directory.
       #
-      def initialize(backend_name: nil, converter: nil, template_dirs: [], templates_fallback: false)
+      def initialize(backend_name: nil, converter: nil, template_dirs: [],
+                     templates_fallback: false)
+
         @backend_name = backend_name.freeze
         @converter = converter
         @converter ||= TemplateConverterAdapter unless template_dirs.empty? || templates_fallback
@@ -41,7 +43,7 @@ module Asciidoctor
         template_dirs = Array.wrap(template_dirs).freeze
 
         unless template_dirs.all? { |path| Dir.exist? path }
-          raise ArgumentError, "Templates directory '#{path}' doesn't exist!"
+          fail ArgumentError, "Templates directory '#{path}' doesn't exist!"
         end
         @template_dirs = template_dirs unless template_dirs.empty?
       end
@@ -59,7 +61,7 @@ module Asciidoctor
           safe: :safe,
           backend: backend_name,
           converter: converter,
-          template_dirs: template_dirs,
+          template_dirs: template_dirs
         }.merge(opts)
 
         Asciidoctor.render(text.to_s, renderer_opts)
@@ -95,7 +97,7 @@ module Asciidoctor
       end
 
       # Alias for backward compatibility.
-      alias :convert_with_options :convert
+      alias_method :convert_with_options, :convert
     end
   end
 end

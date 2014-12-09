@@ -52,18 +52,20 @@ describe DocTest::Test do
 
   describe '.generate_tests!' do
 
-    let(:examples) {[
-      [ (create_example 'bl:basic', content: '_meh_'),
-        (create_example 'bl:basic', content: '<i>meh</i>') ],
-      [ (create_example 'bl:noinput'),
-        (create_example 'bl:noinput') ],
-      [ (create_example 'bl:nooutput', content: '_meh_'),
-        (create_example 'bl:nooutput') ]
-    ]}
+    let :examples do
+      [
+        [ (create_example 'bl:basic', content: '_meh_'),
+          (create_example 'bl:basic', content: '<i>meh</i>') ],
+        [ (create_example 'bl:noinput'),
+          (create_example 'bl:noinput') ],
+        [ (create_example 'bl:nooutput', content: '_meh_'),
+          (create_example 'bl:nooutput') ]
+      ]
+    end
 
     before do
       expect(input_suite).to receive(:pair_with)
-          .with(output_suite).and_return(examples)
+        .with(output_suite).and_return(examples)
       test_class.generate_tests! output_suite, input_suite
     end
 
@@ -113,12 +115,12 @@ describe DocTest::Test do
 
     before do
       allow(input_suite).to receive(:pair_with)
-          .with(output_suite)
-          .and_return([])
+        .with(output_suite)
+        .and_return([])
 
       expect(output_suite).to receive(:convert_example)
-          .with(input_exmpl, output_exmpl.opts, renderer)
-          .and_return(actual_exmpl)
+        .with(input_exmpl, output_exmpl.opts, renderer)
+        .and_return(actual_exmpl)
 
       test_class.generate_tests! output_suite, input_suite
     end
@@ -141,7 +143,7 @@ describe DocTest::Test do
 
       context 'and input example has desc:' do
         it 'throws error which message starts with the desc' do
-          expect { test_example! }.to raise_error /^yada yada.*/
+          expect { test_example! }.to raise_error(/^yada yada.*/)
         end
       end
 
@@ -149,7 +151,7 @@ describe DocTest::Test do
         let(:output_exmpl) { create_example 'bl:basic', content: '<i>meh</i>', desc: 'Yoda' }
 
         it "throws error which message starts with the output's example desc" do
-          expect { test_example! }.to raise_error /^Yoda.*/
+          expect { test_example! }.to raise_error(/^Yoda.*/)
         end
       end
     end
@@ -157,6 +159,6 @@ describe DocTest::Test do
 
 
   def create_example(*args)
-    DocTest::BaseExample.new *args
+    DocTest::BaseExample.new(*args)
   end
 end

@@ -67,8 +67,8 @@ describe DocTest::Asciidoc::ExamplesSuite do
         end
 
         let :output do
-          create_example 's:strong', content: "*allons-y!*",
-              desc: "This is a description,\nsee?"
+          create_example 's:strong', content: '*allons-y!*',
+            desc: "This is a description,\nsee?"
         end
 
         include_examples :example

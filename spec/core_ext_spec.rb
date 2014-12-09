@@ -51,7 +51,9 @@ describe Module do
 
     subject(:klass) do
       Class.new do
-        def self.salute; 'Meow!'; end
+        def self.salute
+          'Meow!'
+        end
       end
     end
 

@@ -8,5 +8,5 @@ begin
   task :test => :spec
   task :default => :spec
 rescue LoadError
-  # no rspec available
+  warn 'no rspec available'
 end

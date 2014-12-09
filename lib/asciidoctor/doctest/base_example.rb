@@ -129,7 +129,7 @@ module Asciidoctor
       def ==(other)
         [:group_name, :local_name, :content_normalized].all? do |name|
           other.respond_to?(name) &&
-            self.public_send(name) == other.public_send(name)
+            public_send(name) == other.public_send(name)
         end
       end
 
@@ -140,7 +140,7 @@ module Asciidoctor
       #         otherwise +false+.
       def eql?(other)
         self.class == other.class &&
-          self.instance_variables == other.instance_variables
+          instance_variables == other.instance_variables
       end
 
       # :nocov:
