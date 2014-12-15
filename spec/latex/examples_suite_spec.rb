@@ -40,7 +40,7 @@ describe DocTest::Latex::ExamplesSuite do
       end
 
       context 'with name only' do
-        let(:input) { "% .basic\n" }
+        let(:input) { "%== .basic ==%\n" }
         let(:output) { create_example 's:basic' }
 
         include_examples :example
@@ -56,7 +56,7 @@ describe DocTest::Latex::ExamplesSuite do
           EOF
         end
 
-        let(:input) { "% .multiline\n#{content}" }
+        let(:input) { "%== .multiline ==%\n#{content}" }
         let(:output) { create_example 's:multiline', content: content.chomp }
 
         include_examples :example
@@ -64,10 +64,11 @@ describe DocTest::Latex::ExamplesSuite do
 
       context 'with description' do
         let :input do
-          <<-EOF.unindent
-            % .strong
+          <<-EOF.strip_heredoc
+            %== .strong
             % This is a description,
             % see?
+            %==
             \\textbf{allons-y!}
           EOF
         end
@@ -82,12 +83,13 @@ describe DocTest::Latex::ExamplesSuite do
 
       context 'with options' do
         let :input do
-          <<-EOF.unindent
-            % .basic
+          <<-EOF.strip_heredoc
+            %== .basic
             % :exclude: .//code
             % :exclude: .//section
             % :include: ./p/node()
             % :header_footer:
+            %==
             dummy
           EOF
         end
@@ -105,10 +107,11 @@ describe DocTest::Latex::ExamplesSuite do
 
       context 'with description and options' do
         let :input do
-          <<-EOF.unindent
-            % .basic
+          <<-EOF.strip_heredoc
+            %== .basic
             % This is a description.
             % :exclude: .//code
+            %==
           EOF
         end
 
@@ -124,11 +127,11 @@ describe DocTest::Latex::ExamplesSuite do
 
     context 'multiple examples' do
       let :input do
-        <<-EOF.unindent
-          % .basic
+        <<-EOF.strip_heredoc
+          %== .basic ==%
           http://asciidoctor.org
 
-          % .xref
+          %== .xref ==%
           Refer to <<section-a>>.
         EOF
       end
