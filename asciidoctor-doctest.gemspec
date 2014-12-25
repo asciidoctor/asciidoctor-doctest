@@ -1,12 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift lib unless $LOAD_PATH.include? lib
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include? lib
 require 'asciidoctor/doctest/version'
 
 Gem::Specification.new do |s|
   s.name          = 'asciidoctor-doctest'
   s.version       = Asciidoctor::DocTest::VERSION
-  s.date          = Time.now.strftime('%Y-%m-%d')
   s.author        = 'Jakub Jirutka'
   s.email         = 'jakub@jirutka.cz'
   s.homepage      = 'https://github.com/asciidoctor/asciidoctor-doctest'
@@ -18,7 +17,7 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   EOS
 
   begin
-    s.files       = `git ls-files -z -- */* {CHANGELOG,LICENSE,Rakefile,README}*`.split("\0")
+    s.files       = `git ls-files -z -- */* {CHANGELOG,LICENSE,Rakefile,README}*`.split("\x0")
   rescue
     s.files       = Dir['**/*']
   end
@@ -40,10 +39,10 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   s.add_development_dependency 'yard', '~> 0.8'
 
   s.add_runtime_dependency 'activesupport', '~> 4.1'
-  s.add_runtime_dependency 'asciidoctor', '~> 1.5'
+  s.add_runtime_dependency 'asciidoctor', '~> 1.5.0'
   s.add_runtime_dependency 'colorize', '~> 0.6'
   s.add_runtime_dependency 'diffy', '~> 3.0'
-  s.add_runtime_dependency 'htmlbeautifier', '~> 0.0', '>= 0.0.10'
+  s.add_runtime_dependency 'htmlbeautifier', '~> 0.0.10'
   s.add_runtime_dependency 'minitest', '~> 5.4'
 
   # https://github.com/sparklemotion/nokogiri/issues/1196
