@@ -62,7 +62,7 @@ module Asciidoctor
       # @abstract
       # @param example [BaseExample] the input example to convert.
       # @param opts [Hash] the options to pass to a new example.
-      # @param renderer [#render]
+      # @param renderer [#convert]
       # @return [BaseExample]
       # :nocov:
       def convert_example(example, opts, renderer)

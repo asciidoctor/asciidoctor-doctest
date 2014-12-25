@@ -17,7 +17,7 @@ module Asciidoctor
       #        {BaseExamplesSuite} subclass to read the reference input
       #        examples.
       #
-      # @param renderer [#render]
+      # @param renderer [#convert]
       #
       # @param pattern [String] glob-like pattern to select examples to
       #        (re)generate (see {BaseExample#name_match?}).

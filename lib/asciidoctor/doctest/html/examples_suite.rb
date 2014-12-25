@@ -81,7 +81,7 @@ module Asciidoctor::DocTest
       def convert_example(example, opts, renderer)
         header_footer = !!opts[:header_footer] || example.name.start_with?('document')
 
-        html = renderer.render(example.to_s, header_footer: header_footer)
+        html = renderer.convert(example.to_s, header_footer: header_footer)
         html = parse_html(html, !header_footer)
 
         # When asserting inline examples, ignore paragraph "wrapper".

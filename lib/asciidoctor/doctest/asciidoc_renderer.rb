@@ -5,7 +5,7 @@ require 'asciidoctor/converter/template'
 module Asciidoctor
   module DocTest
     ##
-    # This class is basically a wrapper for +Asciidoctor.render+ that allows to
+    # This class is basically a wrapper for +Asciidoctor.convert+ that allows to
     # preset and validate some common parameters.
     class AsciidocRenderer
 
@@ -49,23 +49,26 @@ module Asciidoctor
       end
 
       ##
-      # Renders the given +text+ in AsciiDoc syntax with Asciidoctor using the
-      # tested backend.
+      # Converts the given +text+ into AsciiDoc syntax with Asciidoctor using
+      # the tested backend.
       #
       # @param text [#to_s] the input text in AsciiDoc syntax.
       # @param opts [Hash] options to pass to Asciidoctor.
-      # @return [String] rendered input.
+      # @return [String] converted input.
       #
-      def render(text, opts = {})
-        renderer_opts = {
+      def convert(text, opts = {})
+        converter_opts = {
           safe: :safe,
           backend: backend_name,
           converter: converter,
           template_dirs: template_dirs
         }.merge(opts)
 
-        Asciidoctor.render(text.to_s, renderer_opts)
+        Asciidoctor.convert(text.to_s, converter_opts)
       end
+
+      # Alias for backward compatibility.
+      alias_method :render, :convert
     end
 
     ##

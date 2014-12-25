@@ -80,14 +80,14 @@ DocTest.examples_path.unshift 'test/examples/asciidoc'
 DocTest.examples_path.unshift 'test/examples/shiny'
 ----
 
-. Create test file `test/templates_test.rb` and extend class link:{src-base}/test.rb[DocTest::Test]. Specify `renderer_opts` and then call `generate_tests!` macro with a specific subclass of `BaseExamplesSuite`:
+. Create test file `test/templates_test.rb` and extend class link:{src-base}/test.rb[DocTest::Test]. Specify `converter_opts` and then call `generate_tests!` macro with a specific subclass of `BaseExamplesSuite`:
 +
 [source]
 ----
 require 'test_helper'
 
 class TestTemplates < DocTest::Test
-  renderer_opts template_dirs: 'data/templates'
+  converter_opts template_dirs: 'data/templates'
   generate_tests! DocTest::HTML::ExamplesSuite
 end
 ----
@@ -109,7 +109,7 @@ end
 
 DocTest::GeneratorTask.new(:generate) do |task|
   task.output_suite = DocTest::HTML::ExamplesSuite.new(examples_path: 'test/examples/shiny')
-  task.renderer_opts[:template_dirs] = 'data/templates'
+  task.converter_opts[:template_dirs] = 'data/templates'
   #
   # add extra input examples (optional)
   task.examples_path.unshift 'test/examples/asciidoc'
@@ -223,7 +223,7 @@ If it’s not your case, then you must overwrite it:
 [source]
 ----
 class TestShiny < DocTest::Test
-  renderer_opts template_dirs: 'data/templates'
+  converter_opts template_dirs: 'data/templates'
   generate_tests! DocTest::HTML::ExamplesSuite.new(paragraph_xpath: './div/p/node()')
 end
 ----

@@ -14,9 +14,12 @@ module Asciidoctor
 
       ##
       # (see AsciidocRenderer#initialize)
-      def self.renderer_opts(**kwargs)
+      def self.converter_opts(**kwargs)
         @renderer = AsciidocRenderer.new(**kwargs)
       end
+
+      # Alias for backward compatibility.
+      alias_class_method :renderer_opts, :converter_opts
 
       ##
       # Generates tests for all the input/output examples.

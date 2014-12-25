@@ -39,12 +39,15 @@ module Asciidoctor
       #   (default: *:*).
       attr_accessor :pattern
 
-      # @return [Hash] options for Asciidoctor renderer.
+      # @return [Hash] options for Asciidoctor converter.
       # @see AsciidocRenderer#initialize
-      attr_accessor :renderer_opts
+      attr_accessor :converter_opts
 
       # @return [String] title of the task's description.
       attr_accessor :title
+
+      # Alias for backward compatibility.
+      alias_method :renderer_opts, :converter_opts
 
 
       ##
@@ -56,7 +59,7 @@ module Asciidoctor
         @force = false
         @input_suite = nil
         @output_suite = nil
-        @renderer_opts = {}
+        @converter_opts = {}
         @pattern = '*:*'
         @title = "Generate testing examples #{pattern}#{" for #{name}" if name != :generate}."
 
@@ -68,7 +71,7 @@ module Asciidoctor
         end
 
         @input_suite ||= Asciidoc::ExamplesSuite.new(examples_path: @examples_path)
-        @renderer ||= AsciidocRenderer.new(renderer_opts)
+        @renderer ||= AsciidocRenderer.new(converter_opts)
 
         define
       end

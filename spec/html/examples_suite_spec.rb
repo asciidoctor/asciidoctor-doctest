@@ -155,7 +155,7 @@ describe DocTest::HTML::ExamplesSuite do
     let(:input) { create_example 's:dummy', content: '*chunky* bacon' }
     let(:opts) { {dummy: 'value'} }
     let(:renderer) { double 'AsciidocRenderer' }
-    let(:renderer_opts) { {header_footer: false} }
+    let(:converter_opts) { {header_footer: false} }
 
     subject(:result) { suite.convert_example input, opts, renderer }
 
@@ -175,8 +175,8 @@ describe DocTest::HTML::ExamplesSuite do
     end
 
     before do
-      expect(renderer).to receive(:render)
-        .with(input.content, renderer_opts).and_return(rendered)
+      expect(renderer).to receive(:convert)
+        .with(input.content, converter_opts).and_return(rendered)
     end
 
     it 'returns instance of HTML::Example' do
@@ -218,7 +218,7 @@ describe DocTest::HTML::ExamplesSuite do
 
     context 'with example named /^document.*/' do
       let(:input) { create_example 'document:dummy', content: '*chunky* bacon' }
-      let(:renderer_opts) { {header_footer: true} }
+      let(:converter_opts) { {header_footer: true} }
 
       it 'renders content with :header_footer => true' do
         suite.convert_example input, {}, renderer
