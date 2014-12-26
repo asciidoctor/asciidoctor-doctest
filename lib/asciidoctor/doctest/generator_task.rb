@@ -55,7 +55,7 @@ module Asciidoctor
       # @yield The block to configure this task.
       def initialize(name)
         @name = name
-        @examples_path = DocTest.examples_path
+        @examples_path = DocTest.examples_path.dup
         @force = false
         @input_suite = nil
         @output_suite = nil
