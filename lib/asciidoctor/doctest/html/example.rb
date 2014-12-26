@@ -13,7 +13,7 @@ module Asciidoctor::DocTest
         Nokogiri::HTML.fragment(content).normalize!.to_s
       end
 
-      def to_s
+      def content_pretty
         HtmlBeautifier.beautify content_normalized
       end
     end

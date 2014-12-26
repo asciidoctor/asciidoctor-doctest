@@ -2,7 +2,8 @@ describe DocTest::BaseExample do
 
   subject(:o) { described_class.new ['foo', 'bar'] }
 
-  it { is_expected.to respond_to :group_name, :local_name, :content, :desc, :opts }
+  it { is_expected.to respond_to :group_name, :local_name, :content, :content_normalized,
+                                 :content_pretty, :desc, :opts }
 
   describe '#name' do
 

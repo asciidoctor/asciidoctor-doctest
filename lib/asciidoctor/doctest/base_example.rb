@@ -102,7 +102,7 @@ module Asciidoctor
 
       ##
       # @note The default implementation returns content as-is; subclasses
-      # should override this method.
+      #   should override this method.
       #
       # @return [String] copy of the content in a form that is suitable for
       #         semantic comparison with another content.
@@ -112,13 +112,19 @@ module Asciidoctor
       end
 
       ##
-      # @note The default implementation returns content as-is; subclasses
-      # should override this method.
+      # @note (see #content_normalized)
       #
-      # @return [String] a human-readable (formatted) version of the content.
+      # @return [String] copy of the content in a human-readable (formatted)
+      #         shape for pretty print.
       #
-      def to_s
+      def content_pretty
         content.dup
+      end
+
+      ##
+      # @return (see #content_pretty)
+      def to_s
+        content_pretty
       end
 
       ##
