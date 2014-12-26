@@ -66,7 +66,7 @@ module Diffy
           padding + line.chomp
         end
       end
-      "\n" + ary.join("\n")
+      "\n" + ary.compact.join("\n")
     end
   end
 end
