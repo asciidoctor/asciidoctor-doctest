@@ -38,7 +38,7 @@ module Asciidoctor
 
         @backend_name = backend_name.freeze
         @converter = converter
-        @converter ||= TemplateConverterAdapter unless template_dirs.empty? || templates_fallback
+        @converter ||= NoFallbackTemplateConverter unless template_dirs.empty? || templates_fallback
 
         template_dirs = Array.wrap(template_dirs).freeze
         template_dirs.each do |path|
@@ -72,8 +72,11 @@ module Asciidoctor
 
     ##
     # @private
-    # Adapter for +Asciidoctor::Converter::TemplateConverter+.
-    class TemplateConverterAdapter < SimpleDelegator
+    # TemplateConverter that doesn't fallback to a built-in converter when
+    # no template for a node is found.
+    class NoFallbackTemplateConverter < SimpleDelegator
+      # NOTE: It didn't work with subclass of TemplateConverter instead of
+      # delegator, I have no idea why.
 
       # Placeholder to be written in a rendered output in place of the node's
       # content that cannot be rendered due to missing template.
