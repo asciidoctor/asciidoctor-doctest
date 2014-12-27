@@ -33,7 +33,7 @@ module Asciidoctor
       # @raise [ArgumentError] if some path from the +template_dirs+ doesn't
       #        exist or is not a directory.
       #
-      def initialize(backend_name: nil, converter: nil, template_dirs: [],
+      def initialize(backend_name: '', converter: nil, template_dirs: [],
                      templates_fallback: false)
 
         @backend_name = backend_name.freeze
@@ -41,9 +41,8 @@ module Asciidoctor
         @converter ||= TemplateConverterAdapter unless template_dirs.empty? || templates_fallback
 
         template_dirs = Array.wrap(template_dirs).freeze
-
-        unless template_dirs.all? { |path| Dir.exist? path }
-          fail ArgumentError, "Templates directory '#{path}' doesn't exist!"
+        template_dirs.each do |path|
+          fail ArgumentError, "Templates directory '#{path}' doesn't exist!" unless Dir.exist? path
         end
         @template_dirs = template_dirs unless template_dirs.empty?
       end
