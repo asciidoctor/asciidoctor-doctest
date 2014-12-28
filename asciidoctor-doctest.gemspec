@@ -29,15 +29,24 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
 
   s.required_ruby_version = '>= 2.0'
 
+  # development
   s.add_development_dependency 'bundler', '~> 1.6'
+  s.add_development_dependency 'rake', '~> 10.0'
+  s.add_development_dependency 'yard', '~> 0.8'
+
+  # unit tests
   s.add_development_dependency 'codeclimate-test-reporter', '~> 0.4'
   s.add_development_dependency 'fakefs', '~> 0.6'
   s.add_development_dependency 'simplecov', '~> 0.9'
-  s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'rspec', '~> 3.1'
   s.add_development_dependency 'rspec-collection_matchers', '~> 1.1'
-  s.add_development_dependency 'yard', '~> 0.8'
 
+  # integration tests
+  s.add_development_dependency 'aruba', '~> 0.6'
+  s.add_development_dependency 'cucumber', '~> 1.3'
+  s.add_development_dependency 'slim', '~> 2.1'
+
+  # runtime
   s.add_runtime_dependency 'activesupport', '~> 4.1'
   s.add_runtime_dependency 'asciidoctor', '~> 1.5.0'
   s.add_runtime_dependency 'colorize', '~> 0.6'

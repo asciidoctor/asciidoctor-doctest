@@ -1,0 +1,12 @@
+// .with_id_and_role
+[quote, id="parking", role="startrek"]
+Everybody remember where we parked.
+
+// .with_title
+.After landing the cloaked Klingon bird of prey in Golden Gate park:
+[quote]
+Everybody remember where we parked.
+
+// .with_attribution
+[quote, Albert Einstein]
+A person who never made a mistake _never_ tried anything new.

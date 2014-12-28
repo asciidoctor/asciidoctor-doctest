@@ -1,0 +1,7 @@
+*{:tag=>(title.nil_or_empty? ? 'div' : 'section'), :id=>id, :class=>['quoteblock', *role]}
+  - unless title.nil_or_empty?
+    h6 =captioned_title
+  blockquote =content
+  - if attr? :attribution
+    .attribution
+      | &#8212; #{attr :attribution}

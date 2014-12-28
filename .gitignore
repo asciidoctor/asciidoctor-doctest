@@ -1,6 +1,7 @@
 /.yardoc/
 /coverage/
 /pkg/
+/tmp/
 *.gem
 .ruby-version
 Gemfile.lock

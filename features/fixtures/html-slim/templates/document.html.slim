@@ -1,0 +1,13 @@
+doctype 5
+html lang=(attr :lang, 'en' unless attr? :nolang)
+  head
+    meta charset='UTF-8'
+    title=((doctitle sanitize: true) || (attr 'untitled-label'))
+  body
+    - unless noheader && notitle
+      #header
+        h1 =header.title
+        - if attr? :author
+          .details
+            span#author =(attr :author)
+    #content =content

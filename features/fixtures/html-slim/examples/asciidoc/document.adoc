@@ -1,0 +1,4 @@
+// .title_with_author
+// This example should fail.
+= The Dangerous and Thrilling Documentation Chronicles
+Kismet Rainbow Chameleon <kismet@asciidoctor.org>
