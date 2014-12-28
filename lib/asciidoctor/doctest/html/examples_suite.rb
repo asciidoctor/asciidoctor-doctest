@@ -98,7 +98,7 @@ module Asciidoctor::DocTest
 
         html.normalize!
 
-        create_example example.name, content: html.to_s, opts: opts
+        create_example example.name, content: HtmlBeautifier.beautify(html), opts: opts
       end
 
       private
