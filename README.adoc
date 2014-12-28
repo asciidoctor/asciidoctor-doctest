@@ -6,23 +6,28 @@ ifdef::env-github[:idprefix: user-content-]
 :idseparator: -
 :source-language: ruby
 :language: {source-language}
-// links
+// custom
+:gem-name: asciidoctor-doctest
+:gh-name: asciidoctor/{gem-name}
+:gh-branch: master
+:badge-style: flat
 :doctor-man-uri: http://asciidoctor.org/docs/user-manual
+:rawgit-base: https://cdn.rawgit.com/{gh-name}/master
 :src-base: lib/asciidoctor/doctest
 
-image:https://travis-ci.org/asciidoctor/asciidoctor-doctest.svg?branch=master[Build Status, link=https://travis-ci.org/asciidoctor/asciidoctor-doctest]
-image:https://codeclimate.com/github/asciidoctor/asciidoctor-doctest/badges/coverage.svg[Test Coverage, link="https://codeclimate.com/github/asciidoctor/asciidoctor-doctest"]
-image:https://codeclimate.com/github/asciidoctor/asciidoctor-doctest/badges/gpa.svg[Code Climate, link="https://codeclimate.com/github/asciidoctor/asciidoctor-doctest"]
-image:http://inch-ci.org/github/asciidoctor/asciidoctor-doctest.svg?branch=master[Inline docs, link="http://inch-ci.org/github/asciidoctor/asciidoctor-doctest"]
-image:https://badge.fury.io/rb/asciidoctor-doctest.svg[Gem Version, link="http://badge.fury.io/rb/asciidoctor-doctest"]
-image:https://img.shields.io/badge/yard-docs-blue.svg[Yard Docs, link="http://www.rubydoc.info/github/asciidoctor/asciidoctor-doctest/frames"]
+image:https://img.shields.io/travis/{gh-name}/{gh-branch}.svg?style={badge-style}[Build Status, link="https://travis-ci.org/{gh-name}"]
+image:https://img.shields.io/codeclimate/coverage/github/{gh-name}.svg?style={badge-style}[Test Coverage, link="https://codeclimate.com/github/{gh-name}"]
+image:https://img.shields.io/codeclimate/github/{gh-name}.svg?style={badge-style}[Code Climate, link="https://codeclimate.com/github/{gh-name}"]
+image:https://inch-ci.org/github/{gh-name}.svg?branch={gh-branch}&style={badge-style}[Inline docs, link="http://inch-ci.org/github/{gh-name}"]
+image:https://img.shields.io/gem/v/{gem-name}.svg?style={badge-style}[Gem Version, link="https://rubygems.org/gems/{gem-name}"]
+image:https://img.shields.io/badge/yard-docs-blue.svg?style={badge-style}[Yard Docs, link="http://www.rubydoc.info/github/{gh-name}/frames"]
 
 DocTest is a tool for end-to-end testing of Asciidoctor _backends_ based on comparing of textual output.
 
 It provides a collection of categorized <<input-examples, input _examples_>> (documents in AsciiDoc syntax) to simplify and systematize writing tests for new backends.
 You just write or <<generate-examples, generate>> the expected output, i.e. what the backend should produce for the given input.
 
-image::https://cdn.rawgit.com/asciidoctor/asciidoctor-doctest/master/doc/img/doctest-diag.svg[diagram, align="center"]
+image::{rawgit-base}/doc/img/doctest-diag.svg[diagram, align="center"]
 
 Each example should be focused on one use case, so when writing a new backend, you can incrementally implement new features following the reference input examples.
 However, they are not strictly isolated like unit tests.
