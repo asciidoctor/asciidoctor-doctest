@@ -42,6 +42,8 @@ module Asciidoctor
             log["Unknown %s, doesn't exist in input examples!"]
           else
             rendered = output_suite.convert_example(input, output.opts, renderer)
+            rendered.desc = output.desc
+
             if output.empty?
               log['Generating %s', :magenta]
               updated << rendered
