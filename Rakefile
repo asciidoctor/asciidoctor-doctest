@@ -1,3 +1,4 @@
+require 'rake/clean'
 require 'bundler/gem_tasks'
 
 default_tasks = []
@@ -9,8 +10,8 @@ begin
 
   task :test => :spec
   default_tasks << :spec
-rescue LoadError
-  warn 'no rspec available'
+rescue LoadError => e
+  warn "#{e.path} is not available"
 end
 
 begin
@@ -21,8 +22,16 @@ begin
   end
 
   default_tasks << :cucumber
-rescue LoadError
-  warn 'no cucumber available'
+rescue LoadError => e
+  warn "#{e.path} is not available"
+end
+
+begin
+  require 'yard'
+  # options are defined in .yardopts
+  YARD::Rake::YardocTask.new(:yard)
+rescue LoadError => e
+  warn "#{e.path} is not available"
 end
 
 task :default => default_tasks
