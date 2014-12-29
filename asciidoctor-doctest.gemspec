@@ -1,7 +1,5 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include? lib
-require 'asciidoctor/doctest/version'
+require_relative 'lib/asciidoctor/doctest/version'
 
 Gem::Specification.new do |s|
   s.name          = 'asciidoctor-doctest'
@@ -23,11 +21,23 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   end
   s.executables   = s.files.grep(/^bin\//) { |f| File.basename(f) }
   s.test_files    = s.files.grep(/^(test|spec|features)\//)
+
   s.require_paths = ['lib']
   s.has_rdoc      = 'yard'
-  s.extra_rdoc_files = ['LICENSE']
 
   s.required_ruby_version = '>= 2.0'
+
+  # runtime
+  s.add_runtime_dependency 'activesupport', '~> 4.1'
+  s.add_runtime_dependency 'asciidoctor', '~> 1.5.0'
+  s.add_runtime_dependency 'colorize', '~> 0.6'
+  s.add_runtime_dependency 'diffy', '~> 3.0'
+  s.add_runtime_dependency 'htmlbeautifier', '~> 0.0.10'
+  s.add_runtime_dependency 'minitest', '~> 5.4'
+  s.add_runtime_dependency 'minitest-rg', '~> 5.1'  # optional
+
+  # https://github.com/sparklemotion/nokogiri/issues/1196
+  s.add_runtime_dependency 'nokogiri', '~> 1.6.3', '< 1.6.4'
 
   # development
   s.add_development_dependency 'bundler', '~> 1.6'
@@ -45,18 +55,4 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   s.add_development_dependency 'aruba', '~> 0.6'
   s.add_development_dependency 'cucumber', '~> 1.3'
   s.add_development_dependency 'slim', '~> 2.1'
-
-  # runtime
-  s.add_runtime_dependency 'activesupport', '~> 4.1'
-  s.add_runtime_dependency 'asciidoctor', '~> 1.5.0'
-  s.add_runtime_dependency 'colorize', '~> 0.6'
-  s.add_runtime_dependency 'diffy', '~> 3.0'
-  s.add_runtime_dependency 'htmlbeautifier', '~> 0.0.10'
-  s.add_runtime_dependency 'minitest', '~> 5.4'
-
-  # https://github.com/sparklemotion/nokogiri/issues/1196
-  s.add_runtime_dependency 'nokogiri', '~> 1.6.3', '< 1.6.4'
-
-  # optional
-  s.add_runtime_dependency 'minitest-rg', '~> 5.1'
 end
