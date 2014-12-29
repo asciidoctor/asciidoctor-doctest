@@ -11,12 +11,17 @@ describe DocTest::AsciidocRenderer do
 
     context 'with defaults' do
       subject { described_class.new }
-      it { is_expected.to have_attributes backend_name: '', converter: nil, template_dirs: nil }
+      it { is_expected.to have_attributes backend_name: nil, converter: nil, template_dirs: nil }
     end
 
     context 'with backend_name' do
       subject { described_class.new(backend_name: 'html5') }
       it { is_expected.to have_attributes backend_name: 'html5' }
+
+      context 'empty string' do
+        subject { described_class.new(backend_name: '') }
+        it { is_expected.to have_attributes backend_name: nil }
+      end
     end
 
     context 'with template_dirs' do

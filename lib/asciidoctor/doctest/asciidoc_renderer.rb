@@ -1,4 +1,5 @@
 require 'active_support/core_ext/array/wrap'
+require 'active_support/core_ext/object/blank'
 require 'asciidoctor'
 require 'asciidoctor/converter/template'
 
@@ -12,7 +13,7 @@ module Asciidoctor
       attr_reader :backend_name, :converter, :template_dirs
 
       ##
-      # @param backend_name [#to_s] the name of the tested backend.
+      # @param backend_name [#to_s, nil] the name of the tested backend.
       #
       # @param converter [Class, Asciidoctor::Converter::Base, nil]
       #        the backend's converter class (or its instance). If not
@@ -33,10 +34,10 @@ module Asciidoctor
       # @raise [ArgumentError] if some path from the +template_dirs+ doesn't
       #        exist or is not a directory.
       #
-      def initialize(backend_name: '', converter: nil, template_dirs: [],
+      def initialize(backend_name: nil, converter: nil, template_dirs: [],
                      templates_fallback: false)
 
-        @backend_name = backend_name.freeze
+        @backend_name = backend_name.to_s.freeze.presence
         @converter = converter
         @converter ||= NoFallbackTemplateConverter unless template_dirs.empty? || templates_fallback
 
