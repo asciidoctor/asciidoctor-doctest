@@ -1,0 +1,32 @@
+= Asciidoctor::DocTest Changelog
+:repo-uri: https://github.com/asciidoctor/asciidoctor-doctest
+:commit-uri: {repo-uri}/commit
+:issue-uri: {repo-uri}/issues
+
+This document provides a high-level view of the changes introduced in DocTest by release.
+For a detailed view of what has changed, refer to the {repo-uri}/commits/master[commit history] on GitHub.
+
+
+== 1.5.1 (2014-12-29)
+
+Improvements::
+  * Rename parameter `renderer_opts` to `converter_opts` and method `render` to `convert` to be consistent with Asciidoctor (old names are aliased for now). {issue-uri}/2[#2] [{commit-uri}/97c06af[97c06af]]
+  * Rename `to_s` to `content_pretty` in BaseExample and make alias. [{commit-uri}/3b610e2[3b610e2]]
+
+Bug fixes::
+  * Allow to modify default `examples_path` in GeneratorTask (was frozen). [{commit-uri}/7251e6c[7251e6c]]
+  * Fix `template_dirs` validation and default `backend_name` in AsciidocRenderer. [{commit-uri}/2a4413d[2a4413d]]
+  * Beautify generated HTML examples. [{commit-uri}/e9d42be[e9d42be]]
+  * Fix Generator to not lose description of the updated example. [{commit-uri}/0d2f4ee[0d2f4ee]]
+
+Tests::
+  * Add end-to-end integration tests using Cucumber.
+  * Increase (unit) test coverage from 84.2% to 88.5%.
+
+Known issues::
+  * HTML beautifier doesn’t work as expected. {issue-uri}/3[#3]
+
+
+== 1.5.0 (2014-12-09)
+
+The first stable release.
