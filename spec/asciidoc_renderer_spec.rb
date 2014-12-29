@@ -28,8 +28,12 @@ describe DocTest::AsciidocRenderer do
       before { FileUtils.mkpath template_dirs[0] }
 
       context 'that exists' do
-        it { is_expected.to have_attributes template_dirs: template_dirs,
-                                            converter: DocTest::NoFallbackTemplateConverter }
+        it do
+          is_expected.to have_attributes(
+            template_dirs: template_dirs,
+            converter: DocTest::NoFallbackTemplateConverter
+          )
+        end
 
         context 'and templates_fallback = true' do
           subject { described_class.new(template_dirs: template_dirs, templates_fallback: true) }
@@ -56,7 +60,7 @@ end
 
 describe DocTest::NoFallbackTemplateConverter do
 
-  subject(:delegator) { described_class.new('html5', {template_dirs: ['/tmp/html5']}) }
+  subject(:delegator) { described_class.new('html5', template_dirs: ['/tmp/html5']) }
 
   describe '#convert' do
 
@@ -75,7 +79,9 @@ describe DocTest::NoFallbackTemplateConverter do
         expect(delegator.convert node).to eq described_class::NOT_FOUND_MARKER
       end
 
-      it { expect { delegator.convert node }.to output(/Could not find a custom template/i).to_stderr }
+      it 'prints a warning on stderr' do
+        expect { delegator.convert node }.to output(/Could not find a custom template/i).to_stderr
+      end
     end
 
     context 'when template is found' do
