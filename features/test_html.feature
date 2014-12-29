@@ -11,9 +11,8 @@ Feature: Testing a custom HTML backend
       TestHtml :: block_quote : with_attribution:
       Failing example..
 
-           <blockquote>A person who never made a mistake
-             <em>never</em>
-             tried anything new.</blockquote>
+         <div class="quoteblock">
+           <blockquote>A person who never made a mistake <em>never</em> tried anything new.</blockquote>
       E    <span>Albert Einstein</span>
       A    <div class="attribution">— Albert Einstein</div>
          </div>
@@ -49,9 +48,7 @@ Feature: Testing a custom HTML backend
       Failing example..
 
          <div class="quoteblock">
-      E    <blockquote>A person who never made a mistake
-      E      <em>never</em>
-      E      tried anything new.</blockquote>
+      E    <blockquote>A person who never made a mistake <em>never</em> tried anything new.</blockquote>
       E    <span>Albert Einstein</span>
       A    <blockquote>A person who never made a mistake --TEMPLATE NOT FOUND-- tried anything new.</blockquote>
       A    <div class="attribution">— Albert Einstein</div>

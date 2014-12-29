@@ -46,8 +46,10 @@ Feature: Generating output examples for a custom HTML backend
       </div>
 
       <!-- .with_title -->
-      <section class="quoteblock"><h6>After landing the cloaked Klingon bird of prey in Golden Gate park:</h6>
-        <blockquote>Everybody remember where we parked.</blockquote></section>
+      <section class="quoteblock">
+        <h6>After landing the cloaked Klingon bird of prey in Golden Gate park:</h6>
+        <blockquote>Everybody remember where we parked.</blockquote>
+      </section>
 
       """
     And the file "examples/html/document.html" should contain exactly:
@@ -106,15 +108,15 @@ Feature: Generating output examples for a custom HTML backend
       Failing example.
       -->
       <div class="quoteblock">
-        <blockquote>A person who never made a mistake
-          <em>never</em>
-          tried anything new.</blockquote>
+        <blockquote>A person who never made a mistake <em>never</em> tried anything new.</blockquote>
         <div class="attribution">— Albert Einstein</div>
       </div>
 
       <!-- .with_title -->
-      <section class="quoteblock"><h6>After landing the cloaked Klingon bird of prey in Golden Gate park:</h6>
-        <blockquote>Everybody remember where we parked.</blockquote></section>
+      <section class="quoteblock">
+        <h6>After landing the cloaked Klingon bird of prey in Golden Gate park:</h6>
+        <blockquote>Everybody remember where we parked.</blockquote>
+      </section>
 
       """
     And the file "examples/html/document.html" should contain exactly:
@@ -162,9 +164,7 @@ Feature: Generating output examples for a custom HTML backend
       Failing example.
       -->
       <div class="quoteblock">
-        <blockquote>A person who never made a mistake
-          <em>never</em>
-          tried anything new.</blockquote>
+        <blockquote>A person who never made a mistake <em>never</em> tried anything new.</blockquote>
         <div class="attribution">— Albert Einstein</div>
       </div>
 

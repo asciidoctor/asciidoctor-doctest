@@ -230,7 +230,7 @@ describe DocTest::HTML::ExamplesSuite do
       let(:rendered) { '<p><b>chunky</b> bacon</p>' }
 
       it 'returns content without top-level <p> tags' do
-        expect(result.content.gsub(/\s+/, ' ')).to eq '<b>chunky</b> bacon'
+        expect(result.content).to eq '<b>chunky</b> bacon'
       end
 
       it 'does not add implicit include into returned example' do
