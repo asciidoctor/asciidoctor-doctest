@@ -7,6 +7,14 @@ This document provides a high-level view of the changes introduced in DocTest by
 For a detailed view of what has changed, refer to the {repo-uri}/commits/master[commit history] on GitHub.
 
 
+== 1.5.1.1 (2014-12-30)
+
+Bug fixes::
+  * Avoid setting `backend_name` to an empty string.
+    When there’s an empty string and code highlighter is set to Pygments or CodeRay, then Asciidoctor doesn’t highlight listings at all. [{commit-uri}/bf5f077[bf5f077]]
+  * Update https://github.com/threedaymonk/htmlbeautifier[htmlbeautifier] to 0.0.11 that doesn’t modify content of `pre` element and adds newlines around block elements. {issue-uri}/3[#3] [{commit-uri}/4aaa137[4aaa137]]
+
+
 == 1.5.1 (2014-12-29)
 
 Improvements::
