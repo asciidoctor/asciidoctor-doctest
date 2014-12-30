@@ -38,7 +38,7 @@ Style/FileName:
   Exclude: ['lib/asciidoctor-doctest.rb']
 
 Style/HashSyntax:
-  Exclude: [ Rakefile ]
+  Exclude: [ '**/Rakefile' ]
 
 Style/Lambda:
   Enabled: false
