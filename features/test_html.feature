@@ -13,7 +13,7 @@ Feature: Testing a custom HTML backend
 
          <div class="quoteblock">
            <blockquote>A person who never made a mistake <em>never</em> tried anything new.</blockquote>
-      E    <span>Albert Einstein</span>
+      E    <div>Albert Einstein</div>
       A    <div class="attribution">— Albert Einstein</div>
          </div>
       """
@@ -49,7 +49,7 @@ Feature: Testing a custom HTML backend
 
          <div class="quoteblock">
       E    <blockquote>A person who never made a mistake <em>never</em> tried anything new.</blockquote>
-      E    <span>Albert Einstein</span>
+      E    <div>Albert Einstein</div>
       A    <blockquote>A person who never made a mistake --TEMPLATE NOT FOUND-- tried anything new.</blockquote>
       A    <div class="attribution">— Albert Einstein</div>
          </div>

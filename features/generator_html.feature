@@ -42,7 +42,7 @@ Feature: Generating output examples for a custom HTML backend
       -->
       <div class="quoteblock">
         <blockquote>A person who never made a mistake <em>never</em> tried anything new.</blockquote>
-        <span>Albert Einstein</span>
+        <div>Albert Einstein</div>
       </div>
 
       <!-- .with_title -->
