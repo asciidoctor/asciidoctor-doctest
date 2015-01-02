@@ -25,7 +25,7 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   s.require_paths = ['lib']
   s.has_rdoc      = 'yard'
 
-  s.required_ruby_version = '>= 2.1'
+  s.required_ruby_version = '>= 2.0'
 
   # runtime
   s.add_runtime_dependency 'activesupport', '~> 4.1'

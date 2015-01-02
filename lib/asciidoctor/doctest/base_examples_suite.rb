@@ -15,13 +15,15 @@ module Asciidoctor
 
       ##
       # @param file_ext [String] the filename extension (e.g. +.adoc+) of the
-      #        examples group files.
+      #        examples group files. Must not be +nil+ or blank. (required)
       #
       # @param examples_path [String, Array<String>] path of the directory (or
       #        multiple directories) where to look for the examples.
       #
-      def initialize(file_ext:, examples_path: DocTest.examples_path)
-        @file_ext = file_ext.freeze
+      def initialize(file_ext: nil, examples_path: DocTest.examples_path)
+        fail ArgumentError, 'file_ext must not be blank or nil' if file_ext.blank?
+
+        @file_ext = file_ext.strip.freeze
         @examples_path = Array.wrap(examples_path).freeze
         @examples_cache = {}
       end

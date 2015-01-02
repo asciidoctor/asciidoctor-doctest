@@ -11,6 +11,28 @@ shared_examples DocTest::BaseExamplesSuite do
   let(:ex_path) { ['/tmp/alpha', '/tmp/beta'] }
 
 
+  describe '#initialize' do
+
+    subject(:init) { described_class.new(args) }
+    let(:args) { {} }
+
+    {'nil' => nil, 'blank' => ' '}.each do |desc, file_ext|
+      context "with file_ext #{desc}" do
+        let(:args) { {file_ext: file_ext, examples_path: ex_path} }
+        it { expect { init }.to raise_error ArgumentError }
+      end
+    end
+
+    context 'with examples_path string' do
+      let(:args) { {file_ext: '.html', examples_path: '/foo/bar'} }
+
+      it 'wraps string to array' do
+        is_expected.to have_attributes(examples_path: ['/foo/bar'])
+      end
+    end
+  end
+
+
   describe '#parse' do
     context 'empty file' do
       subject { suite.parse '', 'block_ulist' }
