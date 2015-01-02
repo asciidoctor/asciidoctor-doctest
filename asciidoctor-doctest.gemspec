@@ -1,5 +1,5 @@
 # coding: utf-8
-require_relative 'lib/asciidoctor/doctest/version'
+require File.expand_path('lib/asciidoctor/doctest/version', __dir__)
 
 Gem::Specification.new do |s|
   s.name          = 'asciidoctor-doctest'

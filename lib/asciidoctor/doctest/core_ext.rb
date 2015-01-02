@@ -47,3 +47,18 @@ class String
     end
   end
 end
+
+
+# Workarounds for JRuby.
+if RUBY_ENGINE == 'jruby'
+  require 'delegate'
+
+  # @private
+  class SimpleDelegator
+
+    # https://github.com/jruby/jruby/issues/2412
+    def warn(*msg)
+      Kernel.warn(*msg)
+    end
+  end
+end

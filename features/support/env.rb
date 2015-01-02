@@ -14,6 +14,9 @@ Before do
   FileUtils.mkdir_p TEMP_DIR
   # overwrite Aruba's default temp directory location
   @dirs = [TEMP_DIR]
+
+  # Increase timeout for JRuby, that is very slooow...
+  @aruba_timeout_seconds = 50
 end
 
 After do

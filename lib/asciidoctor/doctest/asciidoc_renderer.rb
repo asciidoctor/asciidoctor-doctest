@@ -2,6 +2,8 @@ require 'active_support/core_ext/array/wrap'
 require 'active_support/core_ext/object/blank'
 require 'asciidoctor'
 require 'asciidoctor/converter/template'
+require 'asciidoctor/doctest/core_ext'
+require 'delegate'
 
 module Asciidoctor
   module DocTest
