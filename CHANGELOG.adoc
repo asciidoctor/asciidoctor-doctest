@@ -7,6 +7,12 @@ This document provides a high-level view of the changes introduced in DocTest by
 For a detailed view of what has changed, refer to the {repo-uri}/commits/master[commit history] on GitHub.
 
 
+== 1.5.1.2 (2015-01-03)
+
+Improvements::
+  * Support for MRI 2.0.0 and JRuby 9000-dev [{commit-uri}/8908c5d[8908c5d], {commit-uri}/748d54a[748d54a]].
+
+
 == 1.5.1.1 (2014-12-30)
 
 Bug fixes::
