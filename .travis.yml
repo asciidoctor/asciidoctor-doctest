@@ -13,4 +13,5 @@ notifications:
   irc: "irc.freenode.org#asciidoctor"
 env:
   global:
-    secure: Y6i7YGM0oHdDYtKkABGWIxdQL943brOJaFcU2iWSp7oMczQ/Ss4udpm9o11O2zo4WqrHu6E3GrAT1us+FZLWB71hC6PeClluh3ndhD131AnS3yRFhRPMlDYxdSEOfMZhQwdY8E1EUdj3Dpk0UF7Bwxnw/PqAt5AHZ3EC5e4DJJ0=
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+    - secure: Y6i7YGM0oHdDYtKkABGWIxdQL943brOJaFcU2iWSp7oMczQ/Ss4udpm9o11O2zo4WqrHu6E3GrAT1us+FZLWB71hC6PeClluh3ndhD131AnS3yRFhRPMlDYxdSEOfMZhQwdY8E1EUdj3Dpk0UF7Bwxnw/PqAt5AHZ3EC5e4DJJ0=
