@@ -36,6 +36,7 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   s.add_runtime_dependency 'minitest-rg', '~> 5.1'  # optional
   # Avoid versions >=1.6.4 and <1.6.6
   s.add_runtime_dependency 'nokogiri', '~> 1.6.0'
+  s.add_runtime_dependency 'to_regexp', '~> 0.2'
 
   # development
   s.add_development_dependency 'bundler', '~> 1.6'

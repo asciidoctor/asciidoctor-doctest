@@ -146,4 +146,67 @@ describe DocTest::Latex::ExamplesSuite do
       end
     end
   end
+
+  describe '#convert_example' do
+
+    let(:input) { create_example 's:dummy', content: '*chunky* bacon' }
+    let(:opts) { {dummy: 'value'} }
+    let(:renderer) { double 'AsciidocRenderer' }
+
+    subject(:result) { suite.convert_example input, opts, renderer }
+
+    let :rendered do
+      %q{
+        \begin{table}[htp]
+          \begin{tabular}{| l c r |}
+          \hline
+          1 & 2 & 3 \\\
+          4 & 5 & 6 \\\
+          \hline
+          \end{tabular}
+          \caption{A simple table}
+        \end{table}
+      }.strip_heredoc
+    end
+
+    before do
+      expect(renderer).to receive(:render)
+        .with(input.content).and_return(rendered)
+    end
+
+    it 'returns Example with the same name as input_example' do
+      expect(result.name).to eq input.name
+    end
+
+    it 'returns Example with the given opts' do
+      expect(result.opts).to eq opts
+    end
+
+    context 'with :exclude option' do
+      let(:opts) { {exclude: ['/\\\begin{tabular}.*\\\end{tabular}/m']} }
+
+      it 'returns content without substrings specified by regexp' do
+        expect(result.content).to eq %q{
+          \begin{table}[htp]
+          \caption{A simple table}
+          \end{table}
+        }.strip_heredoc.strip
+      end
+    end
+
+    context 'with :include option' do
+      let(:opts) { {include: ['/\\\begin{tabular}.*\\\end{tabular}/m']} }
+
+      it 'returns content with only substrings specified by regexp' do
+        expect(result.content).to eq %q{
+          \begin{tabular}{| l c r |}
+          \hline
+          1 & 2 & 3 \\\
+          4 & 5 & 6 \\\
+          \hline
+          \end{tabular}
+        }.strip_heredoc.strip
+      end
+    end
+  end
 end

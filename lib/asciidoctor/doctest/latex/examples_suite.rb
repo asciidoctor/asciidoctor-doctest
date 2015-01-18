@@ -1,8 +1,9 @@
 require 'asciidoctor/doctest/base_examples_suite'
 require 'corefines'
+require 'to_regexp'
 
 using Corefines::Enumerable::map_send
-using Corefines::Object::blank?
+using Corefines::Object[:blank?, :then]
 using Corefines::String::concat!
 
 module Asciidoctor::DocTest
@@ -84,8 +85,33 @@ module Asciidoctor::DocTest
 
       # TODO: implement some postprocessing to filter out boilerplate
       def convert_example(example, opts, renderer)
-        content = renderer.render(example.to_s)
-        create_example example.name, content: content, opts: opts
+        renderer.render(example.to_s)
+          .then { |r| remove_substrings(r, opts[:exclude]) }
+          .then { |r| find_substrings(r, opts[:include]) }
+          .then { |r| r.lines.map(&:strip).reject(&:empty?).join("\n") }  # very basic normalization
+          .then { |r| create_example(example.name, content: r, opts: opts) }
+      end
+
+      protected
+
+      def remove_substrings(str, regexps)
+        Array(regexps).reduce(str) do |acc, rx|
+          acc.gsub(rx.to_regexp, '')
+        end
+      end
+
+      def find_substrings(str, regexps)
+        return str unless regexps
+
+        Array(regexps).map { |rx|
+          matches = str.match(rx.to_regexp).to_a
+
+          if matches.size > 1
+            matches[1..-1].join("\n")
+          else
+            matches.first || ''
+          end
+        }.join("\n")
       end
     end
   end
