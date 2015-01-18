@@ -20,9 +20,6 @@ end
 # Allow to use shorten module name.
 DocTest = Asciidoctor::DocTest unless defined? DocTest
 
-# Workarounds for JRuby.
-require 'asciidoctor/doctest/jruby_ext' if RUBY_ENGINE == 'jruby'
-
 require 'asciidoctor/doctest/version'
 require 'asciidoctor/doctest/base_example'
 require 'asciidoctor/doctest/base_examples_suite'
