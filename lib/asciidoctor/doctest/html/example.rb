@@ -1,6 +1,6 @@
 require 'asciidoctor/doctest/base_example'
-require 'asciidoctor/doctest/html/html_beautifier'
 require 'asciidoctor/doctest/html/normalizer'
+require 'htmlbeautifier'
 require 'nokogiri'
 
 module Asciidoctor::DocTest
