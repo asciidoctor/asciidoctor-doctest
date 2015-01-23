@@ -10,8 +10,12 @@ module Asciidoctor::DocTest
     #
     # @example Format of the example's header
     #   // .example-name
-    #   // Any text that is not the example's name is considered
+    #   // Any text that is not the example's name or an option is considered
     #   // as a description.
+    #   // :option_1: value 1
+    #   // :option_2: value 1
+    #   // :option_2: value 2
+    #   // :boolean_option:
     #   The example's content in *AsciiDoc*.
     #
     #   NOTE: The trailing new line (below this) will be removed.
@@ -27,12 +31,14 @@ module Asciidoctor::DocTest
         current = create_example(nil)
 
         input.each_line do |line|
-          line.chomp!
-          if line =~ %r{^//\s*\.([^ \n]+)}
+          case line.chomp!
+          when %r{^//\s*\.([^ \n]+)}
             local_name = $1
             current.content.chomp!
             examples << (current = create_example([group_name, local_name]))
-          elsif line =~ %r{^//\s*(.*)\s*$}
+          when %r{^//\s*:([^:]+):(.*)}
+            current[$1.to_sym] = $2.blank? ? true : $2.strip
+          when %r{^//\s*(.*)\s*$}
             (current.desc ||= '').concat($1, "\n")
           else
             current.content.concat(line, "\n")

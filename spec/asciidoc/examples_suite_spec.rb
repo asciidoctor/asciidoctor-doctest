@@ -78,6 +78,45 @@ describe DocTest::Asciidoc::ExamplesSuite do
 
         include_examples :example
       end
+
+      context 'with options' do
+        let :input do
+          <<-EOF.strip_heredoc
+            // .basic
+            // :exclude: /^=+.*/
+            // :exclude: /^#+.*/
+            // :include: /^----\\n(.*)\\n----/m
+            // :header_footer:
+            _dummy_
+          EOF
+        end
+
+        let :output do
+          create_example 's:basic', content: '_dummy_', opts: {
+            exclude: ['/^=+.*/', '/^#+.*/'],
+            include: ['/^----\\n(.*)\\n----/m'],
+            header_footer: true
+          }
+        end
+        include_examples :example
+      end
+
+      context 'with description and options' do
+        let :input do
+          <<-EOF.strip_heredoc
+            // .basic
+            // This is a description.
+            // :exclude: /^=+.*/
+          EOF
+        end
+
+        let :output do
+          create_example 's:basic', desc: 'This is a description.', opts: {
+            exclude: ['/^=+.*/']
+          }
+        end
+        include_examples :example
+      end
     end
 
     context 'multiple examples' do
