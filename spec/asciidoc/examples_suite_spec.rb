@@ -19,17 +19,22 @@ describe DocTest::Asciidoc::ExamplesSuite do
   end
 
 
-  describe '#parse' do
+  describe 'parsing/serialization:' do
 
     context 'one example' do
 
       shared_examples :example do
-        subject(:parsed) { suite.parse input, 's' }
+        let(:parsed) { suite.parse input, 's' }
+        let(:serialized) { suite.serialize output }
 
-        it { is_expected.to have(1).items }
+        it { expect(parsed).to have(1).items }
 
-        it 'returns an array with parsed Example object' do
+        it 'returns an array with parsed example object' do
           expect(parsed.first).to eql output
+        end
+
+        it 'returns a serialized example as string' do
+          expect(serialized).to eql input
         end
       end
 

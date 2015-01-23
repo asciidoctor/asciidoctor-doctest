@@ -1,3 +1,5 @@
+require 'active_support/core_ext/object/blank'
+require 'active_support/core_ext/array/wrap'
 require 'asciidoctor/doctest/base_examples_suite'
 require 'asciidoctor/doctest/core_ext'
 
@@ -38,6 +40,19 @@ module Asciidoctor::DocTest
         end
 
         examples
+      end
+
+      def serialize(examples)
+        Array.wrap(examples).map { |exmpl|
+          Array.new.push(".#{exmpl.local_name}")
+            .push(*exmpl.desc.lines.map(&:chomp))
+            .push(*format_options(exmpl.opts))
+            .map_send(:prepend, '// ')
+            .push(exmpl.content.presence)
+            .compact
+            .join("\n")
+            .concat("\n")
+        }.join("\n")
       end
     end
   end
