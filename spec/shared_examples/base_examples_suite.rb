@@ -253,6 +253,33 @@ shared_examples DocTest::BaseExamplesSuite do
   end
 
 
+  describe '#format_options' do
+
+    shared_examples :format_options do |input, output|
+      it "returns #{output} for #{input}" do
+        expect(suite.send(:format_options, input)).to eq output
+      end
+    end
+
+    context 'empty' do
+      include_examples :format_options, {}, []
+    end
+
+    context 'options with one value' do
+      include_examples :format_options, {opt1: 'val1', opt2: 'val2'}, [':opt1: val1', ':opt2: val2']
+    end
+
+    context 'options with multiple values' do
+      include_examples :format_options, {opt1: %w[val11 val12], opt2: ['val2']},
+                       [':opt1: val11', ':opt1: val12', ':opt2: val2']
+    end
+
+    context 'boolean options' do
+      include_examples :format_options, {opt1: true, opt2: false}, [':opt1:', ':opt2: false']
+    end
+  end
+
+
   def create_and_write_group(path, group_name, file_ext, *examples)
     content = [path, group_name + file_ext, *examples].join("\n")
     File.write File.join(path, group_name + file_ext), content

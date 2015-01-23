@@ -85,6 +85,7 @@ describe DocTest::HTML::ExamplesSuite do
             :exclude: .//code
             :exclude: .//section
             :include: ./p/node()
+            :header_footer:
             -->
             <p>dummy</p>
           EOF
@@ -93,16 +94,10 @@ describe DocTest::HTML::ExamplesSuite do
         let :output do
           create_example 's:basic', content: '<p>dummy</p>', opts: {
             exclude: ['.//code', './/section'],
-            include: ['./p/node()']
+            include: ['./p/node()'],
+            header_footer: true
           }
         end
-        include_examples :example
-      end
-
-      context 'with boolean option' do
-        let(:input) { "<!-- .basic\n:header_footer:\n-->\n" }
-        let(:output) { create_example 's:basic', opts: { header_footer: true } }
-
         include_examples :example
       end
 
@@ -112,15 +107,13 @@ describe DocTest::HTML::ExamplesSuite do
             <!-- .basic
             This is a description.
             :exclude: .//code
-            :header_footer:
             -->
           EOF
         end
 
         let :output do
           create_example 's:basic', desc: 'This is a description.', opts: {
-            exclude: ['.//code'],
-            header_footer: true
+            exclude: ['.//code']
           }
         end
         include_examples :example

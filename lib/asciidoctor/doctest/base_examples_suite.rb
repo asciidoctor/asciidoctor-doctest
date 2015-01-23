@@ -173,6 +173,36 @@ module Asciidoctor
         }.sort
       end
 
+      protected
+
+      ##
+      # Converts the given options into the format used in examples file.
+      #
+      # @example
+      #   {
+      #     option1: 'value 1',
+      #     option2: ['value 1', 'value 2']
+      #     option3: true
+      #   }
+      #   V---V---V---V---V---V---V---V---V
+      #   [
+      #     ':option1: value 1',
+      #     ':option2: value 1',
+      #     ':option2: value 2',
+      #     ':option3:'
+      #   ]
+      #
+      # @param opts [Hash] options
+      # @return [Array<String>] formatted options
+      #
+      def format_options(opts)
+        opts.each_with_object([]) do |(name, vals), ary|
+          Array.wrap(vals).each do |val|
+            ary << (val == true ? ":#{name}:" : ":#{name}: #{val}")
+          end
+        end
+      end
+
       private
 
       def read_files(file_name)

@@ -61,15 +61,13 @@ module Asciidoctor::DocTest
 
       def serialize(examples)
         Array.wrap(examples).map { |exmpl|
-          header = [ ".#{exmpl.local_name}", exmpl.desc.presence ].compact
+          header = [
+            ".#{exmpl.local_name}",
+            exmpl.desc.presence,
+            *format_options(exmpl.opts)
+          ].compact
 
-          exmpl.opts.each do |name, vals|
-            Array.wrap(vals).each do |val|
-              header << (val == true ? ":#{name}:" : ":#{name}: #{val}")
-            end
-          end
           header_str = header.one? ? (header.first + ' ') : (header.join("\n") + "\n")
-
           [ "<!-- #{header_str}-->", exmpl.content.presence ].compact.join("\n") + "\n"
         }.join("\n")
       end
