@@ -1,4 +1,3 @@
-require 'active_support/core_ext/string/strip'
 require 'asciidoctor/doctest/minitest_diffy'
 
 describe Diffy::Format do

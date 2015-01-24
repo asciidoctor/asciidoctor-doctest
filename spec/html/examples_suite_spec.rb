@@ -1,4 +1,5 @@
 require 'active_support/core_ext/string/strip'
+require 'forwardable'
 
 describe DocTest::HTML::ExamplesSuite do
   extend Forwardable
