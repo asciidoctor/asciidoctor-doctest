@@ -13,12 +13,12 @@ module Asciidoctor::DocTest
     #
     # @example Format of the example's header
     #   <!-- .example-name
-    #     Any text that is not the example's name or an option and doesn't
-    #     start with // is considered as a description.
-    #     :option-1: value 1
-    #     :option-2: value 1
-    #     :option-2: value 2
-    #     :boolean-option:
+    #     Any text that is not the example's name or an option is considered
+    #     as a description.
+    #     :option_1: value 1
+    #     :option_2: value 1
+    #     :option_2: value 2
+    #     :boolean_option:
     #   -->
     #   <p>The example's content in <strong>HTML</strong>.</p>
     #
@@ -46,7 +46,7 @@ module Asciidoctor::DocTest
           elsif in_comment
             if line =~ /^\s*:([^:]+):(.*)/
               current[$1.to_sym] = $2.blank? ? true : $2.strip
-            elsif !line.start_with?('//')
+            else
               desc = line.rstrip.chomp('-->').strip
               (current.desc ||= '').concat(desc, "\n") unless desc.empty?
             end
@@ -77,29 +77,37 @@ module Asciidoctor::DocTest
       end
 
       def convert_example(example, opts, renderer)
+        # The header & footer are excluded by default; always enable for document examples.
         header_footer = !!opts[:header_footer] || example.name.start_with?('document')
 
-        html = renderer.convert(example.content, header_footer: header_footer)
-        html = parse_html(html, !header_footer)
-
-        # When asserting inline examples, ignore paragraph "wrapper".
+        # When asserting inline examples, defaults to ignore paragraph "wrapper".
         includes = opts[:include] || (@paragraph_xpath if example.name.start_with? 'inline_')
 
-        Array.wrap(includes).each do |xpath|
-          # XPath returns NodeSet, but we need DocumentFragment, so convert it again.
-          html = parse_html(html.xpath(xpath).to_html)
-        end
-
-        Array.wrap(opts[:exclude]).each do |xpath|
-          html.xpath(xpath).remove
-        end
-
-        html.normalize!
-
-        create_example example.name, content: HtmlBeautifier.beautify(html), opts: opts
+        renderer.convert(example.content, header_footer: header_footer)
+          .then { |s| parse_html s, !header_footer }
+          .then { |h| find_nodes h, includes }
+          .then { |h| remove_nodes h, opts[:exclude] }
+          .then { |h| h.normalize! }
+          .then { |h| HtmlBeautifier.beautify h }
+          .then { |h| create_example example.name, content: h, opts: opts }
       end
 
-      private
+      protected
+
+      def find_nodes(html, xpaths)
+        Array.wrap(xpaths).reduce(html) do |htm, xpath|
+          # XPath returns NodeSet, but we need DocumentFragment, so convert it again.
+          parse_html htm.xpath(xpath).to_html
+        end
+      end
+
+      def remove_nodes(html, xpaths)
+        return html unless xpaths
+
+        Array.wrap(xpaths).each_with_object(html.clone) do |xpath, htm|
+          htm.xpath(xpath).remove
+        end
+      end
 
       def parse_html(str, fragment = true)
         fragment ? ::Nokogiri::HTML.fragment(str) : ::Nokogiri::HTML.parse(str)
