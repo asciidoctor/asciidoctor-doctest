@@ -28,6 +28,9 @@ Style/DoubleNegation:
 Style/EmptyLines:
   Enabled: false
 
+Style/EmptyLinesAroundBlockBody:
+  Exclude: [ 'spec/**/*.rb' ]
+
 Style/EmptyLinesAroundClassBody:
   Enabled: false
 
@@ -35,7 +38,7 @@ Style/EmptyLinesAroundModuleBody:
   Enabled: false
 
 Style/FileName:
-  Exclude: ['lib/asciidoctor-doctest.rb']
+  Exclude: [ 'lib/asciidoctor-doctest.rb' ]
 
 Style/HashSyntax:
   Exclude: [ '**/Rakefile' ]
