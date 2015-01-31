@@ -146,12 +146,12 @@ module Asciidoctor
       #         otherwise +false+.
       def eql?(other)
         self.class == other.class &&
-          instance_variables == other.instance_variables
+          instance_values == other.instance_values
       end
 
       # :nocov:
       def hash
-        self.class.hash ^ instance_variables.hash
+        self.class.hash ^ instance_values.hash
       end
       # :nocov:
 
