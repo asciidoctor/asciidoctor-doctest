@@ -1,8 +1,8 @@
-require 'active_support/core_ext/array/wrap'
-require 'active_support/core_ext/enumerable'
-require 'active_support/core_ext/object/blank'
-require 'asciidoctor/doctest/core_ext'
+require 'corefines'
 require 'pathname'
+
+using Corefines::Object::blank?
+using Corefines::Enumerable::index_by
 
 module Asciidoctor
   module DocTest
@@ -151,7 +151,7 @@ module Asciidoctor
         examples.group_by(&:group_name).each do |group, exmpls|
           # replace cached examples with the given ones and preserve original order
           updated_group = [ read_examples(group), exmpls ]
-            .map_send(:index_by, &:local_name)
+            .map { |e| e.index_by(&:local_name) }
             .reduce(:merge)
             .values
 

@@ -1,6 +1,6 @@
-require 'active_support/core_ext/object/blank'
-require 'active_support/core_ext/object/deep_dup'
-require 'active_support/core_ext/object/instance_variables'
+require 'corefines'
+
+using Corefines::Object[:blank?, :deep_dup, :instance_values]
 
 module Asciidoctor
   module DocTest

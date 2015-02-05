@@ -1,9 +1,9 @@
-require 'active_support/core_ext/array/wrap'
-require 'active_support/core_ext/object/blank'
 require 'asciidoctor'
 require 'asciidoctor/converter/template'
-require 'asciidoctor/doctest/core_ext'
+require 'corefines'
 require 'delegate'
+
+using Corefines::Object[:blank?, :presence]
 
 module Asciidoctor
   module DocTest

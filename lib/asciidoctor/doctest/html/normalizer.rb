@@ -1,5 +1,7 @@
-require 'active_support/core_ext/object/try'
+require 'corefines'
 require 'nokogiri'
+
+using Corefines::Object::try
 
 module Asciidoctor::DocTest
   module HTML

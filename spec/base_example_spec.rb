@@ -163,6 +163,8 @@ describe DocTest::BaseExample do
   end
 
   describe '#dup' do
+    using Corefines::Object::instance_values
+
     it 'returns deep copy' do
       origo = described_class.new('a:b', content: 'allons-y!', desc: 'who?', opts: {key: ['value']})
       copy = origo.dup

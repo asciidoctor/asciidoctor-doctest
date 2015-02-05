@@ -1,7 +1,9 @@
-require 'active_support/core_ext/object/blank'
-require 'active_support/core_ext/array/wrap'
 require 'asciidoctor/doctest/base_examples_suite'
-require 'asciidoctor/doctest/core_ext'
+require 'corefines'
+
+using Corefines::Enumerable::map_send
+using Corefines::Object[:blank?, :presence]
+using Corefines::String::concat!
 
 module Asciidoctor::DocTest
   module Asciidoc
@@ -39,9 +41,9 @@ module Asciidoctor::DocTest
           when %r{^//\s*:([^:]+):(.*)}
             current[$1.to_sym] = $2.blank? ? true : $2.strip
           when %r{^//\s*(.*)\s*$}
-            (current.desc ||= '').concat($1, "\n")
+            (current.desc ||= '').concat!($1, "\n")
           else
-            current.content.concat(line, "\n")
+            current.content.concat!(line, "\n")
           end
         end
 

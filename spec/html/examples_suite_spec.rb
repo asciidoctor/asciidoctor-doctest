@@ -1,5 +1,6 @@
-require 'active_support/core_ext/string/strip'
 require 'forwardable'
+
+using Corefines::String::unindent
 
 describe DocTest::HTML::ExamplesSuite do
   extend Forwardable
@@ -47,7 +48,7 @@ describe DocTest::HTML::ExamplesSuite do
 
       context 'with multiline content' do
         let :content do
-          <<-EOF.strip_heredoc
+          <<-EOF.unindent
             <p>Paragraphs don't require
             any special markup.</p>
 
@@ -63,7 +64,7 @@ describe DocTest::HTML::ExamplesSuite do
 
       context 'with description' do
         let :input do
-          <<-EOF.strip_heredoc
+          <<-EOF.unindent
             <!-- .strong
             This is a description,
             see?
@@ -81,7 +82,7 @@ describe DocTest::HTML::ExamplesSuite do
 
       context 'with options' do
         let :input do
-          <<-EOF.strip_heredoc
+          <<-EOF.unindent
             <!-- .basic
             :exclude: .//code
             :exclude: .//section
@@ -104,7 +105,7 @@ describe DocTest::HTML::ExamplesSuite do
 
       context 'with description and options' do
         let :input do
-          <<-EOF.strip_heredoc
+          <<-EOF.unindent
             <!-- .basic
             This is a description.
             :exclude: .//code
@@ -123,7 +124,7 @@ describe DocTest::HTML::ExamplesSuite do
 
     context 'multiple examples' do
       let :input do
-        <<-EOF.strip_heredoc
+        <<-EOF.unindent
           <!-- .basic -->
           http://asciidoctor.org
 

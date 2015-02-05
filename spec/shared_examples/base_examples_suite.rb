@@ -1,6 +1,7 @@
-require 'active_support/core_ext/array/access'
 require 'fileutils'
 require 'forwardable'
+
+using Corefines::Array::second
 
 shared_examples DocTest::BaseExamplesSuite do
   extend Forwardable

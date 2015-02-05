@@ -28,9 +28,9 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   s.required_ruby_version = '>= 2.0'
 
   # runtime
-  s.add_runtime_dependency 'activesupport', '~> 4.1'
   s.add_runtime_dependency 'asciidoctor', '~> 1.5.0'
   s.add_runtime_dependency 'colorize', '~> 0.6'
+  s.add_runtime_dependency 'corefines', '~> 1.0.0'
   s.add_runtime_dependency 'diffy', '~> 3.0'
   s.add_runtime_dependency 'htmlbeautifier', '~> 1.0'
   s.add_runtime_dependency 'minitest', '~> 5.4'
@@ -41,6 +41,7 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   # development
   s.add_development_dependency 'bundler', '~> 1.6'
   s.add_development_dependency 'rake', '~> 10.0'
+  s.add_development_dependency 'thread_safe', '~> 0.3'
   s.add_development_dependency 'yard', '~> 0.8'
 
   # unit tests

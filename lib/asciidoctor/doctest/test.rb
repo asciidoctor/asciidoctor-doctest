@@ -1,9 +1,11 @@
-require 'active_support/core_ext/object/blank'
 require 'asciidoctor/doctest/asciidoc_renderer'
-require 'asciidoctor/doctest/core_ext'
 require 'asciidoctor/doctest/minitest_diffy'
 require 'asciidoctor/doctest/asciidoc/examples_suite'
+require 'corefines'
 require 'minitest'
+
+using Corefines::Object[:blank?, :presence]
+using Corefines::Module::alias_class_method
 
 module Asciidoctor
   module DocTest

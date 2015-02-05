@@ -1,7 +1,8 @@
-require 'active_support/core_ext/string/strip'
 require 'asciidoctor/doctest/generator'
-require 'asciidoctor/doctest/core_ext'
+require 'corefines'
 require 'rake/tasklib'
+
+using Corefines::String::unindent
 
 module Asciidoctor
   module DocTest
@@ -99,7 +100,7 @@ module Asciidoctor
       end
 
       def description
-        <<-EOS.strip_heredoc
+        <<-EOS.unindent
           #{title}
 
           Options (environment variables):

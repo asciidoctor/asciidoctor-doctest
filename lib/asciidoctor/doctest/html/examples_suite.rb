@@ -1,10 +1,11 @@
-require 'active_support/core_ext/array/wrap'
-require 'active_support/core_ext/object/blank'
 require 'asciidoctor/doctest/base_examples_suite'
-require 'asciidoctor/doctest/core_ext'
 require 'asciidoctor/doctest/html/example'
 require 'asciidoctor/doctest/html/normalizer'
+require 'corefines'
 require 'nokogiri'
+
+using Corefines::Object[:blank?, :presence, :then]
+using Corefines::String::concat!
 
 module Asciidoctor::DocTest
   module HTML
@@ -48,10 +49,10 @@ module Asciidoctor::DocTest
               current[$1.to_sym] = $2.blank? ? true : $2.strip
             else
               desc = line.rstrip.chomp('-->').strip
-              (current.desc ||= '').concat(desc, "\n") unless desc.empty?
+              (current.desc ||= '').concat!(desc, "\n") unless desc.empty?
             end
           else
-            current.content.concat(line, "\n")
+            current.content.concat!(line, "\n")
           end
           in_comment &= !line.end_with?('-->')
         end
