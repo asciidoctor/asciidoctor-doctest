@@ -1,5 +1,7 @@
 require 'asciidoctor'
-require 'colorize'
+require 'corefines'
+
+using Corefines::String::color
 
 module Asciidoctor
   module DocTest
@@ -35,7 +37,7 @@ module Asciidoctor
           next unless input.name_match? pattern
 
           log = ->(msg, color = :default) do
-            log_os << " --> #{(msg % input.name).colorize(color)}\n" if log_os
+            log_os << " --> #{(msg % input.name).color(color)}\n" if log_os
           end
 
           if input.empty?

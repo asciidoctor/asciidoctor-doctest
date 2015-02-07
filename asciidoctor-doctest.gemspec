@@ -29,7 +29,6 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
 
   # runtime
   s.add_runtime_dependency 'asciidoctor', '~> 1.5.0'
-  s.add_runtime_dependency 'colorize', '~> 0.6'
   s.add_runtime_dependency 'corefines', '~> 1.0.0'
   s.add_runtime_dependency 'diffy', '~> 3.0'
   s.add_runtime_dependency 'htmlbeautifier', '~> 1.0'

@@ -1,4 +1,7 @@
 require 'asciidoctor/doctest/minitest_diffy'
+require 'corefines'
+
+using Corefines::String::color
 
 describe Diffy::Format do
 
@@ -33,7 +36,7 @@ describe Diffy::Format do
       let(:input) { ['+ <div><p>chunky bacon</p></div>'] }
 
       it 'replaces "+" with "A", adds padding and colour' do
-        is_expected.to eq "\n" + 'A   <div><p>chunky bacon</p></div>'.red
+        is_expected.to eq "\n" + 'A   <div><p>chunky bacon</p></div>'.color(:red)
       end
     end
 
@@ -41,7 +44,7 @@ describe Diffy::Format do
       let(:input) { ['- <p>chunky bacon</p>'] }
 
       it 'replaces "-" with "E", adds padding and colour' do
-        is_expected.to eq "\n" + 'E   <p>chunky bacon</p>'.green
+        is_expected.to eq "\n" + 'E   <p>chunky bacon</p>'.color(:green)
       end
     end
 

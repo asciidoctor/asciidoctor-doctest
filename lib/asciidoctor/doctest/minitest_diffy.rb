@@ -1,5 +1,7 @@
-require 'colorize'
+require 'corefines'
 require 'diffy'
+
+using Corefines::String::color
 
 module Asciidoctor
   module DocTest
@@ -59,9 +61,9 @@ module Diffy
         when /^\\\s*No newline at end of file/
           # ignore
         when /^\+/
-          line.chomp.sub(/^\+/, 'A' + padding).red
+          line.chomp.sub(/^\+/, 'A' + padding).color(:red)
         when /^-/
-          line.chomp.sub(/^\-/, 'E' + padding).green
+          line.chomp.sub(/^\-/, 'E' + padding).color(:green)
         else
           padding + line.chomp
         end
