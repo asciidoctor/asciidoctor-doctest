@@ -60,7 +60,7 @@ module Asciidoctor::DocTest
       end
 
       def serialize(examples)
-        Array.wrap(examples).map { |exmpl|
+        Array(examples).map { |exmpl|
           header = [
             ".#{exmpl.local_name}",
             exmpl.desc.presence,
@@ -95,7 +95,7 @@ module Asciidoctor::DocTest
       protected
 
       def find_nodes(html, xpaths)
-        Array.wrap(xpaths).reduce(html) do |htm, xpath|
+        Array(xpaths).reduce(html) do |htm, xpath|
           # XPath returns NodeSet, but we need DocumentFragment, so convert it again.
           parse_html htm.xpath(xpath).to_html
         end
@@ -104,7 +104,7 @@ module Asciidoctor::DocTest
       def remove_nodes(html, xpaths)
         return html unless xpaths
 
-        Array.wrap(xpaths).each_with_object(html.clone) do |xpath, htm|
+        Array(xpaths).each_with_object(html.clone) do |xpath, htm|
           htm.xpath(xpath).remove
         end
       end

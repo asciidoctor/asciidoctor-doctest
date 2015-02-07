@@ -49,7 +49,7 @@ module Asciidoctor::DocTest
       end
 
       def serialize(examples)
-        Array.wrap(examples).map { |exmpl|
+        Array(examples).map { |exmpl|
           Array.new.push(".#{exmpl.local_name}")
             .push(*exmpl.desc.lines.map(&:chomp))
             .push(*format_options(exmpl.opts))

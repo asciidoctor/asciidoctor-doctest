@@ -25,7 +25,7 @@ module Asciidoctor
         fail ArgumentError, 'file_ext must not be blank or nil' if file_ext.blank?
 
         @file_ext = file_ext.strip.freeze
-        @examples_path = Array.wrap(examples_path).freeze
+        @examples_path = Array(examples_path).freeze
         @examples_cache = {}
       end
 
@@ -198,7 +198,7 @@ module Asciidoctor
       #
       def format_options(opts)
         opts.each_with_object([]) do |(name, vals), ary|
-          Array.wrap(vals).each do |val|
+          Array(vals).each do |val|
             ary << (val == true ? ":#{name}:" : ":#{name}: #{val}")
           end
         end

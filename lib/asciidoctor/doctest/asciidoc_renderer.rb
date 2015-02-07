@@ -43,7 +43,7 @@ module Asciidoctor
         @converter = converter
         @converter ||= NoFallbackTemplateConverter unless template_dirs.empty? || templates_fallback
 
-        template_dirs = Array.wrap(template_dirs).freeze
+        template_dirs = Array(template_dirs).freeze
         template_dirs.each do |path|
           fail ArgumentError, "Templates directory '#{path}' doesn't exist!" unless Dir.exist? path
         end
