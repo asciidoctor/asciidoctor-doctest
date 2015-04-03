@@ -56,12 +56,12 @@ mkdir -p test/examples/asciidoc
 . Add development dependency on `asciidoctor-doctest` to your gemspec:
 +
 [source]
-s.add_development_dependency 'asciidoctor-doctest', '~> 1.5'
+s.add_development_dependency 'asciidoctor-doctest', '~> 1.5.2'
 +
 or Gemfile if you’re not distributing the backend as a gem:
 +
 [source]
-gem 'asciidoctor-doctest', '~> 1.5'
+gem 'asciidoctor-doctest', '~> 1.5.2'
 +
 and run `bundle install`.
 

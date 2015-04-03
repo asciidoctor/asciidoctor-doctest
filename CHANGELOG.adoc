@@ -7,6 +7,18 @@ This document provides a high-level view of the changes introduced in DocTest by
 For a detailed view of what has changed, refer to the {repo-uri}/commits/master[commit history] on GitHub.
 
 
+== 1.5.2.0 (2015-04-04)
+
+Improvements::
+  * Update https://github.com/threedaymonk/htmlbeautifier[htmlbeautifier] to 1.0.0 and remove workaround in `html/html_beautifier` [{commit-uri}/6caafb0[6caafb0]].
+  * Extract formatting (serialization) of example’s options into `BaseExamplesSuite#format_options` to be reusable [{commit-uri}/c4d779c[c4d779c]].
+  * Implement serialization of examples suite into AsciiDoc [{commit-uri}/900aab8[900aab8]].
+  * Replace custom core extensions, ActiveSupport and Colorize with https://github.com/jirutka/corefines[Corefines]. This also means that refinements will be used instead of global monkey-patching, when running on Ruby that supports refinements (currently MRI ≥2.1.0). [{commit-uri}/50e05c1[50e05c1], {commit-uri}/2f4a42e[2f4a42e]]
+
+Bug fixes::
+  * Fix implementation of `eql?` and `hash` in BaseExample [{commit-uri}/c27615b[c27615b]].
+
+
 == 1.5.1.2 (2015-01-03)
 
 Improvements::
