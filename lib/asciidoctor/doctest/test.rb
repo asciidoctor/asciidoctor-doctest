@@ -4,7 +4,7 @@ require 'asciidoctor/doctest/asciidoc/examples_suite'
 require 'corefines'
 require 'minitest'
 
-using Corefines::Object[:blank?, :presence]
+using Corefines::Object[:blank?, :presence, :try]
 using Corefines::Module::alias_class_method
 
 module Asciidoctor
@@ -97,7 +97,7 @@ module Asciidoctor
       # @note Overrides method from +Minitest::Test+.
       # @return [String] name of this test that will be printed in a report.
       def location
-        prefix = self.class.name.split('::').last
+        prefix = self.class.name.try(:split, '::').try(:last) || 'DocTest'
         name = self.name.sub(':', ' : ')
         "#{prefix} :: #{name}"
       end
