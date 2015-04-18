@@ -4,10 +4,10 @@ Feature: Generating output examples for a custom HTML backend
     Given I do have a template-based HTML backend with DocTest
 
   Scenario: Generate missing output examples
-    When I run `bundle exec rake generate`
+    When I run `bundle exec rake doctest:generate`
     Then the output should contain:
       """
-      Generate testing examples *:*.
+      Generating test examples *:* in examples/html
        --> Unchanged block_quote:with_id_and_role
        --> Generating block_quote:with_title
        --> Skipping block_quote:with_attribution
@@ -71,10 +71,10 @@ Feature: Generating output examples for a custom HTML backend
       """
 
   Scenario: Regenerate all outdated output examples
-    When I run `bundle exec rake generate FORCE=yes`
+    When I run `bundle exec rake doctest:generate FORCE=yes`
     Then the output should contain:
       """
-      Generate testing examples *:*.
+      Generating test examples *:* in examples/html
        --> Unchanged block_quote:with_id_and_role
        --> Generating block_quote:with_title
        --> Rewriting block_quote:with_attribution
@@ -132,10 +132,10 @@ Feature: Generating output examples for a custom HTML backend
       """
 
   Scenario: Regenerate outdated output examples specified by filter
-    When I run `bundle exec rake generate PATTERN="*:*attribution" FORCE=yes`
+    When I run `bundle exec rake doctest:generate PATTERN="*:*attribution" FORCE=yes`
     Then the output should contain:
       """
-      Generate testing examples *:*attribution.
+      Generating test examples *:*attribution in examples/html
        --> Rewriting block_quote:with_attribution
 
       """

@@ -4,11 +4,11 @@ Feature: Testing a custom HTML backend
     Given I do have a template-based HTML backend with DocTest
 
   Scenario: Some examples do not match the expected output
-    When I run `bundle exec rake test`
+    When I run `bundle exec rake doctest:test`
     Then the output should contain:
       """
         1) Failure:
-      TestHtml :: block_quote : with_attribution:
+      block_quote:with_attribution:
       Failing example..
 
          <div class="quoteblock">
@@ -20,7 +20,7 @@ Feature: Testing a custom HTML backend
     And the output should contain:
       """
         2) Failure:
-      TestHtml :: document : title_with_author:
+      document:title_with_author:
       This example should fail..
 
          <div id="header">
@@ -36,7 +36,7 @@ Feature: Testing a custom HTML backend
 
   Scenario: A necessary template is missing and fallback to the built-in converter is disabled
     When I remove the file "templates/inline_quoted.html.slim"
-    And I run `bundle exec rake test`
+    And I run `bundle exec rake doctest:test`
     Then the output should contain:
       """
       Could not find a custom template to handle template_name: inline_quoted
@@ -44,7 +44,7 @@ Feature: Testing a custom HTML backend
     And the output should contain:
       """
         1) Failure:
-      TestHtml :: block_quote : with_attribution:
+      block_quote:with_attribution:
       Failing example..
 
          <div class="quoteblock">
