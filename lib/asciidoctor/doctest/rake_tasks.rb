@@ -19,6 +19,10 @@ module Asciidoctor
       DEFAULT_TEST_DESC = ->(task) do
         <<-EOS.unindent
           Run integration tests for the #{task.subject}.
+
+          Options (env. variables):
+            PATTERN   glob pattern to select examples to test. [default: #{task.pattern}]
+                      E.g. *:*, block_toc:basic, block*:*, *list:with*, ...
         EOS
       end
 
@@ -156,7 +160,7 @@ module Asciidoctor
 
         Class.new(Test).tap do |cls|
           cls.converter_opts(converter_opts)
-          cls.generate_tests!(output_suite, input_suite)
+          cls.generate_tests!(output_suite, input_suite, pattern: pattern)
           cls.run(test_reporter, {})
         end
 

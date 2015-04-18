@@ -30,17 +30,22 @@ module Asciidoctor
       # @param output_suite [BaseExamplesSuite, Class] the examples suite class
       #        (or its instance) to read the output examples from (i.e. an
       #        expected output).
+      #
       # @param input_suite [BaseExamplesSuite, Class] the examples suite class
       #        (or its instance) to read the reference input examples from.
       #
+      # @param pattern [String] glob-like pattern to select examples to test
+      #        (see {BaseExample#name_match?}).
+      #
       # If class is given, then it's instantiated with zero arguments.
       #
-      def self.generate_tests!(output_suite, input_suite = Asciidoc::ExamplesSuite)
+      def self.generate_tests!(output_suite, input_suite = Asciidoc::ExamplesSuite, pattern: '*:*')
         instance = ->(o) { o.is_a?(Class) ? o.new : o }
         @output_suite = instance[output_suite]
         @input_suite  = instance[input_suite]
 
         @input_suite.pair_with(@output_suite).each do |input, output|
+          next unless input.name_match? pattern
           next if input.empty?
 
           define_test input.name do

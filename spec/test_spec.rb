@@ -54,8 +54,10 @@ describe DocTest::Test do
 
     let :examples do
       [
-        [ (create_example 'bl:basic', content: '_meh_'),
-          (create_example 'bl:basic', content: '<i>meh</i>') ],
+        [ (create_example 'bl:alpha', content: '_meh_'),
+          (create_example 'bl:alpha', content: '<i>meh</i>') ],
+        [ (create_example 'bl:beta', content: '_meh_'),
+          (create_example 'bl:beta', content: '<i>meh</i>') ],
         [ (create_example 'bl:noinput'),
           (create_example 'bl:noinput') ],
         [ (create_example 'bl:nooutput', content: '_meh_'),
@@ -63,18 +65,20 @@ describe DocTest::Test do
       ]
     end
 
+    let(:opts) { {} }
+
     before do
       expect(input_suite).to receive(:pair_with)
         .with(output_suite).and_return(examples)
-      test_class.generate_tests! output_suite, input_suite
+      test_class.generate_tests! output_suite, input_suite, opts
     end
 
     context 'when both input and output examples are present' do
-      subject(:test_inst) { test_class.new('bl:basic') }
+      subject(:test_inst) { test_class.new('bl:alpha') }
 
       it 'defines test method that calls method :test_example'do
         is_expected.to receive(:test_example)
-        test_inst.send(:'bl:basic')
+        test_inst.send(:'bl:alpha')
       end
     end
 
@@ -89,6 +93,15 @@ describe DocTest::Test do
 
       it 'defines test method with "skip"' do
         expect { subject.send(:'bl:nooutput') }.to raise_error Minitest::Skip
+      end
+    end
+
+    context 'with pattern' do
+      let(:opts) { {pattern: 'bl:b*'} }
+
+      it "defines test methods only for matched examples" do
+        is_expected.to have_method :'bl:beta'
+        is_expected.to_not have_method :'bl:alpha', :'bl:nooutput'
       end
     end
   end
