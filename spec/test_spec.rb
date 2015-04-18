@@ -6,10 +6,6 @@ describe DocTest::Test do
   let(:input_suite) { double 'ExamplesSuite' }
   let(:output_suite) { double 'ExamplesSuite' }
 
-  before do
-    test_class.instance_variable_set(:@renderer, renderer)
-  end
-
   it { is_expected.to have_method :input_suite, :output_suite, :renderer }
 
 
@@ -34,17 +30,10 @@ describe DocTest::Test do
       it { is_expected.to be_empty }
     end
 
-    context 'when some test is defined using test macro' do
+    context 'when some test is defined using #define_test' do
       it 'returns array with the test method name' do
         test_class.define_test('dummy') { 42 }
         is_expected.to eq ['dummy']
-      end
-    end
-
-    context 'when any method named /test_.*/ exists' do
-      it 'returns array with the method name' do
-        test_class.send(:define_method, :test_me) { 42 }
-        is_expected.to eq ['test_me']
       end
     end
   end
@@ -70,7 +59,7 @@ describe DocTest::Test do
     before do
       expect(input_suite).to receive(:pair_with)
         .with(output_suite).and_return(examples)
-      test_class.generate_tests! output_suite, input_suite, opts
+      test_class.generate_tests! output_suite, input_suite, renderer, opts
     end
 
     context 'when both input and output examples are present' do
@@ -110,11 +99,8 @@ describe DocTest::Test do
   describe '#location' do
     subject { test_class.new('block_ulist:basic').location }
 
-    # test_class is anonymous, so we must give it some name
-    before { DummyTest = test_class unless defined? DummyTest }
-
-    it 'returns formatted example name' do
-      is_expected.to eq 'DummyTest :: block_ulist : basic'
+    it 'returns example name' do
+      is_expected.to eq 'block_ulist:basic'
     end
   end
 
@@ -135,7 +121,7 @@ describe DocTest::Test do
         .with(input_exmpl, output_exmpl.opts, renderer)
         .and_return(actual_exmpl)
 
-      test_class.generate_tests! output_suite, input_suite
+      test_class.generate_tests! output_suite, input_suite, renderer
     end
 
     context 'when examples are equivalent' do

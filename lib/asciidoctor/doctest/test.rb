@@ -4,8 +4,7 @@ require 'asciidoctor/doctest/asciidoc/examples_suite'
 require 'corefines'
 require 'minitest'
 
-using Corefines::Object[:blank?, :presence, :try]
-using Corefines::Module::alias_class_method
+using Corefines::Object[:presence, :try]
 
 module Asciidoctor
   module DocTest
@@ -15,34 +14,26 @@ module Asciidoctor
       include MinitestDiffy
 
       ##
-      # (see AsciidocRenderer#initialize)
-      def self.converter_opts(**kwargs)
-        @renderer = AsciidocRenderer.new(**kwargs)
-      end
-
-      # Alias for backward compatibility.
-      alias_class_method :renderer_opts, :converter_opts
-
-      ##
       # Generates tests for all the input/output examples.
       # When some output example is missing, it's reported as skipped test.
       #
-      # @param output_suite [BaseExamplesSuite, Class] the examples suite class
-      #        (or its instance) to read the output examples from (i.e. an
-      #        expected output).
+      # @param output_suite [BaseExamplesSuite] an instance of
+      #        {BaseExamplesSuite} subclass to read the output examples from
+      #        (i.e. an expected output).
       #
-      # @param input_suite [BaseExamplesSuite, Class] the examples suite class
-      #        (or its instance) to read the reference input examples from.
+      # @param input_suite [BaseExamplesSuite] an instance of
+      #        {BaseExamplesSuite} subclass to read the reference input
+      #        examples from.
+      #
+      # @param renderer [#convert]
       #
       # @param pattern [String] glob-like pattern to select examples to test
       #        (see {BaseExample#name_match?}).
       #
-      # If class is given, then it's instantiated with zero arguments.
-      #
-      def self.generate_tests!(output_suite, input_suite = Asciidoc::ExamplesSuite, pattern: '*:*')
-        instance = ->(o) { o.is_a?(Class) ? o.new : o }
-        @output_suite = instance[output_suite]
-        @input_suite  = instance[input_suite]
+      def self.generate_tests!(output_suite, input_suite, renderer, pattern: '*:*')
+        @output_suite = output_suite
+        @input_suite  = input_suite
+        @renderer = renderer
 
         @input_suite.pair_with(@output_suite).each do |input, output|
           next unless input.name_match? pattern
@@ -59,6 +50,7 @@ module Asciidoctor
       end
 
       ##
+      # @private
       # Defines a new test method.
       #
       # @param name [String] name of the test (method).
@@ -70,16 +62,11 @@ module Asciidoctor
       end
 
       ##
-      # @!method self.test
-      #   @see .define_test
-      alias_class_method :test, :define_test
-
-      ##
       # @private
       # @note Overrides method from +Minitest::Test+.
       # @return [Array] names of the test methods to run.
       def self.runnable_methods
-        (@test_methods || []) + super - ['test_example']
+        @test_methods || []
       end
 
       ##
@@ -95,16 +82,6 @@ module Asciidoctor
         msg = output_exmpl.desc.presence || input_exmpl.desc
 
         assert_equal output_exmpl, converted_exmpl, msg
-      end
-
-      ##
-      # @private
-      # @note Overrides method from +Minitest::Test+.
-      # @return [String] name of this test that will be printed in a report.
-      def location
-        prefix = self.class.name.try(:split, '::').try(:last) || 'DocTest'
-        name = self.name.sub(':', ' : ')
-        "#{prefix} :: #{name}"
       end
 
       ##
@@ -125,6 +102,9 @@ module Asciidoctor
           self.class.instance_variable_get(:"@#{name}")
         end
       end
+
+      # Overrides method from +Minitest::Test+.
+      alias_method :location, :name
     end
   end
 end

@@ -118,6 +118,7 @@ module Asciidoctor
 
         @input_suite = input_suite.new(input_suite_opts) if input_suite.is_a? Class
         @output_suite = output_suite.new(output_suite_opts) if output_suite.is_a? Class
+        @renderer = AsciidocRenderer.new(converter_opts)
 
         namespace(tasks_namespace) do
           define_test_task!
@@ -159,9 +160,8 @@ module Asciidoctor
         test_reporter.start
 
         Class.new(Test).tap do |cls|
-          cls.converter_opts(converter_opts)
-          cls.generate_tests!(output_suite, input_suite, pattern: pattern)
-          cls.run(test_reporter, {})
+          cls.generate_tests! output_suite, input_suite, @renderer, pattern: pattern
+          cls.run test_reporter, {}
         end
 
         test_reporter.report
@@ -189,10 +189,9 @@ module Asciidoctor
       def define_generate_task!
         desc generate_description
         task :generate do
-          renderer = AsciidocRenderer.new(converter_opts)
-
           puts "Generating test examples #{pattern} in #{output_suite.examples_path.first}"
-          Generator.generate! output_suite, input_suite, renderer,
+
+          Generator.generate! output_suite, input_suite, @renderer,
                               pattern: pattern, rewrite: force?
         end
       end
