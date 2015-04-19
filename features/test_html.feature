@@ -31,7 +31,7 @@ Feature: Testing a custom HTML backend
       """
     And the output should contain:
       """
-      5 runs, 3 assertions, 2 failures, 0 errors, 2 skips
+      5 examples, 2 failed, 0 errored, 2 skipped
       """
 
   Scenario: A necessary template is missing and fallback to the built-in converter is disabled
