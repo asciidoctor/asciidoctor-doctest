@@ -27,6 +27,7 @@ module Asciidoctor
           Options (env. variables):
             PATTERN   glob pattern to select examples to test. [default: #{task.pattern}]
                       E.g. *:*, block_toc:basic, block*:*, *list:with*, ...
+            VERBOSE   prints out more details [default: #{task.verbose? ? 'yes' : 'no'}]
         EOS
       end
 
@@ -84,6 +85,11 @@ module Asciidoctor
       # @note Used only in the test task.
       attr_accessor :test_reporter
 
+      # @return [Boolean] whether to print out more details (default: false).
+      #   May be overriden with +VERBOSE+ variable on the command line.
+      # @note Used only in the test task and with the default {#test_reporter}.
+      attr_accessor :verbose
+
       # @return [Boolean] whether to rewrite an already existing testing
       #   example. May be overriden with +FORCE+ variable on the command line
       #   (default: false).
@@ -117,6 +123,7 @@ module Asciidoctor
         @input_suite = input_suite.new(input_suite_opts) if input_suite.is_a? Class
         @output_suite = output_suite.new(output_suite_opts) if output_suite.is_a? Class
         @renderer = AsciidocRenderer.new(converter_opts)
+        @test_reporter ||= TestReporter.new($stdout, verbose: verbose?)
 
         namespace(tasks_namespace) do
           define_test_task!
@@ -133,11 +140,17 @@ module Asciidoctor
 
       # (see #force)
       def force?
-        return ENV['FORCE'].downcase.in? TRUE_VALUES if ENV.key? 'FORCE'
-        !!@force
+        env_bool 'FORCE', @force
       end
 
       alias_method :force, :force?
+
+      # (see #verbose)
+      def verbose?
+        env_bool 'VERBOSE', @verbose
+      end
+
+      alias_method :verbose, :verbose?
 
       # @private
       def subject
@@ -184,6 +197,11 @@ module Asciidoctor
           Generator.generate! output_suite, input_suite, @renderer,
                               pattern: pattern, rewrite: force?
         end
+      end
+
+      def env_bool(variable, default)
+        return ENV[variable].downcase.in?(TRUE_VALUES) if ENV.key? variable
+        default
       end
     end
   end
