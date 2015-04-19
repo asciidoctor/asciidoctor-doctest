@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'minitest'
 
 using Corefines::String::color
@@ -7,8 +8,9 @@ module Asciidoctor
     class TestReporter < Minitest::SummaryReporter
 
       RESULT_COLOR  = { :'.' => :green, E: :yellow, F: :red, S: :cyan }
+      RESULT_SYMBOL = { :'.' => '✓', E: '⚠', F: '✗', S: '∅' }
 
-      private_constant :RESULT_COLOR
+      private_constant :RESULT_COLOR, :RESULT_SYMBOL
 
       ##
       # @note Overrides method from +Minitest::AbstractReporter+.
@@ -16,8 +18,8 @@ module Asciidoctor
         color = RESULT_COLOR[result.result_code.to_sym]
 
         if verbose?
-          line = "%s = %.2f ms = %s" % [result.name, result.time * 1000, result.result_code]
-          io.puts line.color(color)
+          symbol = RESULT_SYMBOL[result.result_code.to_sym]
+          io.puts "#{symbol}  #{result.name.sub(':', ' : ')}".color(color)
         else
           io.print result.result_code.color(color)
         end
