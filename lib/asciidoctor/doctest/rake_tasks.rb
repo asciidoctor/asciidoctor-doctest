@@ -1,5 +1,9 @@
+require 'asciidoctor/doctest/asciidoc_renderer'
+require 'asciidoctor/doctest/generator'
+require 'asciidoctor/doctest/test_reporter'
+require 'asciidoctor/doctest/tester'
+require 'asciidoctor/doctest/asciidoc/examples_suite'
 require 'corefines'
-require 'minitest'
 require 'minitest/rg'
 require 'rake/tasklib'
 
@@ -106,12 +110,6 @@ module Asciidoctor
         @force = false
         @pattern = '*:*'
 
-        @test_reporter = Minitest::CompositeReporter.new.tap do |reporter|
-          colorized_io = Minitest::RG.new($stdout)
-          reporter << Minitest::SummaryReporter.new(colorized_io, {})
-          reporter << Minitest::ProgressReporter.new(colorized_io, {})
-        end
-
         yield self
 
         fail ArgumentError, 'The output_suite must be provided!' unless @output_suite
@@ -157,16 +155,8 @@ module Asciidoctor
       protected
 
       def run_tests!
-        test_reporter.start
-
-        Class.new(Test).tap do |cls|
-          cls.generate_tests! output_suite, input_suite, @renderer, pattern: pattern
-          cls.run test_reporter, {}
-        end
-
-        test_reporter.report
-
-        fail unless test_reporter.passed?
+        tester = Tester.new(output_suite, input_suite, @renderer, @test_reporter)
+        fail unless tester.run_tests(pattern: pattern)
       end
 
       ##
