@@ -4,7 +4,6 @@ require 'asciidoctor/doctest/test_reporter'
 require 'asciidoctor/doctest/tester'
 require 'asciidoctor/doctest/asciidoc/examples_suite'
 require 'corefines'
-require 'minitest/rg'
 require 'rake/tasklib'
 
 using Corefines::String::unindent
