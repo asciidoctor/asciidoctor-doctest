@@ -122,7 +122,8 @@ module Asciidoctor
         @input_suite = input_suite.new(input_suite_opts) if input_suite.is_a? Class
         @output_suite = output_suite.new(output_suite_opts) if output_suite.is_a? Class
         @renderer = AsciidocRenderer.new(converter_opts)
-        @test_reporter ||= TestReporter.new($stdout, verbose: verbose?)
+        @test_reporter ||= TestReporter.new($stdout, verbose: verbose?,
+          title: "Running DocTest for the #{subject}.")
 
         namespace(tasks_namespace) do
           define_test_task!
