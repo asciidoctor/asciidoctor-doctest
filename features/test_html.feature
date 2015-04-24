@@ -55,6 +55,18 @@ Feature: Testing a custom HTML backend
 
       """
 
+  Scenario: Test only examples matching the pattern
+    When I run `bundle exec rake doctest:test PATTERN=block_*:* VERBOSE=yes`
+    Then the output should contain:
+      """
+      Running DocTest for the templates: templates.
+
+      ✓  block_quote : with_id_and_role
+      ∅  block_quote : with_title
+      ✗  block_quote : with_attribution
+
+      """
+
   Scenario: A necessary template is missing and fallback to the built-in converter is disabled
     When I remove the file "templates/inline_quoted.html.slim"
     And I run `bundle exec rake doctest:test`
