@@ -194,8 +194,8 @@ module Asciidoctor
         task :generate do
           puts "Generating test examples #{pattern} in #{output_suite.examples_path.first}"
 
-          Generator.generate! output_suite, input_suite, @renderer,
-                              pattern: pattern, rewrite: force?
+          Generator.new(output_suite, input_suite, @renderer)
+                   .generate! pattern: pattern, rewrite: force?
         end
       end
 
