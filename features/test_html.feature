@@ -7,6 +7,12 @@ Feature: Testing a custom HTML backend
     When I run `bundle exec rake doctest:test`
     Then the output should contain:
       """
+      Running DocTest for the templates: templates.
+
+      .SFFS
+      """
+    Then the output should contain:
+      """
         1) Failure:
       block_quote:with_attribution:
       Failing example..
@@ -32,6 +38,21 @@ Feature: Testing a custom HTML backend
     And the output should contain:
       """
       5 examples, 2 failed, 0 errored, 2 skipped
+
+      You have skipped tests. Run with VERBOSE=yes for details.
+      """
+
+    When I run `bundle exec rake doctest:test VERBOSE=yes`
+    Then the output should contain:
+      """
+      Running DocTest for the templates: templates.
+
+      ✓  block_quote : with_id_and_role
+      ∅  block_quote : with_title
+      ✗  block_quote : with_attribution
+      ✗  document : title_with_author
+      ∅  inline_quoted : emphasis
+
       """
 
   Scenario: A necessary template is missing and fallback to the built-in converter is disabled
