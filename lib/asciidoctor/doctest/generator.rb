@@ -8,21 +8,21 @@ module Asciidoctor
     class Generator
 
       ##
-      # @param output_suite [BaseExamplesSuite] an instance of
-      #        {BaseExamplesSuite} subclass to read and generate the output
-      #        examples.
-      #
       # @param input_suite [BaseExamplesSuite] an instance of
       #        {BaseExamplesSuite} subclass to read the reference input
+      #        examples.
+      #
+      # @param output_suite [BaseExamplesSuite] an instance of
+      #        {BaseExamplesSuite} subclass to read and generate the output
       #        examples.
       #
       # @param renderer [#convert]
       #
       # @param io [#<<] output stream where to write log messages.
       #
-      def initialize(output_suite, input_suite, renderer, io = $stdout)
-        @output_suite = output_suite
+      def initialize(input_suite, output_suite, renderer, io = $stdout)
         @input_suite = input_suite
+        @output_suite = output_suite
         @renderer = renderer
         @io = io
       end

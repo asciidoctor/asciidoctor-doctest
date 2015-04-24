@@ -168,7 +168,7 @@ module Asciidoctor
       protected
 
       def run_tests!
-        tester = Tester.new(output_suite, input_suite, @renderer, @test_reporter)
+        tester = Tester.new(input_suite, output_suite, @renderer, @test_reporter)
         fail unless tester.run_tests(pattern: pattern)
       end
 
@@ -194,7 +194,7 @@ module Asciidoctor
         task :generate do
           puts "Generating test examples #{pattern} in #{output_suite.examples_path.first}"
 
-          Generator.new(output_suite, input_suite, @renderer)
+          Generator.new(input_suite, output_suite, @renderer)
                    .generate! pattern: pattern, rewrite: force?
         end
       end

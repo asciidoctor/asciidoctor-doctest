@@ -1,6 +1,6 @@
 describe DocTest::Tester do
 
-  subject(:tester) { described_class.new(output_suite, input_suite, renderer, reporter) }
+  subject(:tester) { described_class.new(input_suite, output_suite, renderer, reporter) }
 
   let(:renderer) { double 'Renderer' }
   let(:input_suite) { double 'ExamplesSuite' }
@@ -12,7 +12,7 @@ describe DocTest::Tester do
   describe '#initialize' do
 
     context "with default reporter" do
-      subject(:tester) { described_class.new(output_suite, input_suite, renderer, nil) }
+      subject(:tester) { described_class.new(input_suite, output_suite, renderer, nil) }
 
       it { expect(tester.reporter).to be_a DocTest::TestReporter }
     end

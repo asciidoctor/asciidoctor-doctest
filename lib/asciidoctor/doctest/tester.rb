@@ -15,13 +15,13 @@ module Asciidoctor
       attr_reader :reporter
 
       ##
-      # @param output_suite [BaseExamplesSuite] an instance of
-      #        {BaseExamplesSuite} subclass to read the output examples from
-      #        (i.e. an expected output).
-      #
       # @param input_suite [BaseExamplesSuite] an instance of
       #        {BaseExamplesSuite} subclass to read the reference input
       #        examples from.
+      #
+      # @param output_suite [BaseExamplesSuite] an instance of
+      #        {BaseExamplesSuite} subclass to read the output examples from
+      #        (i.e. an expected output).
       #
       # @param renderer [#convert]
       #
@@ -29,9 +29,9 @@ module Asciidoctor
       #        +Reporter+ to report test results. When omitted or +nil+, then
       #        {TestReporter} is used.
       #
-      def initialize(output_suite, input_suite, renderer, reporter = nil)
-        @output_suite = output_suite
+      def initialize(input_suite, output_suite, renderer, reporter = nil)
         @input_suite = input_suite
+        @output_suite = output_suite
         @renderer = renderer
         @reporter = reporter || TestReporter.new
       end
