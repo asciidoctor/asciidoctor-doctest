@@ -6,16 +6,13 @@ require 'asciidoctor/doctest/asciidoc/examples_suite'
 require 'corefines'
 require 'rake/tasklib'
 
-using Corefines::String::unindent
-using Corefines::Object::in?
+using Corefines::String[:to_b, :unindent]
 
 module Asciidoctor
   module DocTest
     ##
     # Rake tasks for testing and generating output examples.
     class RakeTasks < Rake::TaskLib
-
-      TRUE_VALUES = %w[yes y true]
 
       # Genetates a description of a given task when
       # {#test_description} is not set.
@@ -43,7 +40,7 @@ module Asciidoctor
         EOS
       end
 
-      private_constant :TRUE_VALUES, :DEFAULT_TEST_DESC, :DEFAULT_GENERATE_DESC
+      private_constant :DEFAULT_TEST_DESC, :DEFAULT_GENERATE_DESC
 
       # @return [#to_sym] namespace for the +:test+ and +:generate+ tasks. The
       #         +:test+ task will be set as the default task of this namespace.
@@ -140,14 +137,14 @@ module Asciidoctor
 
       # (see #force)
       def force?
-        env_bool 'FORCE', @force
+        ENV.fetch('FORCE', @force.to_s).to_b
       end
 
       alias_method :force, :force?
 
       # (see #verbose)
       def verbose?
-        env_bool 'VERBOSE', @verbose
+        ENV.fetch('VERBOSE', @verbose.to_s).to_b
       end
 
       alias_method :verbose, :verbose?
@@ -197,11 +194,6 @@ module Asciidoctor
           Generator.new(input_suite, output_suite, @renderer)
                    .generate! pattern: pattern, rewrite: force?
         end
-      end
-
-      def env_bool(variable, default)
-        return ENV[variable].downcase.in?(TRUE_VALUES) if ENV.key? variable
-        default
       end
     end
   end
