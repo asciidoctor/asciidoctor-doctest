@@ -1,8 +1,8 @@
 describe DocTest::Tester do
 
-  subject(:tester) { described_class.new(input_suite, output_suite, renderer, reporter) }
+  subject(:tester) { described_class.new(input_suite, output_suite, converter, reporter) }
 
-  let(:renderer) { double 'Renderer' }
+  let(:converter) { double 'converter' }
   let(:input_suite) { double 'ExamplesSuite' }
   let(:output_suite) { double 'ExamplesSuite' }
   let(:reporter) { spy 'Reporter' }
@@ -12,7 +12,7 @@ describe DocTest::Tester do
   describe '#initialize' do
 
     context "with default reporter" do
-      subject(:tester) { described_class.new(input_suite, output_suite, renderer, nil) }
+      subject(:tester) { described_class.new(input_suite, output_suite, converter, nil) }
 
       it { expect(tester.reporter).to be_a DocTest::TestReporter }
     end
@@ -83,7 +83,7 @@ describe DocTest::Tester do
       next if ex.metadata[:skip_before]
 
       expect(output_suite).to receive(:convert_example)
-        .with(input_exmpl, output_exmpl.opts, renderer)
+        .with(input_exmpl, output_exmpl.opts, converter)
         .and_return(actual_exmpl)
     end
 

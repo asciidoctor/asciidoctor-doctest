@@ -23,16 +23,16 @@ module Asciidoctor
       #        {BaseExamplesSuite} subclass to read the output examples from
       #        (i.e. an expected output).
       #
-      # @param renderer [#convert]
+      # @param converter [#convert]
       #
       # @param reporter [Minitest::Reporter, nil] an instance of minitest's
       #        +Reporter+ to report test results. When omitted or +nil+, then
       #        {TestReporter} is used.
       #
-      def initialize(input_suite, output_suite, renderer, reporter = nil)
+      def initialize(input_suite, output_suite, converter, reporter = nil)
         @input_suite = input_suite
         @output_suite = output_suite
-        @renderer = renderer
+        @converter = converter
         @reporter = reporter || TestReporter.new
       end
 
@@ -68,7 +68,7 @@ module Asciidoctor
           if output_exmpl.empty?
             test.skip 'No expected output found'
           else
-            converted_exmpl = @output_suite.convert_example(input_exmpl, output_exmpl.opts, @renderer)
+            converted_exmpl = @output_suite.convert_example(input_exmpl, output_exmpl.opts, @converter)
             msg = output_exmpl.desc.presence || input_exmpl.desc
 
             test.assert_equal output_exmpl, converted_exmpl, msg

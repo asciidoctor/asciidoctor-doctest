@@ -1,10 +1,10 @@
 require 'fileutils'
 
-describe DocTest::AsciidocRenderer do
+describe DocTest::AsciidocConverter do
 
   subject { described_class }
 
-  it { is_expected.to have_method :convert, :render }
+  it { is_expected.to have_method :convert }
 
 
   describe '#initialize' do

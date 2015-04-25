@@ -149,10 +149,10 @@ describe DocTest::HTML::ExamplesSuite do
 
     let(:input) { create_example 's:dummy', content: '*chunky* bacon' }
     let(:opts) { {dummy: 'value'} }
-    let(:renderer) { double 'AsciidocRenderer' }
+    let(:converter) { double 'AsciidocConverter' }
     let(:converter_opts) { {header_footer: false} }
 
-    subject(:result) { suite.convert_example input, opts, renderer }
+    subject(:result) { suite.convert_example input, opts, converter }
 
     let :rendered do
       <<-EOF
@@ -170,7 +170,7 @@ describe DocTest::HTML::ExamplesSuite do
     end
 
     before do
-      expect(renderer).to receive(:convert)
+      expect(converter).to receive(:convert)
         .with(input.content, converter_opts).and_return(rendered)
     end
 
@@ -207,7 +207,7 @@ describe DocTest::HTML::ExamplesSuite do
       let(:opts) { {header_footer: true} }
 
       it 'renders content with :header_footer => true' do
-        suite.convert_example input, {}, renderer
+        suite.convert_example input, {}, converter
       end
     end
 
@@ -216,7 +216,7 @@ describe DocTest::HTML::ExamplesSuite do
       let(:converter_opts) { {header_footer: true} }
 
       it 'renders content with :header_footer => true' do
-        suite.convert_example input, {}, renderer
+        suite.convert_example input, {}, converter
       end
     end
 

@@ -1,4 +1,4 @@
-require 'asciidoctor/doctest/asciidoc_renderer'
+require 'asciidoctor/doctest/asciidoc_converter'
 require 'asciidoctor/doctest/generator'
 require 'asciidoctor/doctest/test_reporter'
 require 'asciidoctor/doctest/tester'
@@ -68,7 +68,7 @@ module Asciidoctor
       attr_accessor :output_suite_opts
 
       # @return [Hash] options for the Asciidoctor converter.
-      # @see AsciidocRenderer#initialize
+      # @see AsciidocConverter#initialize
       attr_accessor :converter_opts
 
       # @return [String] glob pattern to select examples to test or
@@ -118,7 +118,7 @@ module Asciidoctor
 
         @input_suite = input_suite.new(input_suite_opts) if input_suite.is_a? Class
         @output_suite = output_suite.new(output_suite_opts) if output_suite.is_a? Class
-        @renderer = AsciidocRenderer.new(converter_opts)
+        @converter = AsciidocConverter.new(converter_opts)
         @test_reporter ||= TestReporter.new($stdout, verbose: verbose?,
           title: "Running DocTest for the #{subject}.")
 
@@ -165,7 +165,7 @@ module Asciidoctor
       protected
 
       def run_tests!
-        tester = Tester.new(input_suite, output_suite, @renderer, @test_reporter)
+        tester = Tester.new(input_suite, output_suite, @converter, @test_reporter)
         fail unless tester.run_tests(pattern: pattern)
       end
 
@@ -191,7 +191,7 @@ module Asciidoctor
         task :generate do
           puts "Generating test examples #{pattern} in #{output_suite.examples_path.first}"
 
-          Generator.new(input_suite, output_suite, @renderer)
+          Generator.new(input_suite, output_suite, @converter)
                    .generate! pattern: pattern, rewrite: force?
         end
       end

@@ -77,14 +77,14 @@ module Asciidoctor::DocTest
         Example.new(*args)
       end
 
-      def convert_example(example, opts, renderer)
+      def convert_example(example, opts, converter)
         # The header & footer are excluded by default; always enable for document examples.
         header_footer = !!opts[:header_footer] || example.name.start_with?('document')
 
         # When asserting inline examples, defaults to ignore paragraph "wrapper".
         includes = opts[:include] || (@paragraph_xpath if example.name.start_with? 'inline_')
 
-        renderer.convert(example.content, header_footer: header_footer)
+        converter.convert(example.content, header_footer: header_footer)
           .then { |s| parse_html s, !header_footer }
           .then { |h| find_nodes h, includes }
           .then { |h| remove_nodes h, opts[:exclude] }

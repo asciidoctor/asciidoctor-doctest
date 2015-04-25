@@ -16,20 +16,20 @@ module Asciidoctor
       #        {BaseExamplesSuite} subclass to read and generate the output
       #        examples.
       #
-      # @param renderer [#convert]
+      # @param converter [#convert]
       #
       # @param io [#<<] output stream where to write log messages.
       #
-      def initialize(input_suite, output_suite, renderer, io = $stdout)
+      def initialize(input_suite, output_suite, converter, io = $stdout)
         @input_suite = input_suite
         @output_suite = output_suite
-        @renderer = renderer
+        @converter = converter
         @io = io
       end
 
       ##
       # Generates missing, or rewrite existing output examples from the
-      # input examples converted using the +renderer+.
+      # input examples converted using the +converter+.
       #
       # @param pattern [String] glob-like pattern to select examples to
       #        (re)generate (see {BaseExample#name_match?}).
@@ -50,7 +50,7 @@ module Asciidoctor
           if input.empty?
             log["Unknown %s, doesn't exist in input examples!"]
           else
-            rendered = @output_suite.convert_example(input, output.opts, @renderer)
+            rendered = @output_suite.convert_example(input, output.opts, @converter)
             rendered.desc = output.desc
 
             if output.empty?

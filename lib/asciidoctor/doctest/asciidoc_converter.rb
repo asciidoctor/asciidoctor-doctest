@@ -10,7 +10,7 @@ module Asciidoctor
     ##
     # This class is basically a wrapper for +Asciidoctor.convert+ that allows to
     # preset and validate some common parameters.
-    class AsciidocRenderer
+    class AsciidocConverter
 
       attr_reader :backend_name, :converter, :template_dirs
 
@@ -68,9 +68,6 @@ module Asciidoctor
 
         Asciidoctor.convert(text.to_s, converter_opts)
       end
-
-      # Alias for backward compatibility.
-      alias_method :render, :convert
     end
 
     ##
