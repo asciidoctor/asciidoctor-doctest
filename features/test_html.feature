@@ -54,6 +54,16 @@ Feature: Testing a custom HTML backend
       ∅  inline_quoted:emphasis
 
       """
+    And the output should contain:
+      """
+      ∅  Skipped: block_quote:with_title
+         No expected output found
+      """
+    And the output should contain:
+      """
+      ∅  Skipped: inline_quoted:emphasis
+         No expected output found
+      """
 
   Scenario: Test only examples matching the pattern
     When I run `bundle exec rake doctest:test PATTERN=block_*:* VERBOSE=yes`
