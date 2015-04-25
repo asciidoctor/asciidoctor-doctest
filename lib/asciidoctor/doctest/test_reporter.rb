@@ -1,10 +1,12 @@
 # coding: utf-8
 require 'minitest'
 
-using Corefines::String::color
+using Corefines::String[:color, :indent]
 
 module Asciidoctor
   module DocTest
+    ##
+    # This class is responsible for printing a formatted output of the test run.
     class TestReporter < Minitest::StatisticsReporter
 
       RESULT_COLOR  = { :'.' => :green, E: :yellow, F: :red, S: :cyan }
@@ -20,52 +22,88 @@ module Asciidoctor
       end
 
       ##
+      # @param result [Minitest::Test] a single test result.
       # @note Overrides method from +Minitest::StatisticsReporter+.
       def record(result)
-        color = RESULT_COLOR[result.result_code.to_sym]
+        result.extend ResultExt
 
         if verbose?
-          symbol = RESULT_SYMBOL[result.result_code.to_sym]
-          io.puts "#{symbol}  #{result.name.sub(':', ' : ')}".color(color)
+          io.puts [ result.symbol.color(result.color), result.name ].join('  ')
         else
-          io.print result.result_code.color(color)
+          io.print result.result_code.color(result.color)
         end
 
         super
       end
 
       ##
+      # Outputs the summary of the run.
       # @note Overrides method from +Minitest::StatisticsReporter+.
       def report
         super
         io.puts unless verbose? # finish the dots
-        io.puts ['', statistics, aggregated_results, summary].join("\n")
+        io.puts ['', aggregated_results, summary, ''].compact.join("\n")
       end
 
-      def statistics
-        "Finished in %.6fs, %.4f runs/s, %.4f assertions/s." %
-          [total_time, count / total_time, assertions / total_time]
-      end
-
+      # @private
       def aggregated_results
         filtered_results = verbose? ? results : results.reject(&:skipped?)
 
-        filtered_results.each_with_index.map { |result, i|
-          "\n%3d) %s" % [i + 1, result]
-        }.join("\n") + "\n"
-      end
+        return nil if filtered_results.empty?
 
-      def summary
-        if results.any?(&:skipped?) && !verbose?
-          extra = "\n\nYou have skipped tests. Run with VERBOSE=yes for details."
+        str = "Aggregated results:\n"
+        filtered_results.each do |res|
+          str << "\n#{res.symbol}  #{res.failure.result_label}: ".color(res.color)
+          str << "#{res.name}\n#{res.failure.message.indent(3)}\n\n"
         end
-        color = failures + errors > 0 ? :red : :green
 
-        "#{count} examples, #{failures} failed, #{errors} errored, #{skips} skipped#{extra}".color(color)
+        str
       end
 
+      # @private
+      def summary
+        str = "#{count} examples ("
+        str << [
+          ("#{passes} passed".color(:green) if passes > 0),
+          ("#{failures} failed".color(:red) if failures > 0),
+          ("#{errors} errored".color(:yellow) if errors > 0),
+          ("#{skips} skipped".color(:cyan) if skips > 0)
+        ].compact.join(', ') + ")\n\n"
+
+        str << "Finished in %.3f s.\n" % total_time
+
+        if results.any?(&:skipped?) && !verbose?
+          str << "\nYou have skipped tests. Run with VERBOSE=yes for details.\n"
+        end
+
+        str
+      end
+
+      ##
+      # @return [Fixnum] number of passed tests (examples).
+      def passes
+        count - failures - errors - skips
+      end
+
+      ##
+      # @return [Boolean] whether verbose mode is enabled.
       def verbose?
         !!options[:verbose]
+      end
+
+
+      ##
+      # @private
+      # Module to be included into +Minitest::Test+.
+      module ResultExt
+
+        def symbol
+          RESULT_SYMBOL[result_code.to_sym]
+        end
+
+        def color
+          RESULT_COLOR[result_code.to_sym]
+        end
       end
     end
   end

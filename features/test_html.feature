@@ -13,32 +13,32 @@ Feature: Testing a custom HTML backend
       """
     Then the output should contain:
       """
-        1) Failure:
-      block_quote:with_attribution:
-      Failing example..
+      ✗  Failure: block_quote:with_attribution
+         Failing example..
 
-         <div class="quoteblock">
-           <blockquote>A person who never made a mistake <em>never</em> tried anything new.</blockquote>
-      E    <div>Albert Einstein</div>
-      A    <div class="attribution">— Albert Einstein</div>
-         </div>
+            <div class="quoteblock">
+              <blockquote>A person who never made a mistake <em>never</em> tried anything new.</blockquote>
+         E    <div>Albert Einstein</div>
+         A    <div class="attribution">— Albert Einstein</div>
+            </div>
       """
     And the output should contain:
       """
-        2) Failure:
-      document:title_with_author:
-      This example should fail..
+      ✗  Failure: document:title_with_author
+         This example should fail..
 
-         <div id="header">
-           <h1>The Dangerous and Thrilling Documentation Chronicles</h1>
-      E    <div id="author">Kismet Rainbow Chameleon</div>
-      A    <div class="details"><span id="author">Kismet Rainbow Chameleon</span></div>
-         </div>
+            <div id="header">
+              <h1>The Dangerous and Thrilling Documentation Chronicles</h1>
+         E    <div id="author">Kismet Rainbow Chameleon</div>
+         A    <div class="details"><span id="author">Kismet Rainbow Chameleon</span></div>
+            </div>
       """
     And the output should contain:
       """
-      5 examples, 2 failed, 0 errored, 2 skipped
-
+      5 examples (1 passed, 2 failed, 2 skipped)
+      """
+    And the output should contain:
+      """
       You have skipped tests. Run with VERBOSE=yes for details.
       """
 
@@ -47,11 +47,11 @@ Feature: Testing a custom HTML backend
       """
       Running DocTest for the templates: templates.
 
-      ✓  block_quote : with_id_and_role
-      ∅  block_quote : with_title
-      ✗  block_quote : with_attribution
-      ✗  document : title_with_author
-      ∅  inline_quoted : emphasis
+      ✓  block_quote:with_id_and_role
+      ∅  block_quote:with_title
+      ✗  block_quote:with_attribution
+      ✗  document:title_with_author
+      ∅  inline_quoted:emphasis
 
       """
 
@@ -61,9 +61,9 @@ Feature: Testing a custom HTML backend
       """
       Running DocTest for the templates: templates.
 
-      ✓  block_quote : with_id_and_role
-      ∅  block_quote : with_title
-      ✗  block_quote : with_attribution
+      ✓  block_quote:with_id_and_role
+      ∅  block_quote:with_title
+      ✗  block_quote:with_attribution
 
       """
 
@@ -76,14 +76,13 @@ Feature: Testing a custom HTML backend
       """
     And the output should contain:
       """
-        1) Failure:
-      block_quote:with_attribution:
-      Failing example..
+      ✗  Failure: block_quote:with_attribution
+         Failing example..
 
-         <div class="quoteblock">
-      E    <blockquote>A person who never made a mistake <em>never</em> tried anything new.</blockquote>
-      E    <div>Albert Einstein</div>
-      A    <blockquote>A person who never made a mistake --TEMPLATE NOT FOUND-- tried anything new.</blockquote>
-      A    <div class="attribution">— Albert Einstein</div>
-         </div>
+            <div class="quoteblock">
+         E    <blockquote>A person who never made a mistake <em>never</em> tried anything new.</blockquote>
+         E    <div>Albert Einstein</div>
+         A    <blockquote>A person who never made a mistake --TEMPLATE NOT FOUND-- tried anything new.</blockquote>
+         A    <div class="attribution">— Albert Einstein</div>
+            </div>
       """
