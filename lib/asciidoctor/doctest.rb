@@ -3,16 +3,13 @@ require 'pathname'
 module Asciidoctor
   module DocTest
 
-    BUILTIN_EXAMPLES_PATH = Pathname.new(
+    @examples_path = Pathname.new(
       '../../data/examples/asciidoc').expand_path(__dir__).to_s.freeze
 
-    @examples_path = [ BUILTIN_EXAMPLES_PATH ]
-
-    class << self
-      # @return [Array<String>] paths of the directories where to look for the
-      #   examples suites. Use +unshift+ to add your paths before the built-in
-      #   reference input examples (default: +["{asciidoctor-doctest}/data/examples/asciidoc"]+).
-      attr_accessor :examples_path
+    # @return [Array<String>] paths of the built-in input examples. It always
+    #   returns a new array.
+    def self.examples_path
+      [ @examples_path ]
     end
   end
 end
