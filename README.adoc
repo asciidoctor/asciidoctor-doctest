@@ -55,83 +55,62 @@ mkdir -p test/examples/asciidoc
 
 . Add development dependency on `asciidoctor-doctest` to your gemspec:
 +
-[source]
-s.add_development_dependency 'asciidoctor-doctest', '~> 1.5.2'
+[source, ruby]
+s.add_development_dependency 'asciidoctor-doctest', '~> 2.0.0'
 +
 or Gemfile if you’re not distributing the backend as a gem:
 +
-[source]
-gem 'asciidoctor-doctest', '~> 1.5.2'
+[source, ruby]
+gem 'asciidoctor-doctest', '~> 2.0.0'
 +
 and run `bundle install`.
 
-. Create or edit `test/test_helper.rb`; require test dependencies and setup `examples_path`:
+. Create or edit `Rakefile` and configure DocTest tasks:
 +
-[source]
+[source, ruby]
 ----
 require 'asciidoctor/doctest'
-require 'minitest/autorun'
-
-# used to colorize output
-require 'minitest/rg'
-
-# needed if you're testing templates-based backend
-require 'tilt'
-
-# extra input examples (optional)
-DocTest.examples_path.unshift 'test/examples/asciidoc'
-
-# output examples
-DocTest.examples_path.unshift 'test/examples/shiny'
-----
-
-. Create test file `test/templates_test.rb` and extend class link:{src-base}/test.rb[DocTest::Test]. Specify `converter_opts` and then call `generate_tests!` macro with a specific subclass of `BaseExamplesSuite`:
-+
-[source]
-----
-require 'test_helper'
-
-class TestTemplates < DocTest::Test
-  converter_opts template_dirs: 'data/templates'
-  generate_tests! DocTest::HTML::ExamplesSuite
-end
-----
-
-. Create or edit `Rakefile`; add tasks to run tests and optionally a generator of output examples:
-+
-[source]
-----
-require 'asciidoctor/doctest'
-require 'rake/testtask'
 require 'thread_safe'
 require 'tilt'
 
-Rake::TestTask.new(:test) do |task|
-  task.description = 'Run tests for templates'
-  task.pattern = 'test/templates_test.rb'
-  task.libs << 'test'
-end
-
-DocTest::GeneratorTask.new(:generate) do |task|
-  task.output_suite = DocTest::HTML::ExamplesSuite.new(examples_path: 'test/examples/shiny')
-  task.converter_opts[:template_dirs] = 'data/templates'
-  #
+DocTest::RakeTasks.new(:doctest) do |t|
+  t.output_suite = DocTest::HTML::ExamplesSuite
+  t.output_suite_opts = {
+    examples_path: 'test/examples/shiny'
+  }
   # add extra input examples (optional)
-  task.examples_path.unshift 'test/examples/asciidoc'
+  t.input_suite_opts = {
+    examples_path: [ *DocTest.examples_path, 'test/examples/asciidoc' ]
+  }
+  t.converter_opts = {
+    template_dirs: 'data/templates'
+  }
 end
-
-# When no task specified, run test.
-task :default => :test
 ----
+
+. Check if rake loads the DocTest tasks _doctest_, _doctest:test_ and _doctest:generate_.
++
+[source, sh]
+bundle exec rake -D
 
 
 == Run tests
 
-Assume that you have defined the test Rake task named `:test` (see above).
+Assume that you have defined the Rake tasks in the default namespace _doctest_ (see above).
 Then you can simply run:
 
 [source, sh]
-bundle exec rake test
+bundle exec rake doctest:test
+
+To test only specific examples, use `PATTERN` with glob-like expression:
+
+[source, sh]
+bundle exec rake doctest:test PATTERN='block_*:*'
+
+For verbose output, use `VERBOSE=yes`:
+
+[source, sh]
+bundle exec rake doctest:test VERBOSE=yes
 
 image::doc/img/failing-test-term.gif[Failing test in term, align="center"]
 
@@ -225,11 +204,17 @@ NOTE: The trailing new line (below this) will be removed.
 HtmlTest assumes that paragraphs are enclosed in `<p></p>` tags and implicitly sets the _include_ option to `./p/node()` for `inline_*:*` examples (if _include_ is not already set).
 If it’s not your case, then you must overwrite it:
 
-[source]
+[source, ruby]
 ----
-class TestShiny < DocTest::Test
-  converter_opts template_dirs: 'data/templates'
-  generate_tests! DocTest::HTML::ExamplesSuite.new(paragraph_xpath: './div/p/node()')
+DocTest::RakeTasks.new(:doctest) do |t|
+  t.output_suite = DocTest::HTML::ExamplesSuite
+  t.output_suite_opts = {
+    examples_path: 'test/examples/shiny',
+    paragraph_xpath: './div/p/node()'  //<1>
+  }
+  t.converter_opts = {
+    template_dirs: 'data/templates'
+  }
 end
 ----
 
@@ -290,27 +275,27 @@ Therefore DocTest provides a generator.
 When you have at least partially working Asciidoctor _backend_ (converter or a set of templates), you can pass the input examples through it and generate your output examples.
 Then you should verify them and modify if needed.
 
-Assume that you have defined the generator Rake task named `:generator` (see <<setup-doctest>>).
+Assume that you have defined the Rake tasks in the default namespace _doctest_ (see <<setup-doctest>>).
 
 Now you can generate output examples from all the input examples (those with `.adoc` extension) found on the examples_path that doesn’t already exist (i.e. it doesn’t rewrite existing):
 
 [source, sh]
-bundle exec rake generate
+bundle exec rake doctest:generate
 
 Same as previous, but rewrite existing tested examples:
 
 [source, sh]
-bundle exec rake generate FORCE=yes
+bundle exec rake doctest:generate FORCE=yes
 
 Generate just examples for `block_ulist` node (i.e. all examples in `block_ulist.adoc` file(s) found on the examples_path) that doesn’t exist yet:
 
 [source, sh]
-bundle exec rake generate PATTERN='block_ulist:*'
+bundle exec rake doctest:generate PATTERN='block_ulist:*'
 
 (Re)generate examples which name starts with `basic` for all _block_ nodes (i.e. files that starts with `block_`):
 
 [source, sh]
-bundle exec rake generate PATTERN='block_*:basic*' FORCE=yes
+bundle exec rake doctest:generate PATTERN='block_*:basic*' FORCE=yes
 
 
 == How to extend it
