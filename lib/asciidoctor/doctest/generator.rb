@@ -16,7 +16,9 @@ module Asciidoctor
       #        {BaseExamplesSuite} subclass to read and generate the output
       #        examples.
       #
-      # @param converter [#convert]
+      # @param converter [#call] a callable that accepts a string content of
+      #        an input example and a hash with options for the converter, and
+      #        returns the converted content.
       #
       # @param io [#<<] output stream where to write log messages.
       #

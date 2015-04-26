@@ -80,7 +80,9 @@ module Asciidoctor
       end
 
       alias_method :opts, :default_opts
+      alias_method :call, :convert
     end
+
 
     ##
     # @private

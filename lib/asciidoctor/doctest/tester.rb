@@ -23,7 +23,9 @@ module Asciidoctor
       #        {BaseExamplesSuite} subclass to read the output examples from
       #        (i.e. an expected output).
       #
-      # @param converter [#convert]
+      # @param converter [#call] a callable that accepts a string content of
+      #        an input example and a hash with options for the converter, and
+      #        returns the converted content.
       #
       # @param reporter [Minitest::Reporter, nil] an instance of minitest's
       #        +Reporter+ to report test results. When omitted or +nil+, then

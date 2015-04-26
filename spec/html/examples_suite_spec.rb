@@ -170,7 +170,7 @@ describe DocTest::HTML::ExamplesSuite do
     end
 
     before do
-      expect(converter).to receive(:convert)
+      expect(converter).to receive(:call)
         .with(input.content, converter_opts).and_return(rendered)
     end
 

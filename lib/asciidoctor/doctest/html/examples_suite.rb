@@ -84,7 +84,7 @@ module Asciidoctor::DocTest
         # When asserting inline examples, defaults to ignore paragraph "wrapper".
         includes = opts[:include] || (@paragraph_xpath if example.name.start_with? 'inline_')
 
-        converter.convert(example.content, header_footer: header_footer)
+        converter.call(example.content, header_footer: header_footer)
           .then { |s| parse_html s, !header_footer }
           .then { |h| find_nodes h, includes }
           .then { |h| remove_nodes h, opts[:exclude] }

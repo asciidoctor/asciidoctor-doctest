@@ -4,7 +4,7 @@ describe DocTest::AsciidocConverter do
 
   subject { described_class }
 
-  it { is_expected.to have_method :convert }
+  it { is_expected.to have_method :convert, :call }
 
 
   describe '#initialize' do

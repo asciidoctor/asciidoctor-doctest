@@ -65,7 +65,9 @@ module Asciidoctor
       # @abstract
       # @param example [BaseExample] the input example to convert.
       # @param opts [Hash] the options to pass to a new example.
-      # @param converter [#convert]
+      # @param converter [#call] a callable that accepts a string content of
+      #        the input example and a hash with options for the converter, and
+      #        returns the converted content.
       # @return [BaseExample]
       # :nocov:
       def convert_example(example, opts, converter)
