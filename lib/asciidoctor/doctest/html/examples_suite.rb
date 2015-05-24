@@ -1,7 +1,7 @@
 require 'asciidoctor/doctest/base_examples_suite'
-require 'asciidoctor/doctest/html/example'
 require 'asciidoctor/doctest/html/normalizer'
 require 'corefines'
+require 'htmlbeautifier'
 require 'nokogiri'
 
 using Corefines::Object[:blank?, :presence, :then]
@@ -73,10 +73,6 @@ module Asciidoctor::DocTest
         }.join("\n")
       end
 
-      def create_example(*args)
-        Example.new(*args)
-      end
-
       def convert_examples(input_exmpl, output_exmpl, converter)
         opts = output_exmpl.opts.dup
 
@@ -90,13 +86,19 @@ module Asciidoctor::DocTest
           .then { |s| parse_html s, !opts[:header_footer] }
           .then { |h| find_nodes h, opts[:include] }
           .then { |h| remove_nodes h, opts[:exclude] }
-          .then { |h| h.normalize! }
-          .then { |h| HtmlBeautifier.beautify h }
+          .then { |h| normalize(h) }
 
-        [actual, output_exmpl.to_s]
+        expected = normalize(output_exmpl.content)
+
+        [actual, expected]
       end
 
       protected
+
+      def normalize(content)
+        content = parse_html(content) if content.is_a? String
+        HtmlBeautifier.beautify(content.normalize!)
+      end
 
       def find_nodes(html, xpaths)
         Array(xpaths).reduce(html) do |htm, xpath|

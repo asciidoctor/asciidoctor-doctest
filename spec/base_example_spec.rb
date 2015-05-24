@@ -3,8 +3,7 @@ describe DocTest::BaseExample do
   subject(:o) { described_class.new ['foo', 'bar'] }
 
   it do
-    is_expected.to respond_to :group_name, :local_name, :desc, :opts, :content,
-                              :content_normalized, :content_pretty
+    is_expected.to respond_to :group_name, :local_name, :desc, :opts, :content
   end
 
   describe '#name' do
@@ -156,8 +155,8 @@ describe DocTest::BaseExample do
       expect(first).to_not eq second
     end
 
-    it 'returns false for instances with different content_normalized' do
-      expect(second).to receive(:content_normalized).and_return('ALLONS-Y!')
+    it 'returns false for instances with different content' do
+      expect(second).to receive(:content).and_return('ALLONS-Y!')
       expect(first).to_not eq second
     end
   end

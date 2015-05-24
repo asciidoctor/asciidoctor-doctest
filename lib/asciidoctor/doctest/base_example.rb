@@ -101,39 +101,18 @@ module Asciidoctor
       end
 
       ##
-      # @note The default implementation returns content as-is; subclasses
-      #   should override this method.
-      #
-      # @return [String] copy of the content in a form that is suitable for
-      #         semantic comparison with another content.
-      #
-      def content_normalized
-        content.dup
-      end
-
-      ##
-      # @note (see #content_normalized)
-      #
-      # @return [String] copy of the content in a human-readable (formatted)
-      #         shape for pretty print.
-      #
-      def content_pretty
-        content.dup
-      end
-
-      ##
-      # @return (see #content_pretty)
+      # @return [String] a copy of the content.
       def to_s
-        content_pretty
+        content.dup
       end
 
       ##
       # @param other the object to compare with.
       # @return [Boolean] +true+ if +self+ and +other+ equals in attributes
-      #         +group_name+, +local_name+ and +content_normalized+ (compared
-      #         using +==+), otherwise +false+.
+      #         +group_name+, +local_name+ and +content+ (compared using +==+),
+      #         otherwise +false+.
       def ==(other)
-        [:group_name, :local_name, :content_normalized].all? do |name|
+        [:group_name, :local_name, :content].all? do |name|
           other.respond_to?(name) &&
             public_send(name) == other.public_send(name)
         end
