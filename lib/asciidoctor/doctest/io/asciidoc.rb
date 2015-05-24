@@ -6,7 +6,7 @@ using Corefines::Object[:blank?, :presence]
 using Corefines::String::concat!
 
 module Asciidoctor::DocTest
-  module Asciidoc
+  module IO
     ##
     # Subclass of {BaseExamplesSuite} for reference input examples.
     #
@@ -22,7 +22,7 @@ module Asciidoctor::DocTest
     #
     #   NOTE: The trailing new line (below this) will be removed.
     #
-    class ExamplesSuite < BaseExamplesSuite
+    class Asciidoc < BaseExamplesSuite
 
       def initialize(file_ext: '.adoc', **kwargs)
         super

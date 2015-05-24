@@ -1,6 +1,6 @@
 using Corefines::String::unindent
 
-describe DocTest::Asciidoc::ExamplesSuite do
+describe DocTest::IO::Asciidoc do
 
   it_should_behave_like DocTest::BaseExamplesSuite
 

@@ -187,7 +187,7 @@ shared_examples DocTest::BaseExamplesSuite do
     let(:result_names) { result.map(&:first).map(&:name) }
 
     let(:ours_suite) { described_class.new(file_ext: '.xyz') }
-    let(:theirs_suite) { DocTest::Asciidoc::ExamplesSuite.new(file_ext: '.adoc') }
+    let(:theirs_suite) { DocTest::IO::Asciidoc.new(file_ext: '.adoc') }
 
     def ours_exmpl(suffix, group = 0)
       create_example "gr#{group}:ex#{suffix}", content: 'ours!'

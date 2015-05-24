@@ -2,7 +2,7 @@ require 'asciidoctor/doctest/asciidoc_converter'
 require 'asciidoctor/doctest/generator'
 require 'asciidoctor/doctest/test_reporter'
 require 'asciidoctor/doctest/tester'
-require 'asciidoctor/doctest/asciidoc/examples_suite'
+require 'asciidoctor/doctest/io/asciidoc'
 require 'corefines'
 require 'rake/tasklib'
 
@@ -54,7 +54,7 @@ module Asciidoctor
 
       # @return [Class, BaseExamplesSuite] an instance of {BaseExamplesSuite}
       #         subclass to read the reference input examples
-      #         (default: +Asciidoc::ExamplesSuite+).
+      #         (default: +IO::Asciidoc+).
       attr_accessor :input_suite
 
       # @return [Hash]
@@ -107,7 +107,7 @@ module Asciidoctor
         @tasks_namespace = tasks_namespace
         @test_description = DEFAULT_TEST_DESC
         @generate_description = DEFAULT_GENERATE_DESC
-        @input_suite = Asciidoc::ExamplesSuite
+        @input_suite = IO::Asciidoc
         @input_suite_opts = {}
         @output_suite_opts = {}
         @converter_opts = {}
