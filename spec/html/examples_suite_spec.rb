@@ -145,14 +145,15 @@ describe DocTest::HTML::ExamplesSuite do
   end
 
 
-  describe '#convert_example' do
+  describe '#convert_examples' do
 
     let(:input) { create_example 's:dummy', content: '*chunky* bacon' }
+    let(:output) { create_example 's:dummy', content: '<b>chunky</b> bacon', opts: opts }
     let(:opts) { {dummy: 'value'} }
     let(:converter) { double 'AsciidocConverter' }
     let(:converter_opts) { {header_footer: false} }
 
-    subject(:result) { suite.convert_example input, opts, converter }
+    subject(:result) { suite.convert_examples input, output, converter }
 
     let :rendered do
       <<-EOF
@@ -174,23 +175,13 @@ describe DocTest::HTML::ExamplesSuite do
         .with(input.content, converter_opts).and_return(rendered)
     end
 
-    it 'returns instance of HTML::Example' do
-      is_expected.to be_instance_of DocTest::HTML::Example
-    end
-
-    it 'returns Example with the same name as input_example' do
-      expect(result.name).to eq input.name
-    end
-
-    it 'returns Example with the given opts' do
-      expect(result.opts).to eq opts
-    end
+    it 'returns array of converted input content and output content'
 
     context 'with :exclude option' do
       let(:opts) { {exclude: ['.//p', './/code']} }
 
       it 'returns content without HTML (sub)elements specified by XPath' do
-        expect(result.content.gsub(/\s*/, '')).to eq \
+        expect(result.first.gsub(/\s*/, '')).to eq \
           '<section><h1>Title</h1><div></div></section><div></div>'
       end
     end
@@ -199,15 +190,16 @@ describe DocTest::HTML::ExamplesSuite do
       let(:opts) { {include: ['.//p']} }
 
       it 'returns content with only HTML (sub)elements specified by XPath' do
-        expect(result.content.gsub(/\s*/, '')).to eq '<p><b>Chunky</b>bacon</p><p>why?</p>'
+        expect(result.first.gsub(/\s*/, '')).to eq '<p><b>Chunky</b>bacon</p><p>why?</p>'
       end
     end
 
     context 'with :header_footer option' do
       let(:opts) { {header_footer: true} }
+      let(:converter_opts) { {header_footer: true} }
 
       it 'renders content with :header_footer => true' do
-        suite.convert_example input, {}, converter
+        suite.convert_examples input, output, converter
       end
     end
 
@@ -216,7 +208,7 @@ describe DocTest::HTML::ExamplesSuite do
       let(:converter_opts) { {header_footer: true} }
 
       it 'renders content with :header_footer => true' do
-        suite.convert_example input, {}, converter
+        suite.convert_examples input, output, converter
       end
     end
 
@@ -225,18 +217,14 @@ describe DocTest::HTML::ExamplesSuite do
       let(:rendered) { '<p><b>chunky</b> bacon</p>' }
 
       it 'returns content without top-level <p> tags' do
-        expect(result.content).to eq '<b>chunky</b> bacon'
-      end
-
-      it 'does not add implicit include into returned example' do
-        expect(result.opts).to_not include :include
+        expect(result.first).to eq '<b>chunky</b> bacon'
       end
 
       context 'with :include option' do
         let(:opts) { {include: ['.//b']} }
 
         it 'preferes the include option' do
-          expect(result.content).to eq '<b>chunky</b>'
+          expect(result.first).to eq '<b>chunky</b>'
         end
       end
     end

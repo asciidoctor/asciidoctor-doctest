@@ -52,17 +52,17 @@ module Asciidoctor
           if input.empty?
             log["Unknown %s, doesn't exist in input examples!"]
           else
-            rendered = @output_suite.convert_example(input, output.opts, @converter)
-            rendered.desc = output.desc
+            actual, expected = @output_suite.convert_examples(input, output, @converter)
+            generated = output.dup.tap { |ex| ex.content = actual }
 
             if output.empty?
               log['Generating %s', :magenta]
-              updated << rendered
-            elsif rendered == output
+              updated << generated
+            elsif actual == expected
               log['Unchanged %s', :green]
             elsif rewrite
               log['Rewriting %s', :red]
-              updated << rendered
+              updated << generated
             else
               log['Skipping %s', :yellow]
             end

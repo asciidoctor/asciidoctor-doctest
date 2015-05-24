@@ -68,9 +68,10 @@ describe DocTest::Tester do
     subject(:failures) { tester.test_example input_exmpl, output_exmpl }
 
     let(:examples_pair) { examples['ex:alpha'] }
-    let(:input_exmpl)   { examples_pair[0] }
-    let(:output_exmpl)  { examples_pair[1] }
-    let(:actual_exmpl)  { output_exmpl.dup }
+    let(:input_exmpl) { examples_pair[0] }
+    let(:output_exmpl) { examples_pair[1] }
+    let(:actual) { output_exmpl.content }
+    let(:expected) { output_exmpl.content }
 
     shared_examples :example do
       it "calls reporter" do
@@ -82,9 +83,9 @@ describe DocTest::Tester do
     before do |ex|
       next if ex.metadata[:skip_before]
 
-      expect(output_suite).to receive(:convert_example)
-        .with(input_exmpl, output_exmpl.opts, converter)
-        .and_return(actual_exmpl)
+      expect(output_suite).to receive(:convert_examples)
+        .with(input_exmpl, output_exmpl, converter)
+        .and_return([actual, expected])
     end
 
 
@@ -110,7 +111,7 @@ describe DocTest::Tester do
 
     context "when examples are not equivalent" do
 
-      let(:actual_exmpl) { output_exmpl.dup.tap { |o| o.content = '<em>meh</em>' } }
+      let(:actual) { '<em>meh</em>' }
 
       it "returns failure" do
         is_expected.to include Minitest::Assertion

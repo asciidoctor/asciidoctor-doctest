@@ -56,21 +56,9 @@ module Asciidoctor
       # :nocov:
 
       ##
-      # Returns a new example based on the given input example.
-      # This method should render (AsciiDoc) content of the given example using
-      # the preconfigured +converter+ and eventually apply some transformations.
-      #
-      # XXX describe it better...
-      #
-      # @abstract
-      # @param example [BaseExample] the input example to convert.
-      # @param opts [Hash] the options to pass to a new example.
-      # @param converter [#call] a callable that accepts a string content of
-      #        the input example and a hash with options for the converter, and
-      #        returns the converted content.
-      # @return [BaseExample]
+      # TODO
       # :nocov:
-      def convert_example(example, opts, converter)
+      def convert_examples(input_exmpl, output_exmpl, converter)
         fail NotImplementedError
       end
       # :nocov:
