@@ -5,9 +5,9 @@ using Corefines::Object[:blank?, :presence]
 using Corefines::String::concat!
 
 module Asciidoctor::DocTest
-  module HTML
+  module IO
     ##
-    # Subclass of {BaseExamplesSuite} for HTML-based backends.
+    # Subclass of {BaseExamplesSuite} for XML-based backends.
     #
     # @example Format of the example's header
     #   <!-- .example-name
@@ -22,7 +22,7 @@ module Asciidoctor::DocTest
     #
     #   <div class="note">The trailing new line (below this) will be removed.</div>
     #
-    class ExamplesSuite < BaseExamplesSuite
+    class XML < BaseExamplesSuite
 
       def initialize(file_ext: '.html', **kwargs)
         super

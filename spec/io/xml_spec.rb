@@ -1,6 +1,6 @@
 using Corefines::String::unindent
 
-describe DocTest::HTML::ExamplesSuite do
+describe DocTest::IO::XML do
 
   it_should_behave_like DocTest::BaseExamplesSuite
 
