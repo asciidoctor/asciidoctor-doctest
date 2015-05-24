@@ -1,4 +1,4 @@
-require 'asciidoctor/doctest/base_examples_suite'
+require 'asciidoctor/doctest/io/base'
 require 'corefines'
 
 using Corefines::Enumerable::map_send
@@ -8,7 +8,7 @@ using Corefines::String::concat!
 module Asciidoctor::DocTest
   module IO
     ##
-    # Subclass of {BaseExamplesSuite} for reference input examples.
+    # Subclass of {IO::Base} for reference input examples.
     #
     # @example Format of the example's header
     #   // .example-name
@@ -22,7 +22,7 @@ module Asciidoctor::DocTest
     #
     #   NOTE: The trailing new line (below this) will be removed.
     #
-    class Asciidoc < BaseExamplesSuite
+    class Asciidoc < Base
 
       def initialize(file_ext: '.adoc', **kwargs)
         super

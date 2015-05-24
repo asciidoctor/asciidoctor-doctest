@@ -1,4 +1,4 @@
-require 'asciidoctor/doctest/base_examples_suite'
+require 'asciidoctor/doctest/io/base'
 require 'corefines'
 
 using Corefines::Object[:blank?, :presence]
@@ -7,7 +7,7 @@ using Corefines::String::concat!
 module Asciidoctor::DocTest
   module IO
     ##
-    # Subclass of {BaseExamplesSuite} for XML-based backends.
+    # Subclass of {IO::Base} for XML-based backends.
     #
     # @example Format of the example's header
     #   <!-- .example-name
@@ -22,7 +22,7 @@ module Asciidoctor::DocTest
     #
     #   <div class="note">The trailing new line (below this) will be removed.</div>
     #
-    class XML < BaseExamplesSuite
+    class XML < Base
 
       def initialize(file_ext: '.html', **kwargs)
         super

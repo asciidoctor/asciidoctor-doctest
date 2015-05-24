@@ -52,16 +52,15 @@ module Asciidoctor
       # @return [#to_s, #call] description of the generator task.
       attr_accessor :generate_description
 
-      # @return [Class, BaseExamplesSuite] an instance of {BaseExamplesSuite}
-      #         subclass to read the reference input examples
-      #         (default: +IO::Asciidoc+).
+      # @return [Class, IO::Base] an instance of {IO::Base} subclass to read
+      #         the reference input examples (default: +IO::Asciidoc+).
       attr_accessor :input_suite
 
       # @return [Hash]
       attr_accessor :input_suite_opts
 
-      # @return [Class, BaseExamplesSuite] an instance of {BaseExamplesSuite} subclass
-      #         to read and generate the output examples.
+      # @return [Class, IO::Base] an instance of {IO::Base} subclass to read
+      #         and generate the output examples.
       attr_accessor :output_suite
 
       # @return [Hash]

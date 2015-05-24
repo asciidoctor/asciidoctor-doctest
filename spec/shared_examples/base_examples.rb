@@ -3,7 +3,7 @@ require 'forwardable'
 
 using Corefines::Array::second
 
-shared_examples DocTest::BaseExamplesSuite do
+shared_examples DocTest::IO::Base do
 
   subject(:suite) { described_class.new(file_ext: '.adoc', examples_path: ex_path) }
   let(:ex_path) { ['/tmp/alpha', '/tmp/beta'] }

@@ -15,13 +15,11 @@ module Asciidoctor
       attr_reader :reporter
 
       ##
-      # @param input_suite [BaseExamplesSuite] an instance of
-      #        {BaseExamplesSuite} subclass to read the reference input
-      #        examples from.
+      # @param input_suite [IO::Base] an instance of {IO::Base} subclass to
+      #        read the reference input examples from.
       #
-      # @param output_suite [BaseExamplesSuite] an instance of
-      #        {BaseExamplesSuite} subclass to read the output examples from
-      #        (i.e. an expected output).
+      # @param output_suite [IO::Base] an instance of {IO::Base} subclass to
+      #        read the output examples from (i.e. an expected output).
       #
       # @param converter [#call] a callable that accepts a string content of
       #        an input example and a hash with options for the converter, and

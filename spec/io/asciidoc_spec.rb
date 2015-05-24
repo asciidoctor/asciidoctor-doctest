@@ -2,7 +2,7 @@ using Corefines::String::unindent
 
 describe DocTest::IO::Asciidoc do
 
-  it_should_behave_like DocTest::BaseExamplesSuite
+  it_should_behave_like DocTest::IO::Base
 
   subject(:suite) { described_class.new }
 

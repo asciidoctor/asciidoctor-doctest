@@ -4,13 +4,13 @@ require 'pathname'
 using Corefines::Object::blank?
 using Corefines::Enumerable::index_by
 
-module Asciidoctor
-  module DocTest
+module Asciidoctor::DocTest
+  module IO
     ##
     # @abstract
     # This is a base class that should be extended for specific example
     # formats.
-    class BaseExamplesSuite
+    class Base
 
       attr_reader :examples_path, :file_ext
 
@@ -65,7 +65,7 @@ module Asciidoctor
       # In the case of missing example from this suite, the pair is placed at
       # the end of the examples group.
       #
-      # @param other_suite [BaseExamplesSuite]
+      # @param other_suite [Base]
       # @return [Enumerator]
       #
       def pair_with(other_suite)
@@ -155,7 +155,7 @@ module Asciidoctor
       ##
       # (see Example#initialize)
       def create_example(*args)
-        Example.new(*args)
+        DocTest::Example.new(*args)
       end
 
       ##

@@ -19,7 +19,6 @@ DocTest = Asciidoctor::DocTest unless defined? DocTest
 
 require 'asciidoctor/doctest/version'
 require 'asciidoctor/doctest/example'
-require 'asciidoctor/doctest/base_examples_suite'
 require 'asciidoctor/doctest/generator'
 require 'asciidoctor/doctest/rake_tasks'
 require 'asciidoctor/doctest/test_reporter'

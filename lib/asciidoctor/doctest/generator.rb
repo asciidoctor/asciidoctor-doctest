@@ -8,13 +8,11 @@ module Asciidoctor
     class Generator
 
       ##
-      # @param input_suite [BaseExamplesSuite] an instance of
-      #        {BaseExamplesSuite} subclass to read the reference input
-      #        examples.
+      # @param input_suite [IO::Base] an instance of {IO::Base} subclass to
+      #        read the reference input examples.
       #
-      # @param output_suite [BaseExamplesSuite] an instance of
-      #        {BaseExamplesSuite} subclass to read and generate the output
-      #        examples.
+      # @param output_suite [IO::Base] an instance of {IO::Base} subclass to
+      #        read and generate the output examples.
       #
       # @param converter [#call] a callable that accepts a string content of
       #        an input example and a hash with options for the converter, and
