@@ -6,7 +6,7 @@ module Asciidoctor
   module DocTest
     ##
     # This class represents a single test example.
-    class BaseExample
+    class Example
 
       NAME_SEPARATOR = ':'
 

@@ -1,4 +1,4 @@
-describe DocTest::BaseExample do
+describe DocTest::Example do
 
   subject(:o) { described_class.new ['foo', 'bar'] }
 

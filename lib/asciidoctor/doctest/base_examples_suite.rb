@@ -36,7 +36,7 @@ module Asciidoctor
       # @abstract
       # @param input [#each_line] the file content to parse.
       # @param group_name [String] the examples group name.
-      # @return [Array<BaseExample>] parsed examples.
+      # @return [Array<Example>] parsed examples.
       # :nocov:
       def parse(input, group_name)
         fail NotImplementedError
@@ -47,7 +47,7 @@ module Asciidoctor
       # Serializes the given examples into string.
       #
       # @abstract
-      # @param examples [Array<BaseExample>]
+      # @param examples [Array<Example>]
       # @return [String]
       # :nocov:
       def serialize(examples)
@@ -64,9 +64,9 @@ module Asciidoctor
       # :nocov:
 
       ##
-      # (see BaseExample#initialize)
+      # (see Example#initialize)
       def create_example(*args)
-        BaseExample.new(*args)
+        Example.new(*args)
       end
 
       ##
@@ -122,7 +122,7 @@ module Asciidoctor
       # +{examples_path.first}/{group_name}{file_ext}+. Already existing files
       # will be overwritten!
       #
-      # @param examples [Array<BaseExample>]
+      # @param examples [Array<Example>]
       #
       def write_examples(examples)
         examples.group_by(&:group_name).each do |group_name, exmpls|
@@ -134,7 +134,7 @@ module Asciidoctor
       ##
       # Replaces existing examples with the given ones.
       #
-      # @param examples [Array<BaseExample] the updated examples.
+      # @param examples [Array<Example] the updated examples.
       # @see #write_examples
       #
       def update_examples(examples)

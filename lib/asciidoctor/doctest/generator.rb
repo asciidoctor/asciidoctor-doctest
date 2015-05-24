@@ -34,7 +34,7 @@ module Asciidoctor
       # input examples converted using the +converter+.
       #
       # @param pattern [String] glob-like pattern to select examples to
-      #        (re)generate (see {BaseExample#name_match?}).
+      #        (re)generate (see {Example#name_match?}).
       #
       # @param rewrite [Boolean] whether to rewrite an already existing
       #        example.

@@ -146,7 +146,7 @@ describe DocTest::Tester do
       'ex:nooutput' => [ {content: 'nooutput'},              {}                                     ]
     }
     data = data.map { |name, tuple|
-      [ name, tuple.map { |opts| DocTest::BaseExample.new(name, opts) } ]
+      [ name, tuple.map { |opts| DocTest::Example.new(name, opts) } ]
     }
     Hash[data]
   end

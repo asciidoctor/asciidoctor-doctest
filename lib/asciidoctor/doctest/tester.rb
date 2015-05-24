@@ -44,7 +44,7 @@ module Asciidoctor
       # a skipped test.
       #
       # @param pattern [String] glob-like pattern to select examples to test
-      #        (see {BaseExample#name_match?}).
+      #        (see {Example#name_match?}).
       #
       def run_tests(pattern: '*:*')
         @reporter.start
@@ -62,8 +62,8 @@ module Asciidoctor
       # Tests if the given reference input is matching the expected output
       # after conversion through the tested backend.
       #
-      # @param input_exmpl [BaseExample] the reference input example.
-      # @param output_exmpl [BaseExample] the expected output example.
+      # @param input_exmpl [Example] the reference input example.
+      # @param output_exmpl [Example] the expected output example.
       #
       def test_example(input_exmpl, output_exmpl)
         test_with_minitest input_exmpl.name do |test|
