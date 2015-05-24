@@ -1,4 +1,4 @@
-describe DocTest::HTML::Normalizer do
+describe DocTest::HtmlNormalizer do
 
   [Nokogiri::HTML::Document, Nokogiri::HTML::DocumentFragment].each do |klass|
     it "HtmlNormalizer should be included in #{klass}" do

@@ -1,4 +1,4 @@
-require 'asciidoctor/doctest/html/normalizer'
+require 'asciidoctor/doctest/html_normalizer'
 require 'corefines'
 require 'htmlbeautifier'
 require 'nokogiri'

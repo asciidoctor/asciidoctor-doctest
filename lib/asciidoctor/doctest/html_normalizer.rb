@@ -3,8 +3,8 @@ require 'nokogiri'
 
 using Corefines::Object::try
 
-module Asciidoctor::DocTest
-  module HTML
+module Asciidoctor
+  module DocTest
     ##
     # Module to be included into +Nokogiri::HTML::Document+
     # or +DocumentFragment+ to add {#normalize!} feature.
@@ -12,7 +12,7 @@ module Asciidoctor::DocTest
     # @example
     #   Nokogiri::HTML.parse(str).normalize!
     #   Nokogiri::HTML.fragment(str).normalize!
-    module Normalizer
+    module HtmlNormalizer
 
       ##
       # Normalizes the HTML document or fragment so it can be easily compared
@@ -116,5 +116,5 @@ module Asciidoctor::DocTest
 end
 
 [Nokogiri::HTML::Document, Nokogiri::HTML::DocumentFragment].each do |klass|
-  klass.send :include, Asciidoctor::DocTest::HTML::Normalizer
+  klass.send :include, Asciidoctor::DocTest::HtmlNormalizer
 end
