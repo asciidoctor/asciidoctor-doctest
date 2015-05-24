@@ -67,6 +67,8 @@ module Asciidoctor
       # @return [Hash]
       attr_accessor :output_suite_opts
 
+      attr_accessor :converter
+
       # @return [Hash] options for the Asciidoctor converter.
       # @see AsciidocConverter#initialize
       attr_accessor :converter_opts
@@ -118,7 +120,7 @@ module Asciidoctor
 
         @input_suite = input_suite.new(input_suite_opts) if input_suite.is_a? Class
         @output_suite = output_suite.new(output_suite_opts) if output_suite.is_a? Class
-        @converter = AsciidocConverter.new(converter_opts)
+        @converter = converter.new(converter_opts) if converter.is_a? Class
         @test_reporter ||= TestReporter.new($stdout, verbose: verbose?,
           title: "Running DocTest for the #{subject}.")
 

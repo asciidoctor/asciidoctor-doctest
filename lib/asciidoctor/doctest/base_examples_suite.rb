@@ -56,14 +56,6 @@ module Asciidoctor
       # :nocov:
 
       ##
-      # TODO
-      # :nocov:
-      def convert_examples(input_exmpl, output_exmpl, converter)
-        fail NotImplementedError
-      end
-      # :nocov:
-
-      ##
       # (see Example#initialize)
       def create_example(*args)
         Example.new(*args)

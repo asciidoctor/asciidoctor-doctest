@@ -70,7 +70,7 @@ module Asciidoctor
           if output_exmpl.empty?
             test.skip 'No expected output found'
           else
-            actual, expected = @output_suite.convert_examples(input_exmpl, output_exmpl, @converter)
+            actual, expected = @converter.convert_examples(input_exmpl, output_exmpl)
             msg = output_exmpl.desc.presence || input_exmpl.desc
 
             test.assert_equal expected, actual, msg

@@ -52,7 +52,7 @@ module Asciidoctor
           if input.empty?
             log["Unknown %s, doesn't exist in input examples!"]
           else
-            actual, expected = @output_suite.convert_examples(input, output, @converter)
+            actual, expected = @converter.convert_examples(input, output)
             generated = output.dup.tap { |ex| ex.content = actual }
 
             if output.empty?

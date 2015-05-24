@@ -83,8 +83,8 @@ describe DocTest::Tester do
     before do |ex|
       next if ex.metadata[:skip_before]
 
-      expect(output_suite).to receive(:convert_examples)
-        .with(input_exmpl, output_exmpl, converter)
+      expect(converter).to receive(:convert_examples)
+        .with(input_exmpl, output_exmpl)
         .and_return([actual, expected])
     end
 
