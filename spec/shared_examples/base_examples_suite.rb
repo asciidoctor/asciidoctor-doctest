@@ -4,9 +4,6 @@ require 'forwardable'
 using Corefines::Array::second
 
 shared_examples DocTest::BaseExamplesSuite do
-  extend Forwardable
-
-  def_delegator :suite, :create_example
 
   subject(:suite) { described_class.new(file_ext: '.adoc', examples_path: ex_path) }
   let(:ex_path) { ['/tmp/alpha', '/tmp/beta'] }
@@ -193,11 +190,11 @@ shared_examples DocTest::BaseExamplesSuite do
     let(:theirs_suite) { DocTest::Asciidoc::ExamplesSuite.new(file_ext: '.adoc') }
 
     def ours_exmpl(suffix, group = 0)
-      ours_suite.create_example "gr#{group}:ex#{suffix}", content: 'ours!'
+      create_example "gr#{group}:ex#{suffix}", content: 'ours!'
     end
 
     def theirs_exmpl(suffix, group = 0)
-      theirs_suite.create_example "gr#{group}:ex#{suffix}", content: 'theirs!'
+      create_example "gr#{group}:ex#{suffix}", content: 'theirs!'
     end
 
     before do
@@ -235,7 +232,7 @@ shared_examples DocTest::BaseExamplesSuite do
         end
 
         it 'replaces the missing example with empty one with the name' do
-          expect(result.second.last).to eq theirs_suite.create_example 'gr0:ex1'
+          expect(result.second.last).to eq create_example 'gr0:ex1'
         end
       end
 
@@ -247,7 +244,7 @@ shared_examples DocTest::BaseExamplesSuite do
         end
 
         it 'replaces the missing example with empty one with the name' do
-          expect(result.last.first).to eq ours_suite.create_example 'gr0:ex0'
+          expect(result.last.first).to eq create_example 'gr0:ex0'
         end
       end
     end

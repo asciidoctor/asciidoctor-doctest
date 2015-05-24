@@ -1,13 +1,8 @@
-require 'forwardable'
-
 using Corefines::String::unindent
 
 describe DocTest::HTML::ExamplesSuite do
-  extend Forwardable
 
   it_should_behave_like DocTest::BaseExamplesSuite
-
-  def_delegator :suite, :create_example
 
   subject(:suite) { described_class.new }
 

@@ -56,12 +56,6 @@ module Asciidoctor
       # :nocov:
 
       ##
-      # (see Example#initialize)
-      def create_example(*args)
-        Example.new(*args)
-      end
-
-      ##
       # Returns enumerator that yields pairs of the examples from this suite
       # and the +other_suite+ (examples with the same name) in order of this
       # suite.
@@ -157,6 +151,12 @@ module Asciidoctor
       end
 
       protected
+
+      ##
+      # (see Example#initialize)
+      def create_example(*args)
+        Example.new(*args)
+      end
 
       ##
       # Converts the given options into the format used in examples file.
