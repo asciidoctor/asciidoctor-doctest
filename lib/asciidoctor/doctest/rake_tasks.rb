@@ -190,7 +190,7 @@ module Asciidoctor
       def define_generate_task!
         desc generate_description
         task :generate do
-          puts "Generating test examples #{pattern} in #{output_suite.examples_path.first}"
+          puts "Generating test examples #{pattern} in #{output_suite.path.first}"
 
           Generator.new(input_suite, output_suite, @converter)
                    .generate! pattern: pattern, rewrite: force?

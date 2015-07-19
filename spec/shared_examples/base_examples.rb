@@ -5,8 +5,8 @@ using Corefines::Array::second
 
 shared_examples DocTest::IO::Base do
 
-  subject(:suite) { described_class.new(file_ext: '.adoc', examples_path: ex_path) }
-  let(:ex_path) { ['/tmp/alpha', '/tmp/beta'] }
+  subject(:suite) { described_class.new(file_ext: '.adoc', path: path) }
+  let(:path) { ['/tmp/alpha', '/tmp/beta'] }
 
 
   describe '#initialize' do
@@ -16,16 +16,16 @@ shared_examples DocTest::IO::Base do
 
     {'nil' => nil, 'blank' => ' '}.each do |desc, file_ext|
       context "with file_ext #{desc}" do
-        let(:args) { {file_ext: file_ext, examples_path: ex_path} }
+        let(:args) { {file_ext: file_ext, path: path} }
         it { expect { init }.to raise_error ArgumentError }
       end
     end
 
-    context 'with examples_path string' do
-      let(:args) { {file_ext: '.html', examples_path: '/foo/bar'} }
+    context 'with path string' do
+      let(:args) { {file_ext: '.html', path: '/foo/bar'} }
 
       it 'wraps string to array' do
-        is_expected.to have_attributes(examples_path: ['/foo/bar'])
+        is_expected.to have_attributes(path: ['/foo/bar'])
       end
     end
   end
@@ -48,8 +48,8 @@ shared_examples DocTest::IO::Base do
     let(:group_name) { 'section' }
 
     before do
-      ex_path.each { |p| FileUtils.mkpath p }
-      create_and_write_group ex_path.first, 'noise', '.adoc', 'foo', 'bar'
+      path.each { |p| FileUtils.mkpath p }
+      create_and_write_group path.first, 'noise', '.adoc', 'foo', 'bar'
 
       allow(suite).to receive(:parse) do |input, group_name|
         path, file_name, *example_names = input.split("\n")
@@ -68,7 +68,7 @@ shared_examples DocTest::IO::Base do
 
     context "when the group's file has a wrong file extension" do
       before do
-        create_and_write_group ex_path.first, group_name, '.html', 'level1', 'level2'
+        create_and_write_group path.first, group_name, '.html', 'level1', 'level2'
       end
 
       it { is_expected.to be_empty }
@@ -76,7 +76,7 @@ shared_examples DocTest::IO::Base do
 
     context 'when single group file is found' do
       let! :examples do
-        create_and_write_group ex_path.second, group_name, '.adoc', 'level1', 'level2'
+        create_and_write_group path.second, group_name, '.adoc', 'level1', 'level2'
       end
 
       it 'returns parsed examples' do
@@ -86,8 +86,8 @@ shared_examples DocTest::IO::Base do
 
     context 'when multiple group files are found and contains example with same name' do
       let! :examples do
-        first = create_and_write_group ex_path.first, group_name, '.adoc', 'level1', 'level2'
-        second = create_and_write_group ex_path.second, group_name, '.adoc', 'level2', 'level3'
+        first = create_and_write_group path.first, group_name, '.adoc', 'level1', 'level2'
+        second = create_and_write_group path.second, group_name, '.adoc', 'level2', 'level3'
         [*first, second[1]]
       end
 
@@ -105,7 +105,7 @@ shared_examples DocTest::IO::Base do
       (1..2).map { |i| create_example "section:level#{i}", content: 'yada' }
     end
 
-    before { ex_path.each { |p| FileUtils.mkpath p } }
+    before { path.each { |p| FileUtils.mkpath p } }
 
     it 'writes serialized examples to file named after the group with file extension' do
       expect(suite).to receive :serialize do |exmpls|
@@ -113,7 +113,7 @@ shared_examples DocTest::IO::Base do
       end
       suite.write_examples examples
 
-      file = File.read "#{ex_path.first}/section.adoc"
+      file = File.read "#{path.first}/section.adoc"
       expect(file).to eq examples.map(&:name).join("\n")
     end
   end
@@ -124,7 +124,7 @@ shared_examples DocTest::IO::Base do
 
     subject(:result) { suite.group_names }
 
-    before { ex_path.each { |p| FileUtils.mkpath p } }
+    before { path.each { |p| FileUtils.mkpath p } }
 
     context 'when no file is found' do
       it { is_expected.to be_empty }
@@ -132,22 +132,22 @@ shared_examples DocTest::IO::Base do
 
     it 'returns names of files with matching file extension only' do
       %w[block_image.html block_ulist.adoc].each do |name|
-        File.write "#{ex_path.first}/#{name}", 'yada'
+        File.write "#{path.first}/#{name}", 'yada'
       end
       is_expected.to contain_exactly 'block_ulist'
     end
 
     it 'returns names sorted and deduplicated' do
       (names = %w[z j d c k d]).each_with_index do |name, i|
-        File.write "#{ex_path[i % 2]}/#{name}.adoc", 'yada'
+        File.write "#{path[i % 2]}/#{name}.adoc", 'yada'
       end
 
       is_expected.to eq names.uniq.sort
     end
 
     it 'ignores directories and files in subdirectories' do
-      Dir.mkdir "#{ex_path.first}/invalid.adoc"
-      File.write "#{ex_path.first}/invalid.adoc/wat.adoc", 'yada'
+      Dir.mkdir "#{path.first}/invalid.adoc"
+      File.write "#{path.first}/invalid.adoc/wat.adoc", 'yada'
 
       is_expected.to be_empty
     end

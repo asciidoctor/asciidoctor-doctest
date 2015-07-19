@@ -12,20 +12,20 @@ module Asciidoctor::DocTest
     # formats.
     class Base
 
-      attr_reader :examples_path, :file_ext
+      attr_reader :path, :file_ext
 
       ##
+      # @param path [String, Array<String>] path of the directory (or multiple
+      #        directories) where to look for the examples.
+      #
       # @param file_ext [String] the filename extension (e.g. +.adoc+) of the
       #        examples group files. Must not be +nil+ or blank. (required)
       #
-      # @param examples_path [String, Array<String>] path of the directory (or
-      #        multiple directories) where to look for the examples.
-      #
-      def initialize(file_ext: nil, examples_path: DocTest.examples_path)
+      def initialize(path: DocTest.examples_path, file_ext: nil)
         fail ArgumentError, 'file_ext must not be blank or nil' if file_ext.blank?
 
+        @path = Array(path).freeze
         @file_ext = file_ext.strip.freeze
-        @examples_path = Array(examples_path).freeze
         @examples_cache = {}
       end
 
@@ -88,9 +88,9 @@ module Asciidoctor::DocTest
 
       ##
       # Reads the named examples group from file(s). When multiple matching
-      # files are found on the {#examples_path}, it merges them together. If
+      # files are found on the {#path}, it merges them together. If
       # two files defines example with the same name, then the first wins (i.e.
-      # first on the {#examples_path}).
+      # first on the {#path}).
       #
       # @param group_name [String] the examples group name.
       # @return [Array<Example>] an array of parsed examples, or an empty array
@@ -105,14 +105,14 @@ module Asciidoctor::DocTest
 
       ##
       # Writes the given examples into file(s)
-      # +{examples_path.first}/{group_name}{file_ext}+. Already existing files
-      # will be overwritten!
+      # +{path.first}/{group_name}{file_ext}+. Already existing files will
+      # be overwritten!
       #
       # @param examples [Array<Example>]
       #
       def write_examples(examples)
         examples.group_by(&:group_name).each do |group_name, exmpls|
-          path = file_path(@examples_path.first, group_name)
+          path = file_path(@path.first, group_name)
           File.write(path, serialize(exmpls))
         end
       end
@@ -138,12 +138,12 @@ module Asciidoctor::DocTest
 
       ##
       # Returns names of all the example groups (files with {#file_ext})
-      # found on the {#examples_path}.
+      # found on the {#path}.
       #
       # @return [Array<String>]
       #
       def group_names
-        @examples_path.reduce(Set.new) { |acc, path|
+        @path.reduce(Set.new) { |acc, path|
           acc | Pathname.new(path).each_child
             .select { |p| p.file? && p.extname == @file_ext }
             .map { |p| p.sub_ext('').basename.to_s }
@@ -189,7 +189,7 @@ module Asciidoctor::DocTest
       private
 
       def read_files(file_name)
-        @examples_path
+        @path
           .map { |dir| file_path(dir, file_name) }
           .select(&:readable?)
           .map(&:read)
