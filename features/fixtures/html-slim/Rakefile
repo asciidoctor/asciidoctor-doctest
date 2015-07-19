@@ -2,7 +2,7 @@ require 'asciidoctor/doctest'
 require 'tilt'
 
 DocTest::RakeTasks.new do |t|
-  t.output_suite = DocTest::IO::XML
+  t.output_suite = :html
   t.output_suite_opts = { examples_path: 'examples/html' }
   t.input_suite_opts = { examples_path: 'examples/asciidoc' }
   t.converter = DocTest::HTML::Converter
