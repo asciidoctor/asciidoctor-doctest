@@ -52,20 +52,6 @@ module Asciidoctor
       # @return [#to_s, #call] description of the generator task.
       attr_accessor :generate_description
 
-      # @return [Symbol, IO::Base] name or an instance of {IO::Base} subclass
-      #         to read the reference input examples (default: +IO::Asciidoc+).
-      attr_accessor :input_suite
-
-      # @return [Hash]
-      attr_accessor :input_suite_opts
-
-      # @return [Symbol, IO::Base] name or an instance of {IO::Base} subclass
-      #         to read and generate the output examples.
-      attr_accessor :output_suite
-
-      # @return [Hash]
-      attr_accessor :output_suite_opts
-
       attr_accessor :converter
 
       # @return [Hash] options for the Asciidoctor converter.
@@ -106,19 +92,15 @@ module Asciidoctor
         @tasks_namespace = tasks_namespace
         @test_description = DEFAULT_TEST_DESC
         @generate_description = DEFAULT_GENERATE_DESC
-        @input_suite = :asciidoc
-        @input_suite_opts = {}
-        @output_suite_opts = {}
+        @input_examples = IO.create(:asciidoc)
         @converter_opts = {}
         @force = false
         @pattern = '*:*'
 
         yield self
 
-        fail ArgumentError, 'The output_suite must be provided!' unless @output_suite
+        fail ArgumentError, 'The output_examples must be provided!' unless @output_examples
 
-        @input_suite = IO.create(input_suite, input_suite_opts) if input_suite.is_a? Symbol
-        @output_suite = IO.create(output_suite, output_suite_opts) if output_suite.is_a? Symbol
         @converter = converter.new(converter_opts) if converter.is_a? Class
         @test_reporter ||= TestReporter.new($stdout, verbose: verbose?,
           title: "Running DocTest for the #{subject}.")
@@ -130,6 +112,43 @@ module Asciidoctor
 
         desc "Alias for #{tasks_namespace}:test."
         task tasks_namespace => "#{tasks_namespace}:test"
+      end
+
+      ##
+      # Specifies a reader for the input examples. Defaults to +:asciidoc+ with
+      # the built-in reference examples.
+      #
+      # @overload input_examples(format, opts)
+      #   @param format [Symbol, String]
+      #   @param opts [Hash]
+      #   @option opts :path see {#output_examples}
+      #   @option opts :file_ext see {#output_examples}
+      #
+      # @overload input_examples(io)
+      #   @param io [IO::Base]
+      #
+      def input_examples(*args)
+        @input_examples = create_io(*args)
+      end
+
+      ##
+      # Specifies a reader/writer for the output examples (required).
+      #
+      # @overload output_examples(format, opts)
+      #   @param format [Symbol, String]
+      #   @param opts [Hash]
+      #   @option opts :path [String, Array<String>] path of the directory
+      #           (or multiple directories) where to look for the examples.
+      #           Default is {DocTest.examples_path}.
+      #   @option opts :file_ext [String] the filename extension (e.g. +.adoc+)
+      #           of the examples files. Default value depends on the
+      #           specified format.
+      #
+      # @overload output_examples(io)
+      #   @param io [IO::Base]
+      #
+      def output_examples(*args)
+        @output_examples = create_io(*args)
       end
 
       def pattern
@@ -166,7 +185,7 @@ module Asciidoctor
       protected
 
       def run_tests!
-        tester = Tester.new(input_suite, output_suite, @converter, @test_reporter)
+        tester = Tester.new(@input_examples, @output_examples, @converter, @test_reporter)
         fail unless tester.run_tests(pattern: pattern)
       end
 
@@ -190,10 +209,19 @@ module Asciidoctor
       def define_generate_task!
         desc generate_description
         task :generate do
-          puts "Generating test examples #{pattern} in #{output_suite.path.first}"
+          puts "Generating test examples #{pattern} in #{@output_examples.path.first}"
 
-          Generator.new(input_suite, output_suite, @converter)
+          Generator.new(@input_examples, @output_examples, @converter)
                    .generate! pattern: pattern, rewrite: force?
+        end
+      end
+
+      def create_io(*args)
+        case args.first
+        when Symbol, String
+          IO.create(*args)
+        else
+          args.first
         end
       end
     end
