@@ -12,7 +12,7 @@ module Asciidoctor
     # preset and validate some common parameters.
     class AsciidocRenderer
 
-      attr_reader :backend_name, :converter, :template_dirs
+      attr_reader :backend_name, :converter, :template_dirs, :dialect
 
       ##
       # @param backend_name [#to_s, nil] the name of the tested backend.
@@ -33,15 +33,19 @@ module Asciidoctor
       #        it's inappropriate for testing of custom backends, it's disabled
       #        by default.
       #
+      # @param dialect = asciidoc, manuscript, or latex.  Reference in
+      #        `latex_test.rb` like this: `converter_opts backend_name: 'latex', dialect: 'latex'`
+      #
       # @raise [ArgumentError] if some path from the +template_dirs+ doesn't
       #        exist or is not a directory.
       #
       def initialize(backend_name: nil, converter: nil, template_dirs: [],
-                     templates_fallback: false)
+                     templates_fallback: false, dialect: nil)
 
         @backend_name = backend_name.to_s.freeze.presence
         @converter = converter
         @converter ||= NoFallbackTemplateConverter unless template_dirs.empty? || templates_fallback
+        @dialect = dialect
 
         template_dirs = Array(template_dirs).freeze
         template_dirs.each do |path|
@@ -63,6 +67,7 @@ module Asciidoctor
           safe: :safe,
           backend: backend_name,
           converter: converter,
+          'dialect' => dialect,
           template_dirs: template_dirs
         }.merge(opts)
 
