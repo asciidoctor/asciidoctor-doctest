@@ -80,7 +80,7 @@ module Asciidoctor
       end
 
       ##
-      # @return [Fixnum] number of passed tests (examples).
+      # @return [Integer] number of passed tests (examples).
       def passes
         count - failures - errors - skips
       end

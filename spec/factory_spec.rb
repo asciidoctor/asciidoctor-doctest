@@ -9,7 +9,7 @@ describe DocTest::Factory do
   before do
     factory.register(:foo, OpenStruct, default_opts)
     factory.register(:bar, String, 'illegal')
-    factory.register(:baz, Fixnum)
+    factory.register(:baz, Integer)
   end
 
   describe '.create' do
