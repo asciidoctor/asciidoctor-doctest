@@ -1,10 +1,10 @@
 language: ruby
 sudo: false
 rvm:
-  - 2.2.0
-  - 2.1.0
-  - 2.0.0
-  - jruby-9.0.0.0.pre1
+  - 2.4
+  - 2.3
+  - 2.2
+  - jruby-9.1.12.0
 addons:
   code_climate:
     repo_token:
