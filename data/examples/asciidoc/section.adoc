@@ -42,6 +42,11 @@
 :sectlinks:
 == Linked title
 
+// .sectanchors_and_sectlinks
+:sectanchors:
+:sectlinks:
+== Linked title with anchor
+
 // .numbered
 :numbered:
 == Introduction to Asciidoctor
