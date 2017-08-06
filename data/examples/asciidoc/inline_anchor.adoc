@@ -24,4 +24,5 @@ Refer to <<Section A>>.
 
 // .bibref
 // This is an item (anchor) in the bibliography, not a link to it.
-[[[prag]]] Andy Hunt & Dave Thomas. The Pragmatic Programmer
+[bibliography]
+* [[[prag]]] Andy Hunt & Dave Thomas. The Pragmatic Programmer
