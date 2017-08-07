@@ -1,19 +1,6 @@
 // .ref
 [[bookmark-a]] Inline anchors make arbitrary content referenceable.
 
-// .basic
-http://www.asciidoctor.org
-
-// .basic_with_text
-irc://irc.freenode.org/#asciidoctor[Asciidoctor IRC channel]
-
-// .basic_with_target_blank
-link:view-source:asciidoctor.org[Asciidoctor homepage^]
-
-// .basic_with_role
-:linkattrs:
-http://discuss.asciidoctor.org/[*mailing list*, role="green"]
-
 // .xref
 The section <<page-break>> describes how to add a page break.
 
@@ -35,3 +22,16 @@ Refer to <<Section A>>.
 // This is an item (anchor) in the bibliography, not a link to it.
 [bibliography]
 * [[[prag, 1]]] Andy Hunt & Dave Thomas. The Pragmatic Programmer
+
+// .link
+http://www.asciidoctor.org
+
+// .link_with_text
+irc://irc.freenode.org/#asciidoctor[Asciidoctor IRC channel]
+
+// .link_with_target_blank
+link:view-source:asciidoctor.org[Asciidoctor homepage^]
+
+// .link_with_role
+:linkattrs:
+http://discuss.asciidoctor.org/[*mailing list*, role="green"]
