@@ -4,6 +4,9 @@
 // .xref
 The section <<page-break>> describes how to add a page break.
 
+// .xref_interdoc
+The section <<manual.adoc#page-break>> describes how to add a page break.
+
 // .xref_with_text
 The section <<page-break, Page break>> describes how to add a page break.
 
@@ -11,6 +14,22 @@ The section <<page-break, Page break>> describes how to add a page break.
 Refer to <<Section A>>.
 
 == Section A
+
+// .xref_reftext
+Refer to <<install>>.
+
+[#install, reftext="Installation Procedure"]
+== Installation
+
+// .xref_xrefstyle
+// Supported since Asciidoctor 1.5.6.
+:sectnums:
+:section-refsig: Sec.
+:xrefstyle: short
+Refer to <<install>>.
+
+[[install]]
+== Installation
 
 // .bibref
 // This is an item (anchor) in the bibliography, not a link to it.
