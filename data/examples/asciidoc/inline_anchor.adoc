@@ -1,3 +1,6 @@
+// .ref
+[[bookmark-a]] Inline anchors make arbitrary content referenceable.
+
 // .basic
 http://www.asciidoctor.org
 
