@@ -1,27 +1,94 @@
-// .basic
-WARNING: Watch out for dragons!
+// .note
+NOTE: This is a note.
 
-// .basic_multiline
-NOTE: An admonition paragraph draws the reader's attention to
-auxiliary information.
-Its purpose is determined by the label
-at the beginning of the paragraph.
+// .note_with_title
+.Title of note
+NOTE: This is a note with title.
 
-// .block
+// .note_with_id_and_role
+[#note-1.yellow]
+NOTE: This is a note with id and role.
+
+// .note_block
+[NOTE]
+====
+This is a note with complex content.
+
+* It contains a list.
+====
+
+// .tip
+TIP: This is a tip.
+
+// .tip_with_title
+.Title of tip
+TIP: This is a tip with title.
+
+// .tip_with_id_and_role
+[#tip-1.blue]
+TIP: This is a tip with id and role.
+
+// .tip_block
+[TIP]
+====
+This is a tip with complex content.
+
+* It contains a list.
+====
+
+// .important
+IMPORTANT: This is an important notice.
+
+// .important_with_title
+.Title of important notice
+IMPORTANT: This is an important notice with title.
+
+// .important_with_id_and_role
+[#important-1.red]
+IMPORTANT: This is an important notice with id and role.
+
+// .important_block
 [IMPORTANT]
 ====
-While werewolves are hardy community members, keep in mind some dietary concerns.
+This is an important notice with complex content.
+
+* It contains a list.
 ====
 
-// .block_with_title
-[IMPORTANT]
-.Feeding the Werewolves
+// .caution
+CAUTION: This is a caution.
+
+// .caution_with_title
+.Title of caution
+CAUTION: This is a caution with title.
+
+// .caution_with_id_and_role
+[#caution-1.red]
+CAUTION: This is a caution with id and role.
+
+// .caution_block
+[CAUTION]
 ====
-While werewolves are hardy community members, keep in mind some dietary concerns.
+This is a caution with complex content.
+
+* It contains a list.
 ====
 
-// .block_with_id_and_role
-[IMPORTANT, id=werewolve, role=member]
+// .warning
+WARNING: This is a warning.
+
+// .warning_with_title
+.Title of warning
+WARNING: This is a warning with title.
+
+// .warning_with_id_and_role
+[#warning-1.red]
+WARNING: This is a warning with id and role.
+
+// .warning_block
+[WARNING]
 ====
-While werewolves are hardy community members, keep in mind some dietary concerns.
+This is a warning with complex content.
+
+* It contains a list.
 ====
