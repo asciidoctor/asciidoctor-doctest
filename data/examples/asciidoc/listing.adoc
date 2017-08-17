@@ -5,7 +5,7 @@ read name
 echo "Hello, $name!"
 ----
 
-// .basic_with_title
+// .basic-with-title
 .Reading user input
 ----
 echo -n "Please enter your name: "
@@ -13,13 +13,13 @@ read name
 echo "Hello, $name!"
 ----
 
-// .basic_nowrap
+// .basic-nowrap
 [options="nowrap"]
 ----
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ----
 
-// .basic_with_id_and_role
+// .basic-with-id-and-role
 [#code.example]
 ----
 echo -n "Please enter your name: "
@@ -35,7 +35,7 @@ echo "Hello, $name!"
 end
 ----
 
-// .source_with_title
+// .source-with-title
 [source]
 .Odelay!
 ----
@@ -44,7 +44,7 @@ end
 end
 ----
 
-// .source_with_language
+// .source-with-language
 [source, ruby]
 ----
 5.times do
@@ -52,7 +52,7 @@ end
 end
 ----
 
-// .source_nowrap
+// .source-nowrap
 [source, java, options="nowrap"]
 ----
 public class ApplicationConfigurationProvider extends HttpConfigurationProvider {

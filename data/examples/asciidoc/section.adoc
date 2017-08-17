@@ -13,7 +13,7 @@
 // .level5
 ====== Section Level 5
 
-// .max_nesting
+// .max-nesting
 == Section Level 1
 
 === Section Level 2
@@ -26,11 +26,11 @@
 
 === Section Level 2
 
-// .with_custom_id
+// .with-custom-id
 [#foo]
 == Section Title
 
-// .with_roles
+// .with-roles
 [.center.red]
 == Section Title
 
@@ -42,7 +42,7 @@
 :sectlinks:
 == Linked title
 
-// .sectanchors_and_sectlinks
+// .sectanchors-and-sectlinks
 :sectanchors:
 :sectlinks:
 == Linked title with anchor
@@ -63,7 +63,7 @@
 
 == Terms and Concepts
 
-// .numbered_sectnumlevels_1
+// .numbered-sectnumlevels-1
 :numbered:
 :sectnumlevels: 1
 == Introduction to Asciidoctor

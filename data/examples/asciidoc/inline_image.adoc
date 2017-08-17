@@ -1,44 +1,44 @@
 // .image
 image:linux.svg[]
 
-// .image_with_alt_text
+// .image-with-alt-text
 image:linux.svg[Tux]
 
-// .image_with_dimensions
+// .image-with-dimensions
 image:linux.svg[Tux, 25, 35]
 
-// .image_with_float
+// .image-with-float
 image:linux.svg[float="right"]
 
-// .image_with_link
+// .image-with-link
 image:linux.svg[link="http://inkscape.org/doc/examples/tux.svg"]
 
-// .image_with_role
+// .image-with-role
 image:linux.svg[role="black"]
 
 // .icon
 :icons:
 icon:tags[]
 
-// .icon_with_dimensions
+// .icon-with-dimensions
 :icons:
 icon:tags[height=25, width=35]
 
-// .icon_with_float
+// .icon-with-float
 :icons:
 icon:heart[float="right"]
 
-// .icon_with_link
+// .icon-with-link
 :icons:
 icon:download[link="http://rubygems.org/downloads/asciidoctor-1.5.2.gem"]
 
-// .icon_with_title
+// .icon-with-title
 :icons:
 icon:heart[title="I <3 Asciidoctor"]
 
-// .icon_with_role
+// .icon-with-role
 :icons:
 icon:tags[role="blue"]
 
-// .icon_no_icons
+// .icon-no-icons
 icon:tags[]

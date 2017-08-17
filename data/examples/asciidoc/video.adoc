@@ -1,24 +1,24 @@
 // .basic
 video::video_file.mp4[]
 
-// .with_poster
+// .with-poster
 video::video_file.mp4[poster="sunset.jpg"]
 
-// .with_dimensions
+// .with-dimensions
 video::video_file.mp4[width=640, height=480]
 
-// .with_start
+// .with-start
 video::video_file.mp4[start=10]
 
-// .with_end
+// .with-end
 video::video_file.mp4[end=60]
 
-// .with_options
+// .with-options
 video::video_file.mp4[options="autoplay, loop, nocontrols"]
 
-// .with_title
+// .with-title
 .Must watch!
 video::video_file.mp4[]
 
-// .with_id_and_role
+// .with-id-and-role
 video::video_file.mp4[id="lindsey", role="watch"]

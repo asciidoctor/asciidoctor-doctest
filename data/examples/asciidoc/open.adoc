@@ -4,14 +4,14 @@ An open block can be an anonymous container,
 or it can masquerade as any other block.
 --
 
-// .basic_with_title
+// .basic-with-title
 .An open block
 --
 An open block can be an anonymous container,
 or it can masquerade as any other block.
 --
 
-// .basic_with_id_and_role
+// .basic-with-id-and-role
 [#open.example]
 --
 An open block can be an anonymous container,
@@ -24,7 +24,7 @@ or it can masquerade as any other block.
 This is an abstract quote block.
 --
 
-// .abstract_with_title
+// .abstract-with-title
 [abstract]
 .Abstract title is abstract
 --
@@ -32,7 +32,7 @@ This is an abstract quote block.
 Who knows what it really means?
 --
 
-// .abstract_with_id_and_role
+// .abstract-with-id-and-role
 [abstract, id="open", role="example"]
 --
 This is an abstract quote block.

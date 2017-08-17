@@ -3,19 +3,19 @@
 * Sheri S. Tepper
 * Bill Bryson
 
-// .with_title
+// .with-title
 .Writers
 * Edgar Allen Poe
 * Sheri S. Tepper
 * Bill Bryson
 
-// .with_id_and_role
+// .with-id-and-role
 [#authors.green]
 * Edgar Allen Poe
 * Sheri S. Tepper
 * Bill Bryson
 
-// .max_nesting
+// .max-nesting
 * level 1
 ** level 2
 *** level 3
@@ -23,7 +23,7 @@
 ***** level 5
 ** level 2
 
-// .complex_content
+// .complex-content
 * Every list item has at least one paragraph of content,
   which may be wrapped, even using a hanging indent.
 +

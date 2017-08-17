@@ -18,10 +18,10 @@
 [discrete]
 ====== Discrete Title Level 5
 
-// .with_custom_id
+// .with-custom-id
 [discrete, id=flying]
 == Discrete Title Level 1
 
-// .with_roles
+// .with-roles
 [discrete.flying.circus]
 === Discrete Title Level 2

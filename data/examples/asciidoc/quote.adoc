@@ -3,20 +3,20 @@
 Four score and seven years ago our fathers brought forth
 on this continent a new nation...
 
-// .with_attribution
+// .with-attribution
 [quote, Albert Einstein]
 A person who never made a mistake never tried anything new.
 
-// .with_attribution_and_citetitle
+// .with-attribution-and-citetitle
 [quote, Captain James T. Kirk, Star Trek IV: The Voyage Home]
 Everybody remember where we parked.
 
-// .with_title
+// .with-title
 .After landing the cloaked Klingon bird of prey in Golden Gate park:
 [quote]
 Everybody remember where we parked.
 
-// .with_id_and_role
+// .with-id-and-role
 [quote, id="parking", role="startrek"]
 Everybody remember where we parked.
 

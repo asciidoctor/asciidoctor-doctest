@@ -13,7 +13,7 @@ Feature: Testing a custom HTML backend
       """
     Then the output should contain:
       """
-      ✗  Failure: quote:with_attribution
+      ✗  Failure: quote:with-attribution
          Failing example..
 
             <div class="quoteblock">
@@ -24,7 +24,7 @@ Feature: Testing a custom HTML backend
       """
     And the output should contain:
       """
-      ✗  Failure: document:title_with_author
+      ✗  Failure: document:title-with-author
          This example should fail..
 
             <div id="header">
@@ -47,16 +47,16 @@ Feature: Testing a custom HTML backend
       """
       Running DocTest for the templates: templates.
 
-      ✗  document:title_with_author
+      ✗  document:title-with-author
       ∅  inline_quoted:emphasis
-      ✓  quote:with_id_and_role
-      ∅  quote:with_title
-      ✗  quote:with_attribution
+      ✓  quote:with-id-and-role
+      ∅  quote:with-title
+      ✗  quote:with-attribution
 
       """
     And the output should contain:
       """
-      ∅  Skipped: quote:with_title
+      ∅  Skipped: quote:with-title
          No expected output found
       """
     And the output should contain:
@@ -71,9 +71,9 @@ Feature: Testing a custom HTML backend
       """
       Running DocTest for the templates: templates.
 
-      ✓  quote:with_id_and_role
-      ∅  quote:with_title
-      ✗  quote:with_attribution
+      ✓  quote:with-id-and-role
+      ∅  quote:with-title
+      ✗  quote:with-attribution
 
       """
 
@@ -86,7 +86,7 @@ Feature: Testing a custom HTML backend
       """
     And the output should contain:
       """
-      ✗  Failure: quote:with_attribution
+      ✗  Failure: quote:with-attribution
          Failing example..
 
             <div class="quoteblock">

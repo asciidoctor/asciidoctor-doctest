@@ -3,19 +3,19 @@
 . Step 2
 . Step 3
 
-// .with_start
+// .with-start
 [start=6]
 . Step 1
 . Step 2
 . Step 3
 
-// .with_reversed
+// .with-reversed
 [%reversed]
 . Step 1
 . Step 2
 . Step 3
 
-// .with_numeration_styles
+// .with-numeration-styles
 [decimal]
 . level 1
 [upperalpha]
@@ -27,19 +27,19 @@
 [lowergreek]
 ..... level 5
 
-// .with_title
+// .with-title
 .Steps
 . Step 1
 . Step 2
 . Step 3
 
-// .with_id_and_role
+// .with-id-and-role
 [#steps.green]
 . Step 1
 . Step 2
 . Step 3
 
-// .max_nesting
+// .max-nesting
 . level 1
 .. level 2
 ... level 3
@@ -47,7 +47,7 @@
 ..... level 5
 .. level 2
 
-// .complex_content
+// .complex-content
 . Every list item has at least one paragraph of content,
   which may be wrapped, even using a hanging indent.
 +

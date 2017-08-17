@@ -8,11 +8,11 @@ Feature: Generating output examples for a custom HTML backend
     Then the output should contain:
       """
       Generating test examples *:* in examples/html
-       --> Skipping document:title_with_author
+       --> Skipping document:title-with-author
        --> Generating inline_quoted:emphasis
-       --> Unchanged quote:with_id_and_role
-       --> Generating quote:with_title
-       --> Skipping quote:with_attribution
+       --> Unchanged quote:with-id-and-role
+       --> Generating quote:with-title
+       --> Skipping quote:with-attribution
        --> Unknown quote:basic, doesn't exist in input examples!
 
       """
@@ -26,7 +26,7 @@ Feature: Generating output examples for a custom HTML backend
       on this continent a new nation&#8230;&#8203;</blockquote>
       </div>
 
-      <!-- .with_id_and_role
+      <!-- .with-id-and-role
       Correct example.
       -->
       <div id="parking"
@@ -37,7 +37,7 @@ Feature: Generating output examples for a custom HTML backend
         </blockquote>
       </div>
 
-      <!-- .with_attribution
+      <!-- .with-attribution
       Failing example.
       -->
       <div class="quoteblock">
@@ -45,7 +45,7 @@ Feature: Generating output examples for a custom HTML backend
         <div>Albert Einstein</div>
       </div>
 
-      <!-- .with_title -->
+      <!-- .with-title -->
       <section class="quoteblock">
         <h6>After landing the cloaked Klingon bird of prey in Golden Gate park:</h6>
         <blockquote>Everybody remember where we parked.</blockquote>
@@ -54,7 +54,7 @@ Feature: Generating output examples for a custom HTML backend
       """
     And the file "examples/html/document.html" should contain exactly:
       """
-      <!-- .title_with_author
+      <!-- .title-with-author
       :include: .//body/div[@id="header"]
       -->
       <div id="header">
@@ -75,11 +75,11 @@ Feature: Generating output examples for a custom HTML backend
     Then the output should contain:
       """
       Generating test examples *:* in examples/html
-       --> Rewriting document:title_with_author
+       --> Rewriting document:title-with-author
        --> Generating inline_quoted:emphasis
-       --> Unchanged quote:with_id_and_role
-       --> Generating quote:with_title
-       --> Rewriting quote:with_attribution
+       --> Unchanged quote:with-id-and-role
+       --> Generating quote:with-title
+       --> Rewriting quote:with-attribution
        --> Unknown quote:basic, doesn't exist in input examples!
 
       """
@@ -93,7 +93,7 @@ Feature: Generating output examples for a custom HTML backend
       on this continent a new nation&#8230;&#8203;</blockquote>
       </div>
 
-      <!-- .with_id_and_role
+      <!-- .with-id-and-role
       Correct example.
       -->
       <div id="parking"
@@ -104,7 +104,7 @@ Feature: Generating output examples for a custom HTML backend
         </blockquote>
       </div>
 
-      <!-- .with_attribution
+      <!-- .with-attribution
       Failing example.
       -->
       <div class="quoteblock">
@@ -112,7 +112,7 @@ Feature: Generating output examples for a custom HTML backend
         <div class="attribution">— Albert Einstein</div>
       </div>
 
-      <!-- .with_title -->
+      <!-- .with-title -->
       <section class="quoteblock">
         <h6>After landing the cloaked Klingon bird of prey in Golden Gate park:</h6>
         <blockquote>Everybody remember where we parked.</blockquote>
@@ -121,7 +121,7 @@ Feature: Generating output examples for a custom HTML backend
       """
     And the file "examples/html/document.html" should contain exactly:
       """
-      <!-- .title_with_author
+      <!-- .title-with-author
       :include: .//body/div[@id="header"]
       -->
       <div id="header">
@@ -136,7 +136,7 @@ Feature: Generating output examples for a custom HTML backend
     Then the output should contain:
       """
       Generating test examples *:*attribution in examples/html
-       --> Rewriting quote:with_attribution
+       --> Rewriting quote:with-attribution
 
       """
     And the file "examples/html/quote.html" should contain exactly:
@@ -149,7 +149,7 @@ Feature: Generating output examples for a custom HTML backend
       on this continent a new nation&#8230;&#8203;</blockquote>
       </div>
 
-      <!-- .with_id_and_role
+      <!-- .with-id-and-role
       Correct example.
       -->
       <div id="parking"
@@ -160,7 +160,7 @@ Feature: Generating output examples for a custom HTML backend
         </blockquote>
       </div>
 
-      <!-- .with_attribution
+      <!-- .with-attribution
       Failing example.
       -->
       <div class="quoteblock">

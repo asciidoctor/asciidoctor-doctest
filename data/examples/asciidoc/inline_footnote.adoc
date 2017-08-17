@@ -5,5 +5,5 @@ Apocalyptic party.footnote:[The double hail-and-rainbow level makes my toes ting
 A bold statement.footnoteref:[disclaimer,Opinions are my own.]
 Another outrageous statement.footnoteref:[disclaimer]
 
-// .xref_unresolved
+// .xref-unresolved
 A bold statement.footnoteref:[foobar]

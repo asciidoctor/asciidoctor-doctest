@@ -13,7 +13,7 @@ end
 <2> URL mapping
 <3> Content for response
 
-// .with_title
+// .with-title
 // This example should assert only callouts list below the code listing.
 // For callouts inside the listing is responsible inline_callout.
 [source, ruby]
@@ -29,7 +29,7 @@ end
 <2> URL mapping
 <3> Content for response
 
-// .with_id_and_role
+// .with-id-and-role
 // This example should assert only callouts list below the code listing.
 // For callouts inside the listing is responsible inline_callout.
 [source, ruby]

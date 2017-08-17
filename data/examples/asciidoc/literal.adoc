@@ -5,7 +5,7 @@ absolutely fatal: operation initiation lost in the dodecahedron of doom
 would you like to die again? y/n
 ....
 
-// .with_title
+// .with-title
 .Die again?
 ....
 error: The requested operation returned error: 1954 Forbidden search for defensive operations manual
@@ -13,7 +13,7 @@ absolutely fatal: operation initiation lost in the dodecahedron of doom
 would you like to die again? y/n
 ....
 
-// .with_id_and_role
+// .with-id-and-role
 [#error.fatal]
 ....
 error: The requested operation returned error: 1954 Forbidden search for defensive operations manual

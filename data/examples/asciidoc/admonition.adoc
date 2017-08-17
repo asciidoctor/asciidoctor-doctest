@@ -1,15 +1,15 @@
 // .note
 NOTE: This is a note.
 
-// .note_with_title
+// .note-with-title
 .Title of note
 NOTE: This is a note with title.
 
-// .note_with_id_and_role
+// .note-with-id-and-role
 [#note-1.yellow]
 NOTE: This is a note with id and role.
 
-// .note_block
+// .note-block
 [NOTE]
 ====
 This is a note with complex content.
@@ -20,15 +20,15 @@ This is a note with complex content.
 // .tip
 TIP: This is a tip.
 
-// .tip_with_title
+// .tip-with-title
 .Title of tip
 TIP: This is a tip with title.
 
-// .tip_with_id_and_role
+// .tip-with-id-and-role
 [#tip-1.blue]
 TIP: This is a tip with id and role.
 
-// .tip_block
+// .tip-block
 [TIP]
 ====
 This is a tip with complex content.
@@ -39,15 +39,15 @@ This is a tip with complex content.
 // .important
 IMPORTANT: This is an important notice.
 
-// .important_with_title
+// .important-with-title
 .Title of important notice
 IMPORTANT: This is an important notice with title.
 
-// .important_with_id_and_role
+// .important-with-id-and-role
 [#important-1.red]
 IMPORTANT: This is an important notice with id and role.
 
-// .important_block
+// .important-block
 [IMPORTANT]
 ====
 This is an important notice with complex content.
@@ -58,15 +58,15 @@ This is an important notice with complex content.
 // .caution
 CAUTION: This is a caution.
 
-// .caution_with_title
+// .caution-with-title
 .Title of caution
 CAUTION: This is a caution with title.
 
-// .caution_with_id_and_role
+// .caution-with-id-and-role
 [#caution-1.red]
 CAUTION: This is a caution with id and role.
 
-// .caution_block
+// .caution-block
 [CAUTION]
 ====
 This is a caution with complex content.
@@ -77,15 +77,15 @@ This is a caution with complex content.
 // .warning
 WARNING: This is a warning.
 
-// .warning_with_title
+// .warning-with-title
 .Title of warning
 WARNING: This is a warning with title.
 
-// .warning_with_id_and_role
+// .warning-with-id-and-role
 [#warning-1.red]
 WARNING: This is a warning with id and role.
 
-// .warning_block
+// .warning-block
 [WARNING]
 ====
 This is a warning with complex content.

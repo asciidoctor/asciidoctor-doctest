@@ -120,7 +120,7 @@ Each group focuses on one block or inline element — more precisely Asciidoctor
 Examples group is a text file named similar to Asciidoctor templates, i.e. the AST node name with an extension according to syntax, for example `table.adoc`, `table.html`. See below for a list of the AST nodes.
 Individual examples in the group file are separated by a special header with the name of the example, an optional description and options.
 
-Each example is identified by its name and the group name like this: `{group_name}:{example_name}` (e.g. `table:with_title`).
+Each example is identified by its name and the group name like this: `{group_name}:{example_name}` (e.g. `table:with-title`).
 Input and output examples are paired — for every input example there should be an output example with the same identifier.
 When you <<run-tests, run tests>>, the input example is converted using the tested backend (or templates) and its actual output is compared with the expected output example.
 
@@ -180,7 +180,7 @@ If there are two files with the same name, it simply merges their content, and i
 
 [source, asciidoc]
 ----
-// .first_example
+// .first-example
 // Each block must be preceded by a header (comment); the first line must
 // contain the example’s name prefixed with a dot. This text is interpreted
 // as a description.
@@ -188,7 +188,7 @@ The example’s content in *Asciidoc*.
 
 NOTE: The trailing new line (below this) will be removed.
 
-// .second_example
+// .second-example
 * List item level 1
 ** List item level 2
 
@@ -233,7 +233,7 @@ header_footer::
 
 [source, html]
 ----
-<!-- .first_example
+<!-- .first-example
   Each example must be preceded by a header (comment); the first line must
   contain the example’s name prefixed with a dot. This text is interpreted
   as a description.
@@ -242,7 +242,7 @@ header_footer::
 
 <div class="note">The trailing new line (below this) will be removed.</div>
 
-<!-- .second_example
+<!-- .second-example
   You may also specify options for comparing or Asciidoctor renderer. Option
   line starts with a semicolon, then comes the option name ended by a
   semicolon and after that the option’s value (may be omitted for boolean
