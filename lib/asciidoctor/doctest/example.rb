@@ -54,7 +54,7 @@ module Asciidoctor
       end
 
       ##
-      # @param pattern [String] the glob pattern (e.g. +block_*:with*+).
+      # @param pattern [String] the glob pattern (e.g. +inline_*:with*+).
       # @return [Boolean] +true+ if the name matches against the +pattern+,
       #         +false+ otherwise.
       def name_match?(pattern)

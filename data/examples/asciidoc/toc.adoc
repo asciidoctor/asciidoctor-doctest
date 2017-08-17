@@ -1,7 +1,7 @@
 // .basic
-// The block_toc node is used only with toc::[] macro!
-// Actual TOC content is rendered in block_outline, this template usually
-// renders just a "border".
+// The toc node is used only with toc::[] macro!
+// Actual TOC content is rendered in the outline template, this template
+// usually renders just a "border".
 = Document Title
 :toc:
 :toc-placement!:

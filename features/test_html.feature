@@ -9,11 +9,11 @@ Feature: Testing a custom HTML backend
       """
       Running DocTest for the templates: templates.
 
-      .SFFS
+      FS.SF
       """
     Then the output should contain:
       """
-      ✗  Failure: block_quote:with_attribution
+      ✗  Failure: quote:with_attribution
          Failing example..
 
             <div class="quoteblock">
@@ -47,16 +47,16 @@ Feature: Testing a custom HTML backend
       """
       Running DocTest for the templates: templates.
 
-      ✓  block_quote:with_id_and_role
-      ∅  block_quote:with_title
-      ✗  block_quote:with_attribution
       ✗  document:title_with_author
       ∅  inline_quoted:emphasis
+      ✓  quote:with_id_and_role
+      ∅  quote:with_title
+      ✗  quote:with_attribution
 
       """
     And the output should contain:
       """
-      ∅  Skipped: block_quote:with_title
+      ∅  Skipped: quote:with_title
          No expected output found
       """
     And the output should contain:
@@ -66,14 +66,14 @@ Feature: Testing a custom HTML backend
       """
 
   Scenario: Test only examples matching the pattern
-    When I run `bundle exec rake doctest:test PATTERN=block_*:* VERBOSE=yes`
+    When I run `bundle exec rake doctest:test PATTERN=quot*:* VERBOSE=yes`
     Then the output should contain:
       """
       Running DocTest for the templates: templates.
 
-      ✓  block_quote:with_id_and_role
-      ∅  block_quote:with_title
-      ✗  block_quote:with_attribution
+      ✓  quote:with_id_and_role
+      ∅  quote:with_title
+      ✗  quote:with_attribution
 
       """
 
@@ -86,7 +86,7 @@ Feature: Testing a custom HTML backend
       """
     And the output should contain:
       """
-      ✗  Failure: block_quote:with_attribution
+      ✗  Failure: quote:with_attribution
          Failing example..
 
             <div class="quoteblock">

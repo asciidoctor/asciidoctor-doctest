@@ -8,15 +8,15 @@ Feature: Generating output examples for a custom HTML backend
     Then the output should contain:
       """
       Generating test examples *:* in examples/html
-       --> Unchanged block_quote:with_id_and_role
-       --> Generating block_quote:with_title
-       --> Skipping block_quote:with_attribution
-       --> Unknown block_quote:basic, doesn't exist in input examples!
        --> Skipping document:title_with_author
        --> Generating inline_quoted:emphasis
+       --> Unchanged quote:with_id_and_role
+       --> Generating quote:with_title
+       --> Skipping quote:with_attribution
+       --> Unknown quote:basic, doesn't exist in input examples!
 
       """
-    And the file "examples/html/block_quote.html" should contain exactly:
+    And the file "examples/html/quote.html" should contain exactly:
       """
       <!-- .basic
       Doesn't exist in input examples.
@@ -75,15 +75,15 @@ Feature: Generating output examples for a custom HTML backend
     Then the output should contain:
       """
       Generating test examples *:* in examples/html
-       --> Unchanged block_quote:with_id_and_role
-       --> Generating block_quote:with_title
-       --> Rewriting block_quote:with_attribution
-       --> Unknown block_quote:basic, doesn't exist in input examples!
        --> Rewriting document:title_with_author
        --> Generating inline_quoted:emphasis
+       --> Unchanged quote:with_id_and_role
+       --> Generating quote:with_title
+       --> Rewriting quote:with_attribution
+       --> Unknown quote:basic, doesn't exist in input examples!
 
       """
-    And the file "examples/html/block_quote.html" should contain exactly:
+    And the file "examples/html/quote.html" should contain exactly:
       """
       <!-- .basic
       Doesn't exist in input examples.
@@ -136,10 +136,10 @@ Feature: Generating output examples for a custom HTML backend
     Then the output should contain:
       """
       Generating test examples *:*attribution in examples/html
-       --> Rewriting block_quote:with_attribution
+       --> Rewriting quote:with_attribution
 
       """
-    And the file "examples/html/block_quote.html" should contain exactly:
+    And the file "examples/html/quote.html" should contain exactly:
       """
       <!-- .basic
       Doesn't exist in input examples.

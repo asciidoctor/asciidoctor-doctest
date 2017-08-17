@@ -36,8 +36,8 @@ A bold statement.footnoteref:[disclaimer,Opinions are my own.]
 Another outrageous statement.footnoteref:[disclaimer]
 
 // .toc
-// Actual TOC content is rendered in block_outline, this template usually
-// renders just a "border".
+// Actual TOC content is rendered in the outline template, this template
+// usually renders just a "border".
 = Document Title
 :toc:
 

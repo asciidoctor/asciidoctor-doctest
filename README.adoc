@@ -100,7 +100,7 @@ bundle exec rake doctest:test
 To test only specific examples, use `PATTERN` with glob-like expression:
 
 [source, sh]
-bundle exec rake doctest:test PATTERN='block_*:*'
+bundle exec rake doctest:test PATTERN='inline_*:*'
 
 For verbose output, use `VERBOSE=yes`:
 
@@ -117,10 +117,10 @@ Example should consider one case of the generated output, i.e. it should reflect
 Examples are grouped in _example groups_.
 Each group focuses on one block or inline element — more precisely Asciidoctor’s AST node (paragraph, table, anchor, footnote…).
 
-Examples group is a text file named similar to Asciidoctor templates, i.e. the AST node name with an extension according to syntax, for example `block_table.adoc`, `block_table.html`. See below for a list of the AST nodes.
+Examples group is a text file named similar to Asciidoctor templates, i.e. the AST node name with an extension according to syntax, for example `table.adoc`, `table.html`. See below for a list of the AST nodes.
 Individual examples in the group file are separated by a special header with the name of the example, an optional description and options.
 
-Each example is identified by its name and the group name like this: `{group_name}:{example_name}` (e.g. `block_table:with_title`).
+Each example is identified by its name and the group name like this: `{group_name}:{example_name}` (e.g. `table:with_title`).
 Input and output examples are paired — for every input example there should be an output example with the same identifier.
 When you <<run-tests, run tests>>, the input example is converted using the tested backend (or templates) and its actual output is compared with the expected output example.
 
@@ -129,31 +129,31 @@ When you <<run-tests, run tests>>, the input example is converted using the test
 document:: TODO
 embedded:: TODO
 section:: {doctor-man-uri}/#sections[document sections], i.e. headings
-block_admonition:: {doctor-man-uri}/#admonition[an admonition block]
-block_audio:: {doctor-man-uri}/#audio[an audio block]
-block_colist:: {doctor-man-uri}/#callouts[a code callouts] list
-block_dlist:: {doctor-man-uri}/#labeled-list[a labeled list] (aka definition list) and {doctor-man-uri}/#question-and-answer-style-list[a Q&A style list]
-block_example:: {doctor-man-uri}/#example[an example block]
-block_floating_title:: {doctor-man-uri}/#discrete-or-floating-section-titles[a discrete or floating section title]
-block_image:: {doctor-man-uri}/#images[an image block]
-block_listing:: {doctor-man-uri}/#listing-blocks[a listing and source code block]
-block_literal:: {doctor-man-uri}/#literal-text-and-blocks[a literal block]
-block_olist:: {doctor-man-uri}/#ordered-lists[an ordered list] (i.e. numbered list)
-block_open:: {doctor-man-uri}/#open-blocks[open blocks], {doctor-man-uri}/#user-abstractabstract[abstract], …
-block_outline:: an actual {doctor-man-uri}/#user-toc[TOC] content (i.e. list of links), usually recursively called
-block_page_break:: {doctor-man-uri}/#page-break[page break]
-block_paragraph:: {doctor-man-uri}/#paragraph[a paragraph]
-block_pass:: {doctor-man-uri}/#pass-bl[a passthrough block]
-block_preamble:: {doctor-man-uri}/#doc-preamble[a preamble], optionally with a TOC
-block_quote:: {doctor-man-uri}/#quote[a quote block]
-block_sidebar:: {doctor-man-uri}/#sidebar[a sidebar]
-block_stem:: {doctor-man-uri}/#stem[a STEM block] (Science, Technology, Engineering and Math)
-block_table:: {doctor-man-uri}/#tables[a table]
-block_thematic_break:: {doctor-man-uri}/#horizontal-rules[a thematic break] (i.e. horizontal rule)
-block_toc:: {doctor-man-uri}/#manual-placement[a TOC macro] (i.e. manually placed TOC); This block is used for `toc::[]` macro only and it’s responsible just for rendering of a the TOC “envelope,” not an actual TOC content.
-block_ulist:: {doctor-man-uri}/#unordered-lists[an unordered list] (aka bullet list) and a {doctor-man-uri}/#checklist[checklist] (e.g. TODO list)
-block_verse:: {doctor-man-uri}/#verse[a verse block]
-block_video:: {doctor-man-uri}/#video[a video block]
+admonition:: {doctor-man-uri}/#admonition[an admonition block]
+audio:: {doctor-man-uri}/#audio[an audio block]
+colist:: {doctor-man-uri}/#callouts[a code callouts] list
+dlist:: {doctor-man-uri}/#labeled-list[a labeled list] (aka definition list) and {doctor-man-uri}/#question-and-answer-style-list[a Q&A style list]
+example:: {doctor-man-uri}/#example[an example block]
+floating_title:: {doctor-man-uri}/#discrete-or-floating-section-titles[a discrete or floating section title]
+image:: {doctor-man-uri}/#images[an image block]
+listing:: {doctor-man-uri}/#listing-blocks[a listing and source code block]
+literal:: {doctor-man-uri}/#literal-text-and-blocks[a literal block]
+olist:: {doctor-man-uri}/#ordered-lists[an ordered list] (i.e. numbered list)
+open:: {doctor-man-uri}/#open-blocks[open blocks], {doctor-man-uri}/#user-abstractabstract[abstract], …
+outline:: an actual {doctor-man-uri}/#user-toc[TOC] content (i.e. list of links), usually recursively called
+page_break:: {doctor-man-uri}/#page-break[page break]
+paragraph:: {doctor-man-uri}/#paragraph[a paragraph]
+pass:: {doctor-man-uri}/#pass-bl[a passthrough block]
+preamble:: {doctor-man-uri}/#doc-preamble[a preamble], optionally with a TOC
+quote:: {doctor-man-uri}/#quote[a quote block]
+sidebar:: {doctor-man-uri}/#sidebar[a sidebar]
+stem:: {doctor-man-uri}/#stem[a STEM block] (Science, Technology, Engineering and Math)
+table:: {doctor-man-uri}/#tables[a table]
+thematic_break:: {doctor-man-uri}/#horizontal-rules[a thematic break] (i.e. horizontal rule)
+toc:: {doctor-man-uri}/#manual-placement[a TOC macro] (i.e. manually placed TOC); This block is used for `toc::[]` macro only and it’s responsible just for rendering of a the TOC “envelope,” not an actual TOC content.
+ulist:: {doctor-man-uri}/#unordered-lists[an unordered list] (aka bullet list) and a {doctor-man-uri}/#checklist[checklist] (e.g. TODO list)
+verse:: {doctor-man-uri}/#verse[a verse block]
+video:: {doctor-man-uri}/#video[a video block]
 inline_anchor:: {doctor-man-uri}/#url[anchors] (links, cross references and bibliography references)
 inline_break:: {doctor-man-uri}/#line-breaks[line break]
 inline_button:: {doctor-man-uri}/#ui-buttons[UI button]
@@ -172,7 +172,7 @@ You can find them in link:data/examples/asciidoc[].footnote:[Since GitHub implic
 There are a lot of test examples and some of them may not be relevant to your backend — that’s okay, when some output example is not found, it’s marked as skipped in test.
 
 You can also write your own input examples and use them together with those provided (or replace them).
-Just add another directory to your examples_path (e.g. `test/examples/asciidoc`) and create example group files with `.adoc` suffix here (e.g. `block_video.adoc`).
+Just add another directory to your examples_path (e.g. `test/examples/asciidoc`) and create example group files with `.adoc` suffix here (e.g. `video.adoc`).
 When DocTest is looking for examples to test, it indexes all examples found in files with `.adoc` suffix on the examples_path.
 If there are two files with the same name, it simply merges their content, and if they contain two examples with the same name, then the first wins (i.e. that from the file that is ahead on the examples_path).
 
@@ -282,15 +282,15 @@ Same as previous, but rewrite existing tested examples:
 [source, sh]
 bundle exec rake doctest:generate FORCE=yes
 
-Generate just examples for `block_ulist` node (i.e. all examples in `block_ulist.adoc` file(s) found on the examples_path) that doesn’t exist yet:
+Generate just examples for `ulist` node (i.e. all examples in `ulist.adoc` file(s) found on the examples_path) that doesn’t exist yet:
 
 [source, sh]
-bundle exec rake doctest:generate PATTERN='block_ulist:*'
+bundle exec rake doctest:generate PATTERN='ulist:*'
 
-(Re)generate examples which name starts with `basic` for all _block_ nodes (i.e. files that starts with `block_`):
+(Re)generate examples which name starts with `basic` for all _inline_ nodes (i.e. files that starts with `inline_`):
 
 [source, sh]
-bundle exec rake doctest:generate PATTERN='block_*:basic*' FORCE=yes
+bundle exec rake doctest:generate PATTERN='inline_*:basic*' FORCE=yes
 
 
 == How to extend it

@@ -22,7 +22,7 @@ module Asciidoctor
 
           Options (env. variables):
             PATTERN   glob pattern to select examples to test. [default: #{task.pattern}]
-                      E.g. *:*, block_toc:basic, block*:*, *list:with*, ...
+                      E.g. *:*, toc:basic, inline*:*, *list:with*, ...
             VERBOSE   prints out more details [default: #{task.verbose? ? 'yes' : 'no'}]
         EOS
       end
@@ -35,7 +35,7 @@ module Asciidoctor
 
           Options (env. variables):
             PATTERN   glob pattern to select examples to (re)generate. [default: #{task.pattern}]
-                      E.g. *:*, block_toc:basic, block*:*, *list:with*, ...
+                      E.g. *:*, toc:basic, inline*:*, *list:with*, ...
             FORCE     overwrite existing examples (yes/no)? [default: #{task.force? ? 'yes' : 'no'}]
         EOS
       end
