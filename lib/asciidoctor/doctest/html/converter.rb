@@ -15,7 +15,7 @@ module Asciidoctor::DocTest
       end
 
       def convert_examples(input_exmpl, output_exmpl)
-        opts = output_exmpl.opts.dup
+        opts = input_exmpl.opts.merge(output_exmpl.opts)
 
         # The header & footer are excluded by default; always enable for document examples.
         opts[:header_footer] ||= input_exmpl.name.start_with?('document')
