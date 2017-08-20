@@ -24,10 +24,10 @@ module Asciidoctor::DocTest
         opts[:include] ||= (@paragraph_xpath if input_exmpl.name.start_with? 'inline_')
 
         actual = convert(input_exmpl.content, header_footer: opts[:header_footer])
-          .then { |s| parse_html s, !opts[:header_footer] }
+          .then { |s| parse_html s }
           .then { |h| find_nodes h, opts[:include] }
           .then { |h| remove_nodes h, opts[:exclude] }
-          .then { |h| normalize(h) }
+          .then { |h| normalize h }
 
         expected = normalize(output_exmpl.content)
 
@@ -38,7 +38,18 @@ module Asciidoctor::DocTest
 
       def normalize(content)
         content = parse_html(content) if content.is_a? String
-        HtmlBeautifier.beautify(content.normalize!)
+
+        has_content_type = !!meta_content_type(content)
+        result = HtmlBeautifier.beautify(content.normalize!)
+
+        # XXX: Nokogiri injects meta tag with Content-Type into rendered HTML
+        # document. This nasty hack removes that tag from the result if not
+        # present in the original HTML.
+        if !has_content_type && content.is_a?(Nokogiri::HTML::Document)
+          result.sub!(/^\s*<meta http-equiv="Content-Type" content="[^"]+"\s*\/?>\n/i, '')
+        end
+
+        result
       end
 
       def find_nodes(html, xpaths)
@@ -56,8 +67,26 @@ module Asciidoctor::DocTest
         end
       end
 
-      def parse_html(str, fragment = true)
-        fragment ? ::Nokogiri::HTML.fragment(str) : ::Nokogiri::HTML.parse(str)
+      def parse_html(str)
+        if str =~ /^\s*<!DOCTYPE\s/
+          ::Nokogiri::HTML.parse(str)
+        else
+          ::Nokogiri::HTML.fragment(str)
+        end
+      end
+
+      private
+
+      ##
+      # Searches <tt><meta http-equiv="Content-Type" content="..."></tt>
+      # element in the given HTML document.
+      #
+      # @param html [Nokogiri::HTML::Document, Nokogiri::HTML::DocumentFragment]
+      # @return [Nokogiri::XML::Element, nil]
+      def meta_content_type(html)
+        html.xpath('//meta[@http-equiv and boolean(@content)]').find do |node|
+          node['http-equiv'] =~ /\AContent-Type\z/i
+        end
       end
     end
   end

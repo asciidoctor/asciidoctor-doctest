@@ -1,5 +1,7 @@
 require 'forwardable'
 
+using Corefines::String::unindent
+
 module DocTest
   describe HTML::Converter do
     extend Forwardable
@@ -12,7 +14,8 @@ module DocTest
 
       let(:input) { Example.new 's:dummy', content: '*chunky* bacon', opts: input_opts }
       let(:input_opts) { {} }
-      let(:output) { Example.new 's:dummy', content: '<b>chunky</b> bacon', opts: output_opts }
+      let(:output) { Example.new 's:dummy', content: output_content, opts: output_opts }
+      let(:output_content) { '<b>chunky</b> bacon' }
       let(:output_opts) { {dummy: 'value'} }
       let(:converter_opts) { {header_footer: false} }
 
@@ -109,6 +112,24 @@ module DocTest
           it 'preferes the include option' do
             expect(result.first).to eq '<b>chunky</b>'
           end
+        end
+      end
+
+      context 'with output example including DOCTYPE' do
+        let :output_content do
+          <<-EOF.unindent.strip
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <title>Test</title>
+              </head>
+              <body></body>
+            </html>
+          EOF
+        end
+
+        it 'returns expected content with DOCTYPE' do
+          expect(result.last).to eq output_content
         end
       end
     end
