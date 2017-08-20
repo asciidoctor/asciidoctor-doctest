@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 require 'asciidoctor/doctest/io/base'
 require 'corefines'
 

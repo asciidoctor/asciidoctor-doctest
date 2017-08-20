@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 require 'asciidoctor/doctest/html_normalizer'
 require 'corefines'
 require 'htmlbeautifier'

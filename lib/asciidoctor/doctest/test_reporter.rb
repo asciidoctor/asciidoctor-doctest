@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 # coding: utf-8
 require 'minitest'
 

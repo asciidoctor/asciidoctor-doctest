@@ -1,3 +1,4 @@
+# frozen_string_literal: false
 require 'corefines'
 
 using Corefines::Object[:blank?, :deep_dup, :instance_values]

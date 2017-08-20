@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'asciidoctor/doctest/asciidoc_converter'
 require 'asciidoctor/doctest/generator'
 require 'asciidoctor/doctest/test_reporter'
