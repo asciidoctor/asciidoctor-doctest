@@ -69,14 +69,13 @@ require 'thread_safe'
 require 'tilt'
 
 DocTest::RakeTasks.new(:doctest) do |t|
-  t.output_suite = DocTest::HTML::ExamplesSuite
-  t.output_suite_opts = {
-    examples_path: 'test/examples/shiny'
-  }
-  # add extra input examples (optional)
-  t.input_suite_opts = {
-    examples_path: [ *DocTest.examples_path, 'test/examples/asciidoc' ]
-  }
+  # Add extra input examples; if you don’t need that, you can omit this.
+  t.input_examples :asciidoc, path: [
+    *DocTest.examples_path,
+    'test/examples/asciidoc'
+  ]
+  t.output_examples :html, path: 'test/examples/shiny'
+  t.converter = DocTest::HTML::Converter
   t.converter_opts = {
     template_dirs: 'data/templates'
   }
@@ -202,13 +201,11 @@ If it’s not your case, then you must overwrite it:
 [source, ruby]
 ----
 DocTest::RakeTasks.new(:doctest) do |t|
-  t.output_suite = DocTest::HTML::ExamplesSuite
-  t.output_suite_opts = {
-    examples_path: 'test/examples/shiny',
-    paragraph_xpath: './div/p/node()'  //<1>
-  }
+  t.output_examples :html, path: 'test/examples/shiny'
+  t.converter = DocTest::HTML::Converter
   t.converter_opts = {
-    template_dirs: 'data/templates'
+    template_dirs: 'data/templates',
+    paragraph_xpath: './div/p/node()'  //<1>
   }
 end
 ----
@@ -296,7 +293,8 @@ bundle exec rake doctest:generate PATTERN='inline_*:basic*' FORCE=yes
 == How to extend it
 
 You can extend DocTest to support any textual format you want.
-All what you need is to subclass link:{src-base}/base_examples_suite.rb[BaseExamplesSuite] and usually also link:{src-base}/base_example.rb[BaseExample].
+All what you need is to subclass link:{src-base}/io/base.rb[IO::Base] and link:{src-base}/asciidoc_converter.rb[AsciidocConverter] (see link:{src-base}/html/converter.rb[HTML::Converter] for example).
+Please note that this code is still in beta – refactoring is not finished, so some parts of the doctest code-base are kinda strange now (i.e. AsciidocConverter and HTML::Converter).
 
 
 == Contributing
