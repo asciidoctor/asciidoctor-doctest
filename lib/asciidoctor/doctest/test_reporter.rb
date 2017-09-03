@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 # coding: utf-8
 require 'minitest'
 
@@ -52,7 +52,7 @@ module Asciidoctor
 
         return nil if filtered_results.empty?
 
-        str = "Aggregated results:\n"
+        str = +"Aggregated results:\n"
         filtered_results.each do |res|
           str << "\n#{res.symbol}  #{res.failure.result_label}: ".color(res.color)
           str << "#{res.name}\n#{res.failure.message.indent(3)}\n\n"
@@ -63,7 +63,7 @@ module Asciidoctor
 
       # @private
       def summary
-        str = "#{count} examples ("
+        str = +"#{count} examples ("
         str << [
           ("#{passes} passed".color(:green) if passes > 0),
           ("#{failures} failed".color(:red) if failures > 0),
