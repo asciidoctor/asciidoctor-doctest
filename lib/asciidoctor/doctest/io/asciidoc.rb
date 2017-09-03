@@ -1,8 +1,7 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 require 'asciidoctor/doctest/io/base'
 require 'corefines'
 
-using Corefines::Enumerable::map_send
 using Corefines::Object[:blank?, :presence]
 using Corefines::String::concat!
 
@@ -52,7 +51,7 @@ module Asciidoctor::DocTest
           Array.new.push(".#{exmpl.local_name}")
             .push(*exmpl.desc.lines.map(&:chomp))
             .push(*format_options(exmpl.opts))
-            .map_send(:prepend, '// ')
+            .map { |s| '// ' + s }
             .push(exmpl.content.presence)
             .compact
             .join("\n")
