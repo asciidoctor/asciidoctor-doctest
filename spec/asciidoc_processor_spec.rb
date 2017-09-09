@@ -1,6 +1,6 @@
 require 'fileutils'
 
-describe DocTest::AsciidocConverter do
+describe DocTest::AsciidocProcessor do
 
   subject { described_class }
 

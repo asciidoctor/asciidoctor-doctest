@@ -11,7 +11,7 @@ module Asciidoctor
     ##
     # This class is basically a wrapper for +Asciidoctor.convert+ that allows to
     # preset and validate some common parameters.
-    class AsciidocConverter
+    class AsciidocProcessor
 
       # @return [Hash] the default options to be passed to Asciidoctor.
       attr_reader :default_opts

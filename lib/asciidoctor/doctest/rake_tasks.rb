@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'asciidoctor/doctest/asciidoc_converter'
+require 'asciidoctor/doctest/asciidoc_processor'
 require 'asciidoctor/doctest/generator'
 require 'asciidoctor/doctest/test_reporter'
 require 'asciidoctor/doctest/tester'
@@ -56,7 +56,7 @@ module Asciidoctor
       attr_accessor :converter
 
       # @return [Hash] options for the Asciidoctor converter.
-      # @see AsciidocConverter#initialize
+      # @see AsciidocProcessor#initialize
       attr_accessor :converter_opts
 
       # @return [String] glob pattern to select examples to test or
@@ -102,6 +102,7 @@ module Asciidoctor
 
         fail ArgumentError, 'The output_examples must be provided!' unless @output_examples
 
+        # FIXME: How to configure the processor ?
         @converter = converter.new(converter_opts) if converter.is_a? Class
         @test_reporter ||= TestReporter.new($stdout, verbose: verbose?,
           title: "Running DocTest for the #{subject}.")

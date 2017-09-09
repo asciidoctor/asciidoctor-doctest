@@ -8,11 +8,13 @@ using Corefines::Object::then
 
 module Asciidoctor::DocTest
   module HTML
-    class Converter < AsciidocConverter
+    class Converter
 
-      def initialize(paragraph_xpath: './p/node()', **opts)
+      attr_reader :processor
+
+      def initialize(paragraph_xpath: './p/node()', processor: AsciidocProcessor, **opts)
         @paragraph_xpath = paragraph_xpath
-        super opts
+        @processor = processor.new(opts) if processor.is_a? Class
       end
 
       def convert_examples(input_exmpl, output_exmpl)
@@ -24,7 +26,7 @@ module Asciidoctor::DocTest
         # When asserting inline examples, defaults to ignore paragraph "wrapper".
         opts[:include] ||= (@paragraph_xpath if input_exmpl.name.start_with? 'inline_')
 
-        actual = convert(input_exmpl.content, header_footer: opts[:header_footer])
+        actual = @processor.convert(input_exmpl.content, header_footer: opts[:header_footer])
           .then { |s| parse_html s }
           .then { |h| find_nodes h, opts[:include] }
           .then { |h| remove_nodes h, opts[:exclude] }

@@ -37,7 +37,7 @@ module DocTest
       end
 
       before do
-        expect(converter).to receive(:convert)
+        expect(converter.processor).to receive(:convert)
           .with(input.content, converter_opts).and_return(rendered)
       end
 
