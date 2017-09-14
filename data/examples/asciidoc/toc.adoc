@@ -13,6 +13,16 @@ toc::[]
 
 === A Recipe for Potion
 
+// .in-preamble
+= Document Title
+:toc: macro
+
+toc::[]
+
+== The Ravages of Writing
+
+=== A Recipe for Potion
+
 // .with-title
 = Document Title
 :toc: macro
@@ -44,3 +54,9 @@ toc::[levels=1]
 toc::[id="mytoc", role="taco"]
 
 == The Ravages of Writing
+
+// .doc-without-sections
+= Document Title
+:toc: macro
+
+toc::[]
