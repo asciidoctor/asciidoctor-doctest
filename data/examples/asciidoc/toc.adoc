@@ -3,8 +3,7 @@
 // Actual TOC content is rendered in the outline template, this template
 // usually renders just a "border".
 = Document Title
-:toc:
-:toc-placement!:
+:toc: macro
 
 == Introduction
 
@@ -16,8 +15,7 @@ toc::[]
 
 // .with-title
 = Document Title
-:toc:
-:toc-placement!:
+:toc: macro
 
 == Introduction
 
@@ -27,8 +25,7 @@ toc::[title="Table of Adventures"]
 
 // .with-levels
 = Document Title
-:toc:
-:toc-placement!:
+:toc: macro
 
 == Introduction
 
@@ -40,8 +37,7 @@ toc::[levels=1]
 
 // .with-id-and-role
 = Document Title
-:toc:
-:toc-placement!:
+:toc: macro
 
 == Introduction
 
