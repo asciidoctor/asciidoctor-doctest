@@ -1,4 +1,4 @@
-// .basic
+// .in-section
 // The toc node is used only with toc::[] macro!
 // Actual TOC content is rendered in the outline template, this template
 // usually renders just a "border".
