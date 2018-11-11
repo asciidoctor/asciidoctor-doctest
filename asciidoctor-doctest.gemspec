@@ -14,14 +14,7 @@ Gem::Specification.new do |s|
 A tool for end-to-end testing of Asciidoctor backends based on comparing of textual output.
   EOS
 
-  begin
-    s.files       = `git ls-files -z -- */* {CHANGELOG,LICENSE,Rakefile,README}*`.split("\x0")
-  rescue
-    s.files       = Dir['**/*']
-  end
-  s.executables   = s.files.grep(/^bin\//) { |f| File.basename(f) }
-  s.test_files    = s.files.grep(/^(test|spec|features)\//)
-
+  s.files         = Dir['data/**/*', 'lib/**/*', '*.gemspec', 'CHANGELOG*', 'LICENSE*', 'README*']
   s.require_paths = ['lib']
   s.has_rdoc      = 'yard'
 
