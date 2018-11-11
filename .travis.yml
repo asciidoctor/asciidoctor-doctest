@@ -2,6 +2,7 @@ dist: trusty
 sudo: false
 language: ruby
 rvm:
+  - 2.5
   - 2.4
   - 2.3
   - 2.2
@@ -21,5 +22,5 @@ deploy:
   api_key:
     secure: "NM3wz/isaEbJeepeTY/GIj7Vo+EkKeKljXY7M97ekXw0T+S/E5AjVwJSPHU+NFCdu5jnTibtIhXda8TTOyHaPwo45E18wCFVvGc2q9skAo6UBYdtM5TfKNiyDFVIIyGiItM1rUVxKY4neBew3Ys3RQFUrIAeuv6dDWfZ9YDiDlo="
   on:
-    rvm: 2.4
+    rvm: 2.5
     tags: true
