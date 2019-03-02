@@ -94,7 +94,7 @@
 |===
 
 // .with-cols-styles
-[cols="a,e,h,l,m,s,v"]
+[cols="a,e,h,l,m,s"]
 |===
 |image::sunset.jpg[AsciiDoc content]
 |Emphasized text
@@ -102,7 +102,6 @@
 |Literal block
 |Monospaced text
 |Strong text
-|Verse block
 |===
 
 // .colspan
@@ -165,10 +164,5 @@ And it is monospaced.
 e|This content is emphasized.
 
 .^l|This content is aligned to the top of the cell and literal.
-
-v|This cell contains a verse
-that may one day expound on the
-wonders of tables in an
-epic sonnet.
 
 |===
