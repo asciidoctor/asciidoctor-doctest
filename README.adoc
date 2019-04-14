@@ -3,7 +3,7 @@ Jakub Jirutka <https://github.com/jirutka[@jirutka]>
 :source-language: ruby
 // custom
 :gem-name: asciidoctor-doctest
-:gem-version: 2.0.0.beta.5
+:gem-version: 2.0.0.beta.6
 :gh-name: asciidoctor/{gem-name}
 :gh-branch: master
 :badge-style: flat
