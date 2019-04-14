@@ -50,7 +50,7 @@ _chunky bacon_
 asciimath:[sqrt(4) = 2]
 
 // .latexmath
-latexmath:[$C = \alpha + \beta Y^{\gamma} + \epsilon$]
+latexmath:[C = \alpha + \beta Y^{\gamma} + \epsilon]
 
 // .with-id
 [#why]_chunky bacon_
