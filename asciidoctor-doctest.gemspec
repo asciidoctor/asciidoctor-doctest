@@ -20,7 +20,7 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   s.required_ruby_version = '>= 2.0'
 
   # runtime
-  s.add_runtime_dependency 'asciidoctor', '>= 1.5.0', '< 2.1'
+  s.add_runtime_dependency 'asciidoctor', '>= 1.5.0', '< 3.0'
   s.add_runtime_dependency 'corefines', '~> 1.2'
   s.add_runtime_dependency 'diffy', '~> 3.0'
   s.add_runtime_dependency 'htmlbeautifier', '~> 1.0'
