@@ -34,14 +34,14 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   s.add_development_dependency 'yard', '~> 0.9'
 
   # unit tests
-  s.add_development_dependency 'codeclimate-test-reporter', '~> 0.4'
-  s.add_development_dependency 'fakefs', '~> 0.11.0'
-  s.add_development_dependency 'simplecov', '~> 0.9'
+  s.add_development_dependency 'codeclimate-test-reporter', '~> 1.0'
+  s.add_development_dependency 'fakefs', '~> 1.2'
+  s.add_development_dependency 'simplecov', '~> 0.17.1'
   s.add_development_dependency 'rspec', '~> 3.1'
   s.add_development_dependency 'rspec-collection_matchers', '~> 1.1'
 
   # integration tests
-  s.add_development_dependency 'aruba', '~> 0.6'
-  s.add_development_dependency 'cucumber', '~> 2.4'
-  s.add_development_dependency 'slim', '~> 2.1'
+  s.add_development_dependency 'aruba', '~> 1.0'
+  s.add_development_dependency 'cucumber', '~> 3.0'
+  s.add_development_dependency 'slim', '~> 4.0'
 end
