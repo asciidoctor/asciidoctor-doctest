@@ -1,11 +1,15 @@
 language: ruby
 rvm:
+  - 2.7
+  - 2.6
   - 2.5
   - 2.4
   - jruby-9.2
+  - ruby-head
 matrix:
   allow_failures:
     - rvm: jruby-9.2
+    - rvm: ruby-head
 env:
   global:
     - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
