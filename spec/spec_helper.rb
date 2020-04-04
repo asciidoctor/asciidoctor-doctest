@@ -1,3 +1,11 @@
+unless RUBY_ENGINE == 'jruby'
+  require 'simplecov'
+
+  SimpleCov.start do
+    add_filter '/spec/'
+  end
+end
+
 require 'corefines'
 require 'rspec/collection_matchers'
 require 'simplecov'
