@@ -11,7 +11,7 @@ shared_examples DocTest::IO::Base do
 
   describe '#initialize' do
 
-    subject(:init) { described_class.new(args) }
+    subject(:init) { described_class.new(**args) }
     let(:args) { {} }
 
     {'nil' => nil, 'blank' => ' '}.each do |desc, file_ext|

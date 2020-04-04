@@ -34,6 +34,6 @@ RSpec.configure do |config|
   config.color = true
 end
 
-def create_example(*args)
-  DocTest::Example.new(*args)
+def create_example(*args, **kwargs)
+  DocTest::Example.new(*args, **kwargs)
 end

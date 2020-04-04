@@ -14,7 +14,7 @@ module Asciidoctor::DocTest
     #
     def register(name, klass, default_opts = {})
       @factory_registry ||= {}
-      @factory_registry[name.to_sym] = ->(opts) { klass.new(default_opts.merge(opts)) }
+      @factory_registry[name.to_sym] = ->(opts) { klass.new(**default_opts.merge(opts)) }
       self
     end
 

@@ -102,7 +102,7 @@ module Asciidoctor
 
         fail ArgumentError, 'The output_examples must be provided!' unless @output_examples
 
-        @converter = converter.new(converter_opts) if converter.is_a? Class
+        @converter = converter.new(**converter_opts) if converter.is_a? Class
         @test_reporter ||= TestReporter.new($stdout, verbose: verbose?,
           title: "Running DocTest for the #{subject}.")
 
