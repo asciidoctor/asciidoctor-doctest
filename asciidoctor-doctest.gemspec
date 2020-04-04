@@ -16,7 +16,6 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
 
   s.files         = Dir['data/**/*', 'lib/**/*', '*.gemspec', 'CHANGELOG*', 'LICENSE*', 'README*']
   s.require_paths = ['lib']
-  s.has_rdoc      = 'yard'
 
   s.required_ruby_version = '>= 2.0'
 
