@@ -131,7 +131,7 @@ section:: {doctor-man-uri}/#sections[document sections], i.e. headings
 admonition:: {doctor-man-uri}/#admonition[an admonition block]
 audio:: {doctor-man-uri}/#audio[an audio block]
 colist:: {doctor-man-uri}/#callouts[a code callouts] list
-dlist:: {doctor-man-uri}/#labeled-list[a labeled list] (aka definition list) and {doctor-man-uri}/#question-and-answer-style-list[a Q&A style list]
+dlist:: {doctor-man-uri}/#description-list[a labeled list] (aka definition list) and {doctor-man-uri}/#question-and-answer-style-list[a Q&A style list]
 example:: {doctor-man-uri}/#example[an example block]
 floating_title:: {doctor-man-uri}/#discrete-or-floating-section-titles[a discrete or floating section title]
 image:: {doctor-man-uri}/#images[an image block]
