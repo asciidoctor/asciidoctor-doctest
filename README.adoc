@@ -11,7 +11,7 @@ Jakub Jirutka <https://github.com/jirutka[@jirutka]>
 :rawgit-base: https://cdn.rawgit.com/{gh-name}/master
 :src-base: lib/asciidoctor/doctest
 
-image:https://travis-ci.org/{gh-name}.svg?branch={gh-branch}[Build Status, link="https://travis-ci.org/{gh-name}"]
+image:https://github.com/{gh-name}/workflows/CI/badge.svg[CI Status, link=https://github.com/{gh-name}/actions?query=workflow%3A%22CI%22]
 image:https://api.codeclimate.com/v1/badges/{codeclimate-id}/test_coverage[Test Coverage, link="https://codeclimate.com/github/{gh-name}/test_coverage"]
 image:https://api.codeclimate.com/v1/badges/{codeclimate-id}/maintainability[Maintainability, link="https://codeclimate.com/github/{gh-name}/maintainability"]
 image:https://inch-ci.org/github/{gh-name}.svg?branch={gh-branch}[Inline docs, link="http://inch-ci.org/github/{gh-name}"]
