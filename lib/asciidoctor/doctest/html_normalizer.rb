@@ -110,7 +110,7 @@ module Asciidoctor
 
       # @return [Boolean] true if the +node+ is descendant of +<pre>+ node.
       def preformatted_block?(node)
-        node.path =~ %r{/pre/}
+        node.ancestors('pre').any?
       end
     end
   end
