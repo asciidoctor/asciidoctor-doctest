@@ -36,6 +36,7 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
   # unit tests
   s.add_development_dependency 'codeclimate-test-reporter', '~> 1.0'
   s.add_development_dependency 'fakefs', '~> 1.2'
+  s.add_development_dependency 'ostruct', '~> 0.6'
   s.add_development_dependency 'simplecov', '~> 0.17.1'
   s.add_development_dependency 'rspec', '~> 3.1'
   s.add_development_dependency 'rspec-collection_matchers', '~> 1.1'
