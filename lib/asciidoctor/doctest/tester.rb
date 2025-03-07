@@ -114,11 +114,9 @@ module Asciidoctor
 
         # @note Overrides method from +Minitest::Test+.
         def run
-          with_info_handler do
-            time_it do
-              capture_exceptions do
-                @callable.call(self)
-              end
+          time_it do
+            capture_exceptions do
+              @callable.call(self)
             end
           end
 
