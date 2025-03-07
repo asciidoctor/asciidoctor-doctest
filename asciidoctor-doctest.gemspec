@@ -29,7 +29,7 @@ A tool for end-to-end testing of Asciidoctor backends based on comparing of text
 
   # development
   s.add_development_dependency 'bundler', '>= 1.6'
-  s.add_development_dependency 'rake', '~> 12.0'
+  s.add_development_dependency 'rake', '~> 13.0'
   s.add_development_dependency 'thread_safe', '~> 0.3'
   s.add_development_dependency 'yard', '~> 0.9'
 
